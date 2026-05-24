@@ -20,6 +20,7 @@ import {
   ArrowLeftRight,
   History,
   Menu,
+  Search,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
@@ -191,13 +192,26 @@ export function UTradeCards({
   const [activeTab, setActiveTab] = useState("discover");
   const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
+  const [search, setSearch] = useState("");
   const [intentCard, setIntentCard] = useState<CardData | null>(null);
   const [pendingTicker, setPendingTicker] = useState<string | null>(null);
   const [order, setOrder] = useState<TradeOrder | null>(null);
   const [portfolio, setPortfolio] = useState<ReadonlyArray<PortfolioHolding>>([]);
 
-  const visible = useMemo(() => cards.slice(index, index + 3), [index]);
-  const done = index >= cards.length;
+  const filteredCards = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (q === "") return cards;
+    return cards.filter(
+      (c) =>
+        c.ticker.toLowerCase().includes(q) ||
+        c.name.toLowerCase().includes(q),
+    );
+  }, [search]);
+  const visible = useMemo(
+    () => filteredCards.slice(index, index + 3),
+    [filteredCards, index],
+  );
+  const done = index >= filteredCards.length;
   const selectedHolding = useMemo(
     () => portfolio.find((h) => h.ticker === selectedTicker) ?? null,
     [portfolio, selectedTicker],
@@ -216,7 +230,12 @@ export function UTradeCards({
 
   const handleAction = (direction: "left" | "right") => {
     if (done) return;
-    handleSwipe(cards[index], direction);
+    handleSwipe(filteredCards[index], direction);
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setIndex(0);
   };
 
   const handleConfirmAmount = async (amount: number) => {
@@ -286,7 +305,7 @@ export function UTradeCards({
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
             {activeTab === "portfolio"
               ? portfolio.length
-              : Math.min(index + 1, cards.length)}
+              : Math.min(index + 1, filteredCards.length)}
           </span>
         </header>
 
@@ -339,7 +358,28 @@ export function UTradeCards({
           </div>
         ) : (
           <>
-            <div className="mt-1 flex items-center justify-between gap-2">
+            <label className="mt-3 flex items-center gap-2 rounded-2xl bg-surface-elevated px-3 py-2 ring-1 ring-black/5 focus-within:ring-scotia-red/40">
+              <Search className="h-4 w-4 text-scotia-grey" />
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder="Search ticker or company"
+                className="w-full bg-transparent text-[13px] font-medium text-scotia-navy placeholder:text-scotia-grey focus:outline-none"
+              />
+              {search ? (
+                <button
+                  type="button"
+                  onClick={() => handleSearchChange("")}
+                  aria-label="Clear search"
+                  className="grid h-5 w-5 place-items-center rounded-full bg-scotia-navy/10 text-scotia-navy hover:bg-scotia-navy/15"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              ) : null}
+            </label>
+
+            <div className="mt-3 flex items-center justify-between gap-2">
               <p className="text-[11px] text-scotia-grey">
                 Swipe right to buy. Funded from Smart Sweep.
               </p>
@@ -366,30 +406,52 @@ export function UTradeCards({
               >
                 <div className="px-8 text-center">
                   <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-scotia-red/10 text-scotia-red">
-                    <Flame className="h-6 w-6" />
+                    {search ? (
+                      <Search className="h-6 w-6" />
+                    ) : (
+                      <Flame className="h-6 w-6" />
+                    )}
                   </div>
                   <p className="mt-4 text-[18px] font-bold text-scotia-navy">
-                    That&apos;s all for now.
+                    {search
+                      ? "No matches found."
+                      : "That's all for now."}
                   </p>
                   <p className="mt-1 text-[13px] text-scotia-grey">
-                    New cards every morning at 9 AM ET.
+                    {search
+                      ? `Nothing matches "${search}". Try another ticker or company.`
+                      : "New cards every morning at 9 AM ET."}
                   </p>
-                  <p className="mt-4 text-[12px] text-scotia-grey">
-                    You bought{" "}
-                    <span className="font-semibold text-scotia-navy">
-                      {portfolio.length}
-                    </span>{" "}
-                    of {cards.length} today.
-                  </p>
+                  {search ? null : (
+                    <p className="mt-4 text-[12px] text-scotia-grey">
+                      You bought{" "}
+                      <span className="font-semibold text-scotia-navy">
+                        {portfolio.length}
+                      </span>{" "}
+                      of {cards.length} today.
+                    </p>
+                  )}
                   <div className="mt-5 flex flex-col items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={onRestart}
-                      className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
-                    >
-                      Restart demo
-                    </button>
-                    <SignOutButton />
+                    {search ? (
+                      <button
+                        type="button"
+                        onClick={() => handleSearchChange("")}
+                        className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
+                      >
+                        Clear search
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          onClick={onRestart}
+                          className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
+                        >
+                          Restart demo
+                        </button>
+                        <SignOutButton />
+                      </>
+                    )}
                   </div>
                 </div>
               </motion.div>
@@ -411,7 +473,7 @@ export function UTradeCards({
             </div>
 
             <div className="mt-4 flex items-center justify-center gap-2">
-              {cards.map((c, i) => (
+              {filteredCards.map((c, i) => (
                 <span
                   key={c.ticker}
                   className={`h-1.5 rounded-full transition-all ${
