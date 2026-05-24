@@ -1,18 +1,25 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowLeft, BarChart3, Newspaper } from "lucide-react";
+import { ArrowLeft, BarChart3, Minus, Newspaper, Plus } from "lucide-react";
 import type { CardData, PortfolioHolding } from "@/lib/types";
 import { StockDetailChart } from "@/components/stock-detail-chart";
+import {
+  AdjustHoldingSheet,
+  type AdjustMode,
+} from "@/components/adjust-holding-sheet";
 
 const timeframes = ["1D", "5D", "1M", "6M", "YTD", "1Y"] as const;
 
 interface PortfolioStockDetailProps {
   holding: PortfolioHolding;
   card: CardData | undefined;
-  onBack: () => void;
-  backLabel?: string;
   variant?: "portfolio" | "discover";
+  backLabel?: string;
+  balance?: number;
+  onBack: () => void;
+  onBuyMore?: (ticker: string, amount: number) => void;
+  onSell?: (ticker: string, amount: number) => void;
 }
 
 function formatMoney(value: number) {
@@ -25,11 +32,19 @@ function formatMoney(value: number) {
 export function PortfolioStockDetail({
   holding,
   card,
-  onBack,
-  backLabel = "Back to portfolio",
   variant = "portfolio",
+  backLabel,
+  balance = 0,
+  onBack,
+  onBuyMore,
+  onSell,
 }: PortfolioStockDetailProps) {
+  const isDiscover = variant === "discover";
+  const resolvedBackLabel =
+    backLabel ?? (isDiscover ? "Back to discover" : "Back to portfolio");
+
   const [timeframe, setTimeframe] = useState<(typeof timeframes)[number]>("1M");
+  const [adjustMode, setAdjustMode] = useState<AdjustMode | null>(null);
 
   const changePct = card?.changePct ?? holding.changePct;
   const price = card?.price ?? holding.executionPrice;
@@ -38,14 +53,22 @@ export function PortfolioStockDetail({
   const costBasis = holding.shares * holding.executionPrice;
   const gain = marketValue - costBasis;
   const gainPct = costBasis > 0 ? (gain / costBasis) * 100 : 0;
-  const isDiscover = variant === "discover";
+
+  const handleConfirmAdjust = (amount: number) => {
+    if (adjustMode === "buy") onBuyMore?.(holding.ticker, amount);
+    else if (adjustMode === "sell") onSell?.(holding.ticker, amount);
+    setAdjustMode(null);
+  };
 
   const stats = useMemo(() => {
     const marketStats = [
       { label: "Previous close", value: `$${formatMoney(price - dayChange)}` },
       { label: "Open", value: `$${formatMoney(price - dayChange * 0.4)}` },
       { label: "Volume", value: "12.4M" },
-      { label: "Day's range", value: `$${formatMoney(price * 0.99)} – $${formatMoney(price * 1.01)}` },
+      {
+        label: "Day's range",
+        value: `$${formatMoney(price * 0.99)} – $${formatMoney(price * 1.01)}`,
+      },
       {
         label: "52 week range",
         value: `$${formatMoney(price * 0.72)} – $${formatMoney(price * 1.14)}`,
@@ -57,6 +80,7 @@ export function PortfolioStockDetail({
 
     return [
       { label: "Your shares", value: holding.shares.toFixed(4) },
+      { label: "Invested", value: `$${formatMoney(costBasis)}` },
       { label: "Avg. cost", value: `$${formatMoney(holding.executionPrice)}` },
       { label: "Market value", value: `$${formatMoney(marketValue)}` },
       ...marketStats,
@@ -65,7 +89,16 @@ export function PortfolioStockDetail({
         value: `${gain >= 0 ? "+" : ""}$${formatMoney(gain)} (${gainPct >= 0 ? "+" : ""}${gainPct.toFixed(2)}%)`,
       },
     ];
-  }, [dayChange, gain, gainPct, holding, isDiscover, marketValue, price]);
+  }, [
+    costBasis,
+    dayChange,
+    gain,
+    gainPct,
+    holding,
+    isDiscover,
+    marketValue,
+    price,
+  ]);
 
   return (
     <div className="mt-2">
@@ -75,7 +108,7 @@ export function PortfolioStockDetail({
         className="mb-3 flex items-center gap-1.5 text-[14px] font-semibold text-scotia-navy"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
-        {backLabel}
+        {resolvedBackLabel}
       </button>
 
       <p className="text-[11px] font-medium uppercase tracking-wider text-scotia-grey">
@@ -119,10 +152,10 @@ export function PortfolioStockDetail({
 
       <div className="mt-3 overflow-hidden rounded-2xl bg-white p-3 ring-1 ring-black/5">
         <StockDetailChart
-            price={price}
-            changePct={changePct}
-            ticker={holding.ticker}
-            timeframe={timeframe}
+          price={price}
+          changePct={changePct}
+          ticker={holding.ticker}
+          timeframe={timeframe}
           className="w-full"
         />
       </div>
@@ -137,6 +170,26 @@ export function PortfolioStockDetail({
           </div>
         ))}
       </div>
+
+      {!isDiscover ? (
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => setAdjustMode("sell")}
+            className="flex items-center justify-center gap-2 rounded-2xl border-2 border-scotia-red/30 bg-white py-3 text-[14px] font-semibold text-scotia-red"
+          >
+            <Minus className="h-4 w-4" /> Sell
+          </button>
+          <button
+            type="button"
+            onClick={() => setAdjustMode("buy")}
+            disabled={balance <= 0}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-success py-3 text-[14px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(16,185,129,0.6)] disabled:opacity-40"
+          >
+            <Plus className="h-4 w-4" /> Buy more
+          </button>
+        </div>
+      ) : null}
 
       {card ? (
         <div className="mt-4 space-y-3 rounded-2xl bg-white p-4 ring-1 ring-black/5">
@@ -160,6 +213,18 @@ export function PortfolioStockDetail({
             </p>
           </div>
         </div>
+      ) : null}
+
+      {!isDiscover ? (
+        <AdjustHoldingSheet
+          open={adjustMode !== null}
+          mode={adjustMode ?? "buy"}
+          holding={holding}
+          currentPrice={price}
+          balance={balance}
+          onConfirm={handleConfirmAdjust}
+          onClose={() => setAdjustMode(null)}
+        />
       ) : null}
     </div>
   );
