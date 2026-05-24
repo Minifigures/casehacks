@@ -25,8 +25,10 @@ import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
 import type { CardData, PortfolioHolding } from "@/lib/types";
 import { MiniChart } from "@/components/mini-chart";
+import { PortfolioStockDetail } from "@/components/screens/portfolio-stock-detail";
 import { TradeConfirmation } from "@/components/trade-confirmation";
 import { TradeAmountSheet } from "@/components/trade-amount-sheet";
+import { marketTrend } from "@/lib/market-trend";
 import { TabBar } from "@/components/tab-bar";
 import { placeTrade, type TradeOrder } from "@/lib/api";
 
@@ -109,7 +111,10 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
       </div>
 
       <div className="mt-1 h-24 w-full">
-        <MiniChart trend={card.trend} className="h-full w-full" />
+        <MiniChart
+          trend={marketTrend(card.changePct)}
+          className="h-full w-full"
+        />
       </div>
 
       <div className="mt-3 space-y-3">
@@ -184,6 +189,7 @@ export function UTradeCards({
   onRestart,
 }: UTradeCardsProps) {
   const [activeTab, setActiveTab] = useState("discover");
+  const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [intentCard, setIntentCard] = useState<CardData | null>(null);
   const [pendingTicker, setPendingTicker] = useState<string | null>(null);
@@ -192,6 +198,14 @@ export function UTradeCards({
 
   const visible = useMemo(() => cards.slice(index, index + 3), [index]);
   const done = index >= cards.length;
+  const selectedHolding = useMemo(
+    () => portfolio.find((h) => h.ticker === selectedTicker) ?? null,
+    [portfolio, selectedTicker],
+  );
+  const selectedCard = useMemo(
+    () => cards.find((c) => c.ticker === selectedTicker),
+    [selectedTicker],
+  );
 
   const handleSwipe = (card: CardData, direction: "left" | "right") => {
     setIndex((i) => i + 1);
@@ -261,7 +275,13 @@ export function UTradeCards({
             <span className="text-[18px] font-bold tracking-tight text-scotia-navy">
               uTrade
             </span>
-            <span className="text-[13px] text-scotia-grey">— discover stocks</span>
+            <span className="text-[13px] text-scotia-grey">
+              {activeTab === "portfolio" && selectedHolding
+                ? "— stock detail"
+                : activeTab === "portfolio"
+                  ? "— your holdings"
+                  : "— discover stocks"}
+            </span>
           </div>
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
             {activeTab === "portfolio"
@@ -272,7 +292,13 @@ export function UTradeCards({
 
         {activeTab === "portfolio" ? (
           <div className="mt-4">
-            {portfolio.length === 0 ? (
+            {selectedHolding ? (
+              <PortfolioStockDetail
+                holding={selectedHolding}
+                card={selectedCard}
+                onBack={() => setSelectedTicker(null)}
+              />
+            ) : portfolio.length === 0 ? (
               <p className="rounded-2xl bg-surface-elevated p-6 text-center text-[14px] text-scotia-grey ring-1 ring-black/5">
                 No holdings yet. Swipe right on Discover to buy and add stocks
                 here.
@@ -280,29 +306,32 @@ export function UTradeCards({
             ) : (
               <ul className="space-y-3">
                 {portfolio.map((holding) => (
-                  <li
-                    key={holding.ticker}
-                    className="flex items-center justify-between rounded-2xl bg-white p-4 ring-1 ring-black/5"
-                  >
-                    <div>
-                      <p className="text-[15px] font-bold text-scotia-navy">
-                        {holding.ticker}
-                      </p>
-                      <p className="text-[12px] text-scotia-grey">{holding.name}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-[14px] font-bold tabular-nums text-scotia-navy">
-                        {holding.shares} sh @ ${holding.executionPrice.toFixed(2)}
-                      </p>
-                      <p
-                        className={`text-[11px] font-semibold ${
-                          holding.changePct >= 0 ? "text-success" : "text-loss"
-                        }`}
-                      >
-                        {holding.changePct >= 0 ? "+" : ""}
-                        {holding.changePct}% Y
-                      </p>
-                    </div>
+                  <li key={holding.ticker}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedTicker(holding.ticker)}
+                      className="flex w-full items-center justify-between rounded-2xl bg-white p-4 text-left ring-1 ring-black/5 transition-colors hover:bg-surface-elevated active:bg-surface-elevated"
+                    >
+                      <div>
+                        <p className="text-[15px] font-bold text-scotia-navy">
+                          {holding.ticker}
+                        </p>
+                        <p className="text-[12px] text-scotia-grey">{holding.name}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[14px] font-bold tabular-nums text-scotia-navy">
+                          {holding.shares} sh @ ${holding.executionPrice.toFixed(2)}
+                        </p>
+                        <p
+                          className={`text-[11px] font-semibold ${
+                            holding.changePct >= 0 ? "text-success" : "text-loss"
+                          }`}
+                        >
+                          {holding.changePct >= 0 ? "+" : ""}
+                          {holding.changePct}% Y
+                        </p>
+                      </div>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -421,7 +450,10 @@ export function UTradeCards({
       <TabBar
         items={utradeTabs}
         activeId={activeTab}
-        onSelect={setActiveTab}
+        onSelect={(id) => {
+          setActiveTab(id);
+          setSelectedTicker(null);
+        }}
       />
 
       <TradeAmountSheet
