@@ -25,8 +25,10 @@ import {
 import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
 import type { CardData, PortfolioHolding } from "@/lib/types";
+import type { ReferralState } from "@/lib/referral";
 import { MiniChart } from "@/components/mini-chart";
 import { PortfolioStockDetail } from "@/components/screens/portfolio-stock-detail";
+import { ReferralScreen } from "@/components/screens/referral-screen";
 import { TradeConfirmation } from "@/components/trade-confirmation";
 import { TradeAmountSheet } from "@/components/trade-amount-sheet";
 import { marketTrend } from "@/lib/market-trend";
@@ -35,8 +37,10 @@ import { placeTrade, type TradeOrder } from "@/lib/api";
 
 interface UTradeCardsProps {
   balance: number;
+  referralState: ReferralState;
   onDebit: (amount: number) => void;
   onCredit: (amount: number) => void;
+  onRedeemReferral: (normalizedCode: string) => void;
   onRestart: () => void;
 }
 
@@ -187,8 +191,10 @@ function toHolding(card: CardData, trade: TradeOrder): PortfolioHolding {
 
 export function UTradeCards({
   balance,
+  referralState,
   onDebit,
   onCredit,
+  onRedeemReferral,
   onRestart,
 }: UTradeCardsProps) {
   const [activeTab, setActiveTab] = useState("discover");
@@ -342,17 +348,26 @@ export function UTradeCards({
                 ? "— stock detail"
                 : activeTab === "portfolio"
                   ? "— your holdings"
-                  : "— discover stocks"}
+                  : activeTab === "more"
+                    ? "— refer a friend"
+                    : "— discover stocks"}
             </span>
           </div>
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
             {activeTab === "portfolio"
               ? portfolio.length
-              : Math.min(index + 1, filteredCards.length)}
+              : activeTab === "more"
+                ? referralState.activity.length
+                : Math.min(index + 1, filteredCards.length)}
           </span>
         </header>
 
-        {activeTab === "portfolio" ? (
+        {activeTab === "more" ? (
+          <ReferralScreen
+            state={referralState}
+            onRedeem={onRedeemReferral}
+          />
+        ) : activeTab === "portfolio" ? (
           <div className="mt-4">
             {selectedHolding ? (
               <PortfolioStockDetail
