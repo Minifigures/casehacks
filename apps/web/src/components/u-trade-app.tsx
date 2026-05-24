@@ -29,6 +29,9 @@ export function UTradeApp() {
   const debit = useCallback((amount: number) => {
     setBalance((b) => Math.max(0, b - amount));
   }, []);
+  const credit = useCallback((amount: number) => {
+    setBalance((b) => b + amount);
+  }, []);
   const restart = useCallback(() => {
     setQuiz({ horizon: null, risk: null });
     setBalance(STARTING_BALANCE);
@@ -88,6 +91,7 @@ export function UTradeApp() {
                 <UTradeCards
                   balance={balance}
                   onDebit={debit}
+                  onCredit={credit}
                   onRestart={restart}
                 />
               ) : null}

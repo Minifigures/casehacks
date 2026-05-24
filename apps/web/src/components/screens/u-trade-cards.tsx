@@ -36,6 +36,7 @@ import { placeTrade, type TradeOrder } from "@/lib/api";
 interface UTradeCardsProps {
   balance: number;
   onDebit: (amount: number) => void;
+  onCredit: (amount: number) => void;
   onRestart: () => void;
 }
 
@@ -187,6 +188,7 @@ function toHolding(card: CardData, trade: TradeOrder): PortfolioHolding {
 export function UTradeCards({
   balance,
   onDebit,
+  onCredit,
   onRestart,
 }: UTradeCardsProps) {
   const [activeTab, setActiveTab] = useState("discover");
@@ -285,6 +287,47 @@ export function UTradeCards({
     setPendingTicker(null);
   };
 
+  const handleBuyMore = (ticker: string, amount: number) => {
+    const card = cards.find((c) => c.ticker === ticker);
+    if (card === undefined || amount <= 0 || amount > balance) return;
+    onDebit(amount);
+    const addedShares = amount / card.price;
+    setPortfolio((prev) =>
+      prev.map((h) => {
+        if (h.ticker !== ticker) return h;
+        const totalShares = h.shares + addedShares;
+        const totalCost = h.shares * h.executionPrice + amount;
+        return {
+          ...h,
+          shares: totalShares,
+          executionPrice: totalCost / totalShares,
+          changePct: card.changePct,
+        };
+      }),
+    );
+  };
+
+  const handleSell = (ticker: string, amount: number) => {
+    const card = cards.find((c) => c.ticker === ticker);
+    const holding = portfolio.find((h) => h.ticker === ticker);
+    if (card === undefined || holding === undefined || amount <= 0) return;
+    const marketValue = holding.shares * card.price;
+    const sellAmount = Math.min(amount, marketValue);
+    onCredit(sellAmount);
+    const sharesSold = sellAmount / card.price;
+    setPortfolio((prev) =>
+      prev.flatMap((h) => {
+        if (h.ticker !== ticker) return [h];
+        const remaining = h.shares - sharesSold;
+        if (remaining < 0.0001) {
+          setSelectedTicker(null);
+          return [];
+        }
+        return [{ ...h, shares: remaining }];
+      }),
+    );
+  };
+
   return (
     <div className="relative flex h-full flex-col bg-white">
       <div className="flex-1 overflow-y-auto px-5 pb-5">
@@ -315,7 +358,10 @@ export function UTradeCards({
               <PortfolioStockDetail
                 holding={selectedHolding}
                 card={selectedCard}
+                balance={balance}
                 onBack={() => setSelectedTicker(null)}
+                onBuyMore={handleBuyMore}
+                onSell={handleSell}
               />
             ) : portfolio.length === 0 ? (
               <p className="rounded-2xl bg-surface-elevated p-6 text-center text-[14px] text-scotia-grey ring-1 ring-black/5">
@@ -338,8 +384,19 @@ export function UTradeCards({
                         <p className="text-[12px] text-scotia-grey">{holding.name}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[14px] font-bold tabular-nums text-scotia-navy">
-                          {holding.shares} sh @ ${holding.executionPrice.toFixed(2)}
+                        <p className="text-[15px] font-bold tabular-nums text-scotia-navy">
+                          $
+                          {(holding.shares * holding.executionPrice).toLocaleString(
+                            "en-CA",
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            },
+                          )}
+                        </p>
+                        <p className="text-[11px] tabular-nums text-scotia-grey">
+                          {holding.shares.toFixed(4)} sh · $
+                          {holding.executionPrice.toFixed(2)}
                         </p>
                         <p
                           className={`text-[11px] font-semibold ${
