@@ -49,11 +49,12 @@ const utradeTabs = [
 interface SwipeCardProps {
   card: CardData;
   onSwipe: (direction: "left" | "right") => void;
+  onViewDetails: () => void;
   isTop: boolean;
   depth: number;
 }
 
-function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
+function SwipeCard({ card, onSwipe, onViewDetails, isTop, depth }: SwipeCardProps) {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 0, 200], [-18, 0, 18]);
   const buyOpacity = useTransform(x, [40, 120], [0, 1]);
@@ -110,12 +111,24 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
         </span>
       </div>
 
-      <div className="mt-1 h-24 w-full">
-        <MiniChart
-          trend={marketTrend(card.changePct)}
-          className="h-full w-full"
-        />
-      </div>
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onViewDetails();
+        }}
+        className="mt-1 block w-full rounded-xl bg-surface-elevated/80 p-2 ring-1 ring-black/5 transition-colors hover:bg-surface-elevated"
+      >
+        <div className="h-20 w-full pointer-events-none">
+          <MiniChart
+            trend={marketTrend(card.changePct)}
+            className="h-full w-full"
+          />
+        </div>
+        <p className="mt-1 text-center text-[11px] font-semibold text-scotia-red">
+          Tap for full chart & stats
+        </p>
+      </button>
 
       <div className="mt-3 space-y-3">
         <div>
@@ -183,6 +196,16 @@ function toHolding(card: CardData, trade: TradeOrder): PortfolioHolding {
   };
 }
 
+function previewHoldingFromCard(card: CardData): PortfolioHolding {
+  return {
+    ticker: card.ticker,
+    name: card.name,
+    shares: 0.5,
+    executionPrice: card.price,
+    changePct: card.changePct,
+  };
+}
+
 export function UTradeCards({
   balance,
   onDebit,
@@ -190,6 +213,9 @@ export function UTradeCards({
 }: UTradeCardsProps) {
   const [activeTab, setActiveTab] = useState("discover");
   const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
+  const [discoverDetailCard, setDiscoverDetailCard] = useState<CardData | null>(
+    null,
+  );
   const [index, setIndex] = useState(0);
   const [intentCard, setIntentCard] = useState<CardData | null>(null);
   const [pendingTicker, setPendingTicker] = useState<string | null>(null);
@@ -280,7 +306,9 @@ export function UTradeCards({
                 ? "— stock detail"
                 : activeTab === "portfolio"
                   ? "— your holdings"
-                  : "— discover stocks"}
+                  : discoverDetailCard
+                    ? "— stock detail"
+                    : "— discover stocks"}
             </span>
           </div>
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
@@ -337,6 +365,14 @@ export function UTradeCards({
               </ul>
             )}
           </div>
+        ) : discoverDetailCard ? (
+          <PortfolioStockDetail
+            holding={previewHoldingFromCard(discoverDetailCard)}
+            card={discoverDetailCard}
+            variant="discover"
+            backLabel="Back to discover"
+            onBack={() => setDiscoverDetailCard(null)}
+          />
         ) : (
           <>
             <div className="mt-1 flex items-center justify-between gap-2">
@@ -403,6 +439,7 @@ export function UTradeCards({
                     card={card}
                     isTop={layerIdx === 0}
                     depth={layerIdx}
+                    onViewDetails={() => setDiscoverDetailCard(card)}
                     onSwipe={(dir) => void handleSwipe(card, dir)}
                   />
                 ))
@@ -453,6 +490,7 @@ export function UTradeCards({
         onSelect={(id) => {
           setActiveTab(id);
           setSelectedTicker(null);
+          setDiscoverDetailCard(null);
         }}
       />
 
