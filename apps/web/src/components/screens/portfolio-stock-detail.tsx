@@ -11,6 +11,8 @@ interface PortfolioStockDetailProps {
   holding: PortfolioHolding;
   card: CardData | undefined;
   onBack: () => void;
+  backLabel?: string;
+  variant?: "portfolio" | "discover";
 }
 
 function formatMoney(value: number) {
@@ -24,6 +26,8 @@ export function PortfolioStockDetail({
   holding,
   card,
   onBack,
+  backLabel = "Back to portfolio",
+  variant = "portfolio",
 }: PortfolioStockDetailProps) {
   const [timeframe, setTimeframe] = useState<(typeof timeframes)[number]>("1M");
 
@@ -34,26 +38,34 @@ export function PortfolioStockDetail({
   const costBasis = holding.shares * holding.executionPrice;
   const gain = marketValue - costBasis;
   const gainPct = costBasis > 0 ? (gain / costBasis) * 100 : 0;
+  const isDiscover = variant === "discover";
 
-  const stats = useMemo(
-    () => [
-      { label: "Your shares", value: holding.shares.toFixed(4) },
-      { label: "Avg. cost", value: `$${formatMoney(holding.executionPrice)}` },
-      { label: "Market value", value: `$${formatMoney(marketValue)}` },
+  const stats = useMemo(() => {
+    const marketStats = [
       { label: "Previous close", value: `$${formatMoney(price - dayChange)}` },
       { label: "Open", value: `$${formatMoney(price - dayChange * 0.4)}` },
+      { label: "Volume", value: "12.4M" },
       { label: "Day's range", value: `$${formatMoney(price * 0.99)} – $${formatMoney(price * 1.01)}` },
       {
         label: "52 week range",
         value: `$${formatMoney(price * 0.72)} – $${formatMoney(price * 1.14)}`,
       },
+      { label: "Avg. volume", value: "18.2M" },
+    ];
+
+    if (isDiscover) return marketStats;
+
+    return [
+      { label: "Your shares", value: holding.shares.toFixed(4) },
+      { label: "Avg. cost", value: `$${formatMoney(holding.executionPrice)}` },
+      { label: "Market value", value: `$${formatMoney(marketValue)}` },
+      ...marketStats,
       {
         label: "Unrealized P/L",
         value: `${gain >= 0 ? "+" : ""}$${formatMoney(gain)} (${gainPct >= 0 ? "+" : ""}${gainPct.toFixed(2)}%)`,
       },
-    ],
-    [dayChange, gain, gainPct, holding, marketValue, price],
-  );
+    ];
+  }, [dayChange, gain, gainPct, holding, isDiscover, marketValue, price]);
 
   return (
     <div className="mt-2">
@@ -63,7 +75,7 @@ export function PortfolioStockDetail({
         className="mb-3 flex items-center gap-1.5 text-[14px] font-semibold text-scotia-navy"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden />
-        Back to portfolio
+        {backLabel}
       </button>
 
       <p className="text-[11px] font-medium uppercase tracking-wider text-scotia-grey">
