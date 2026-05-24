@@ -1,0 +1,59 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+coverage/
+
+# next.js
+.next/
+out/
+build/
+
+# misc
+.DS_Store
+*.pem
+*.log
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env (NEVER commit)
+.env
+.env.*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# research PDFs (kept locally, too heavy for git)
+*.pdf
+
+# raw working folder for Stitch zip exports, served copy lives in apps/web/public/stitch/
+/stitch_scotia_banking_mobile_dashboard/
+*.zip
+
+# internal strategy and planning docs, kept local only
+/PRD.md
+/bankingbros.md
+/caseHackswinners_DeckCopy.md
+/marco_ideas_FINAL.md
+/marco_ideas_tab_clean.md
+/deck-visuals.html
+/slack.png
+
+# IDE
+.vscode/
+.idea/
+
+# os
+Thumbs.db
