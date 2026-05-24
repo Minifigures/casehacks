@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
-import type { CardData } from "@/lib/types";
+import type { CardData, PortfolioHolding } from "@/lib/types";
 import { MiniChart } from "@/components/mini-chart";
 import { TradeConfirmation } from "@/components/trade-confirmation";
 import { TradeAmountSheet } from "@/components/trade-amount-sheet";
@@ -85,9 +85,8 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
         y: isTop ? 0 : depth * 10,
       }}
       transition={{ type: "spring", stiffness: 200, damping: 22 }}
-      className={`absolute inset-0 select-none touch-none rounded-3xl bg-white p-5 shadow-[0_20px_50px_-12px_rgba(0,15,77,0.18)] ring-1 ring-black/5 ${
-        isTop ? "cursor-grab active:cursor-grabbing" : ""
-      }`}
+      className={`absolute inset-0 select-none touch-none rounded-3xl bg-white p-5 shadow-[0_20px_50px_-12px_rgba(0,15,77,0.18)] ring-1 ring-black/5 ${isTop ? "cursor-grab active:cursor-grabbing" : ""
+        }`}
     >
       <header className="flex items-start justify-between">
         <p className="text-[32px] font-black leading-none tracking-tight text-scotia-navy">
@@ -169,16 +168,27 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
   );
 }
 
+function toHolding(card: CardData, trade: TradeOrder): PortfolioHolding {
+  return {
+    ticker: card.ticker,
+    name: card.name,
+    shares: trade.shares,
+    executionPrice: trade.executionPrice,
+    changePct: card.changePct,
+  };
+}
+
 export function UTradeCards({
   balance,
   onDebit,
   onRestart,
 }: UTradeCardsProps) {
+  const [activeTab, setActiveTab] = useState("discover");
   const [index, setIndex] = useState(0);
   const [intentCard, setIntentCard] = useState<CardData | null>(null);
   const [pendingTicker, setPendingTicker] = useState<string | null>(null);
   const [order, setOrder] = useState<TradeOrder | null>(null);
-  const [purchased, setPurchased] = useState<ReadonlyArray<string>>([]);
+  const [portfolio, setPortfolio] = useState<ReadonlyArray<PortfolioHolding>>([]);
 
   const visible = useMemo(() => cards.slice(index, index + 3), [index]);
   const done = index >= cards.length;
@@ -200,14 +210,14 @@ export function UTradeCards({
     if (card === null) return;
     setIntentCard(null);
     onDebit(amount);
-    setPurchased((prev) => [...prev, card.ticker]);
     setPendingTicker(card.ticker);
     const shares = amount / card.price;
     try {
       const result = await placeTrade(card.ticker, shares);
+      setPortfolio((prev) => [...prev, toHolding(card, result)]);
       setOrder(result);
     } catch {
-      setOrder({
+      const fallback: TradeOrder = {
         status: "filled",
         orderId: `UTR-OFFLINE-${Date.now().toString(36).toUpperCase()}`,
         ticker: card.ticker,
@@ -227,7 +237,9 @@ export function UTradeCards({
           ofsiE23Tier: 1,
           recordRetentionYears: 7,
         },
-      });
+      };
+      setPortfolio((prev) => [...prev, toHolding(card, fallback)]);
+      setOrder(fallback);
     }
   };
 
@@ -252,25 +264,70 @@ export function UTradeCards({
             <span className="text-[13px] text-scotia-grey">— discover stocks</span>
           </div>
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
-            {Math.min(index + 1, cards.length)}
+            {activeTab === "portfolio"
+              ? portfolio.length
+              : Math.min(index + 1, cards.length)}
           </span>
         </header>
 
-        <div className="mt-1 flex items-center justify-between gap-2">
-          <p className="text-[11px] text-scotia-grey">
-            Swipe right to buy. Funded from Smart Sweep.
-          </p>
-          <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[11px] font-bold tabular-nums text-scotia-navy ring-1 ring-black/5">
-            $
-            {balance.toLocaleString("en-CA", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </span>
-        </div>
+        {activeTab === "portfolio" ? (
+          <div className="mt-4">
+            {portfolio.length === 0 ? (
+              <p className="rounded-2xl bg-surface-elevated p-6 text-center text-[14px] text-scotia-grey ring-1 ring-black/5">
+                No holdings yet. Swipe right on Discover to buy and add stocks
+                here.
+              </p>
+            ) : (
+              <ul className="space-y-3">
+                {portfolio.map((holding) => (
+                  <li
+                    key={holding.ticker}
+                    className="flex items-center justify-between rounded-2xl bg-white p-4 ring-1 ring-black/5"
+                  >
+                    <div>
+                      <p className="text-[15px] font-bold text-scotia-navy">
+                        {holding.ticker}
+                      </p>
+                      <p className="text-[12px] text-scotia-grey">{holding.name}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[14px] font-bold tabular-nums text-scotia-navy">
+                        {holding.shares} sh @ ${holding.executionPrice.toFixed(2)}
+                      </p>
+                      <p
+                        className={`text-[11px] font-semibold ${
+                          holding.changePct >= 0 ? "text-success" : "text-loss"
+                        }`}
+                      >
+                        {holding.changePct >= 0 ? "+" : ""}
+                        {holding.changePct}% Y
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ) : (
+          <>
+            <div className="mt-1 flex items-center justify-between gap-2">
+              <p className="text-[11px] text-scotia-grey">
+                Swipe right to buy. Funded from Smart Sweep.
+              </p>
+              <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[11px] font-bold tabular-nums text-scotia-navy ring-1 ring-black/5">
+                $
+                {balance.toLocaleString("en-CA", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </div>
 
-        <div className="relative mt-4 w-full" style={{ height: "min(520px, 60vh)" }}>
-          <AnimatePresence>
+            <div
+              className="relative mt-4 w-full"
+              style={{ height: "min(520px, 60vh)" }}
+            >
+              <AnimatePresence>
             {done ? (
               <motion.div
                 key="empty"
@@ -291,7 +348,7 @@ export function UTradeCards({
                   <p className="mt-4 text-[12px] text-scotia-grey">
                     You bought{" "}
                     <span className="font-semibold text-scotia-navy">
-                      {purchased.length}
+                      {portfolio.length}
                     </span>{" "}
                     of {cards.length} today.
                   </p>
@@ -321,45 +378,51 @@ export function UTradeCards({
                   />
                 ))
             )}
-          </AnimatePresence>
-        </div>
+              </AnimatePresence>
+            </div>
 
-        <div className="mt-4 flex items-center justify-center gap-2">
-          {cards.map((c, i) => (
-            <span
-              key={c.ticker}
-              className={`h-1.5 rounded-full transition-all ${
-                i === index
-                  ? "w-6 bg-scotia-red"
-                  : i < index
-                    ? "w-1.5 bg-scotia-navy/30"
-                    : "w-1.5 bg-scotia-navy/15"
-              }`}
-            />
-          ))}
-        </div>
+            <div className="mt-4 flex items-center justify-center gap-2">
+              {cards.map((c, i) => (
+                <span
+                  key={c.ticker}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === index
+                      ? "w-6 bg-scotia-red"
+                      : i < index
+                        ? "w-1.5 bg-scotia-navy/30"
+                        : "w-1.5 bg-scotia-navy/15"
+                  }`}
+                />
+              ))}
+            </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => handleAction("left")}
-            disabled={done}
-            className="flex items-center justify-center gap-2 rounded-2xl border-2 border-loss/30 bg-white py-3 text-[14px] font-semibold text-loss disabled:opacity-40"
-          >
-            <X className="h-4 w-4" /> Pass
-          </button>
-          <button
-            type="button"
-            onClick={() => handleAction("right")}
-            disabled={done}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-success py-3 text-[14px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(16,185,129,0.6)] disabled:opacity-40"
-          >
-            <Check className="h-4 w-4" /> Buy
-          </button>
-        </div>
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => handleAction("left")}
+                disabled={done}
+                className="flex items-center justify-center gap-2 rounded-2xl border-2 border-loss/30 bg-white py-3 text-[14px] font-semibold text-loss disabled:opacity-40"
+              >
+                <X className="h-4 w-4" /> Pass
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAction("right")}
+                disabled={done}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-success py-3 text-[14px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(16,185,129,0.6)] disabled:opacity-40"
+              >
+                <Check className="h-4 w-4" /> Buy
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
-      <TabBar items={utradeTabs} activeId="discover" />
+      <TabBar
+        items={utradeTabs}
+        activeId={activeTab}
+        onSelect={setActiveTab}
+      />
 
       <TradeAmountSheet
         card={intentCard}
