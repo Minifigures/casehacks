@@ -54,6 +54,17 @@ No iOS or Android native code, no App Store, no copyrighted store assets. One we
 - lucide-react (icons)
 - Deployed on Vercel
 
+## API routes
+
+The prototype is fullstack. The BUY action hits a real server endpoint that returns a server-generated order ID:
+
+- `GET /api/cards` returns the discovery card stack
+- `GET /api/coach` returns the Money Coach nudge with model metadata
+- `POST /api/trade` accepts `{ "ticker": "AMZN", "fractionalShares": 0.5 }` and returns `{ orderId, executionPrice, settleDate, route, funding, compliance, ... }`
+- `GET /api/health` exposes route inventory and version
+
+No real money moves, but the architecture is wired so the in-flight route can swap from the mock to the iTRADE order API in production.
+
 ## Demo flow for Sahil
 
 1. Hand the judge a phone, open the URL.

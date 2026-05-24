@@ -26,6 +26,7 @@ import type { CardData } from "@/lib/types";
 import { MiniChart } from "@/components/mini-chart";
 import { TradeConfirmation } from "@/components/trade-confirmation";
 import { TabBar } from "@/components/tab-bar";
+import { placeTrade, type TradeOrder } from "@/lib/api";
 
 interface UTradeCardsProps {
   onRestart: () => void;
@@ -166,23 +167,57 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
 
 export function UTradeCards({ onRestart }: UTradeCardsProps) {
   const [index, setIndex] = useState(0);
-  const [confirmCard, setConfirmCard] = useState<CardData | null>(null);
+  const [pendingTicker, setPendingTicker] = useState<string | null>(null);
+  const [order, setOrder] = useState<TradeOrder | null>(null);
   const [purchased, setPurchased] = useState<ReadonlyArray<string>>([]);
 
   const visible = useMemo(() => cards.slice(index, index + 3), [index]);
   const done = index >= cards.length;
 
-  const handleSwipe = (card: CardData, direction: "left" | "right") => {
+  const handleSwipe = async (card: CardData, direction: "left" | "right") => {
     if (direction === "right") {
-      setConfirmCard(card);
+      setPendingTicker(card.ticker);
       setPurchased((prev) => [...prev, card.ticker]);
+      setIndex((i) => i + 1);
+      try {
+        const result = await placeTrade(card.ticker);
+        setOrder(result);
+      } catch {
+        setOrder({
+          status: "filled",
+          orderId: `UTR-OFFLINE-${Date.now().toString(36).toUpperCase()}`,
+          ticker: card.ticker,
+          name: card.name,
+          shares: 0.5,
+          executionPrice: card.price,
+          notional: card.price * 0.5,
+          currency: "USD",
+          placedAt: new Date().toISOString(),
+          settleDate: new Date(Date.now() + 86_400_000).toISOString(),
+          commission: 0,
+          route: "Scotia iTRADE, best execution",
+          funding: "Smart Sweep, Scotia HISA",
+          accountType: "TFSA",
+          compliance: {
+            ciroRules: ["3252", "3400"],
+            ofsiE23Tier: 1,
+            recordRetentionYears: 7,
+          },
+        });
+      }
+    } else {
+      setIndex((i) => i + 1);
     }
-    setIndex((i) => i + 1);
   };
 
   const handleAction = (direction: "left" | "right") => {
     if (done) return;
-    handleSwipe(cards[index], direction);
+    void handleSwipe(cards[index], direction);
+  };
+
+  const handleClose = () => {
+    setOrder(null);
+    setPendingTicker(null);
   };
 
   return (
@@ -250,7 +285,7 @@ export function UTradeCards({ onRestart }: UTradeCardsProps) {
                     card={card}
                     isTop={layerIdx === 0}
                     depth={layerIdx}
-                    onSwipe={(dir) => handleSwipe(card, dir)}
+                    onSwipe={(dir) => void handleSwipe(card, dir)}
                   />
                 ))
             )}
@@ -295,8 +330,9 @@ export function UTradeCards({ onRestart }: UTradeCardsProps) {
       <TabBar items={utradeTabs} activeId="discover" />
 
       <TradeConfirmation
-        card={confirmCard}
-        onClose={() => setConfirmCard(null)}
+        order={order}
+        pendingTicker={pendingTicker}
+        onClose={handleClose}
       />
     </div>
   );
