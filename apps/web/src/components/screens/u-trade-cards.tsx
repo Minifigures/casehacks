@@ -31,7 +31,6 @@ import { PortfolioStockDetail } from "@/components/screens/portfolio-stock-detai
 import { ReferralScreen } from "@/components/screens/referral-screen";
 import { TradeConfirmation } from "@/components/trade-confirmation";
 import { TradeAmountSheet } from "@/components/trade-amount-sheet";
-import { marketTrend } from "@/lib/market-trend";
 import { TabBar } from "@/components/tab-bar";
 import { placeTrade, type TradeOrder } from "@/lib/api";
 
@@ -55,11 +54,12 @@ const utradeTabs = [
 interface SwipeCardProps {
   card: CardData;
   onSwipe: (direction: "left" | "right") => void;
+  onViewDetails: () => void;
   isTop: boolean;
   depth: number;
 }
 
-function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
+function SwipeCard({ card, onSwipe, onViewDetails, isTop, depth }: SwipeCardProps) {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 0, 200], [-18, 0, 18]);
   const buyOpacity = useTransform(x, [40, 120], [0, 1]);
@@ -116,12 +116,21 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
         </span>
       </div>
 
-      <div className="mt-1 h-24 w-full">
-        <MiniChart
-          trend={marketTrend(card.changePct)}
-          className="h-full w-full"
-        />
-      </div>
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onViewDetails();
+        }}
+        className="mt-1 block w-full rounded-xl bg-surface-elevated/80 p-2 ring-1 ring-black/5 transition-colors hover:bg-surface-elevated"
+      >
+        <div className="h-20 w-full pointer-events-none">
+          <MiniChart changePct={card.changePct} className="h-full w-full" />
+        </div>
+        <p className="mt-1 text-center text-[11px] font-semibold text-scotia-red">
+          Tap for full chart & stats
+        </p>
+      </button>
 
       <div className="mt-3 space-y-3">
         <div>
@@ -189,6 +198,16 @@ function toHolding(card: CardData, trade: TradeOrder): PortfolioHolding {
   };
 }
 
+function previewHoldingFromCard(card: CardData): PortfolioHolding {
+  return {
+    ticker: card.ticker,
+    name: card.name,
+    shares: 0.5,
+    executionPrice: card.price,
+    changePct: card.changePct,
+  };
+}
+
 export function UTradeCards({
   balance,
   referralState,
@@ -199,6 +218,9 @@ export function UTradeCards({
 }: UTradeCardsProps) {
   const [activeTab, setActiveTab] = useState("discover");
   const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
+  const [discoverDetailCard, setDiscoverDetailCard] = useState<CardData | null>(
+    null,
+  );
   const [index, setIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [intentCard, setIntentCard] = useState<CardData | null>(null);
@@ -350,7 +372,9 @@ export function UTradeCards({
                   ? "— your holdings"
                   : activeTab === "more"
                     ? "— refer a friend"
-                    : "— discover stocks"}
+                    : discoverDetailCard
+                      ? "— stock detail"
+                      : "— discover stocks"}
             </span>
           </div>
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
@@ -428,6 +452,14 @@ export function UTradeCards({
               </ul>
             )}
           </div>
+        ) : discoverDetailCard ? (
+          <PortfolioStockDetail
+            holding={previewHoldingFromCard(discoverDetailCard)}
+            card={discoverDetailCard}
+            variant="discover"
+            backLabel="Back to discover"
+            onBack={() => setDiscoverDetailCard(null)}
+          />
         ) : (
           <>
             <label className="mt-3 flex items-center gap-2 rounded-2xl bg-surface-elevated px-3 py-2 ring-1 ring-black/5 focus-within:ring-scotia-red/40">
@@ -469,78 +501,79 @@ export function UTradeCards({
               style={{ height: "min(520px, 60vh)" }}
             >
               <AnimatePresence>
-            {done ? (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute inset-0 grid place-items-center rounded-3xl bg-white ring-1 ring-black/5"
-              >
-                <div className="px-8 text-center">
-                  <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-scotia-red/10 text-scotia-red">
-                    {search ? (
-                      <Search className="h-6 w-6" />
-                    ) : (
-                      <Flame className="h-6 w-6" />
-                    )}
-                  </div>
-                  <p className="mt-4 text-[18px] font-bold text-scotia-navy">
-                    {search
-                      ? "No matches found."
-                      : "That's all for now."}
-                  </p>
-                  <p className="mt-1 text-[13px] text-scotia-grey">
-                    {search
-                      ? `Nothing matches "${search}". Try another ticker or company.`
-                      : "New cards every morning at 9 AM ET."}
-                  </p>
-                  {search ? null : (
-                    <p className="mt-4 text-[12px] text-scotia-grey">
-                      You bought{" "}
-                      <span className="font-semibold text-scotia-navy">
-                        {portfolio.length}
-                      </span>{" "}
-                      of {cards.length} today.
-                    </p>
-                  )}
-                  <div className="mt-5 flex flex-col items-center gap-3">
-                    {search ? (
-                      <button
-                        type="button"
-                        onClick={() => handleSearchChange("")}
-                        className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
-                      >
-                        Clear search
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          type="button"
-                          onClick={onRestart}
-                          className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
-                        >
-                          Restart demo
-                        </button>
-                        <SignOutButton />
-                      </>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ) : (
-              visible
-                .map((card, layerIdx) => ({ card, layerIdx }))
-                .reverse()
-                .map(({ card, layerIdx }) => (
-                  <SwipeCard
-                    key={card.ticker}
-                    card={card}
-                    isTop={layerIdx === 0}
-                    depth={layerIdx}
-                    onSwipe={(dir) => void handleSwipe(card, dir)}
-                  />
-                ))
-            )}
+                {done ? (
+                  <motion.div
+                    key="empty"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute inset-0 grid place-items-center rounded-3xl bg-white ring-1 ring-black/5"
+                  >
+                    <div className="px-8 text-center">
+                      <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-scotia-red/10 text-scotia-red">
+                        {search ? (
+                          <Search className="h-6 w-6" />
+                        ) : (
+                          <Flame className="h-6 w-6" />
+                        )}
+                      </div>
+                      <p className="mt-4 text-[18px] font-bold text-scotia-navy">
+                        {search
+                          ? "No matches found."
+                          : "That's all for now."}
+                      </p>
+                      <p className="mt-1 text-[13px] text-scotia-grey">
+                        {search
+                          ? `Nothing matches "${search}". Try another ticker or company.`
+                          : "New cards every morning at 9 AM ET."}
+                      </p>
+                      {search ? null : (
+                        <p className="mt-4 text-[12px] text-scotia-grey">
+                          You bought{" "}
+                          <span className="font-semibold text-scotia-navy">
+                            {portfolio.length}
+                          </span>{" "}
+                          of {cards.length} today.
+                        </p>
+                      )}
+                      <div className="mt-5 flex flex-col items-center gap-3">
+                        {search ? (
+                          <button
+                            type="button"
+                            onClick={() => handleSearchChange("")}
+                            className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
+                          >
+                            Clear search
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={onRestart}
+                              className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
+                            >
+                              Restart demo
+                            </button>
+                            <SignOutButton />
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  visible
+                    .map((card, layerIdx) => ({ card, layerIdx }))
+                    .reverse()
+                    .map(({ card, layerIdx }) => (
+                      <SwipeCard
+                        key={card.ticker}
+                        card={card}
+                        isTop={layerIdx === 0}
+                        depth={layerIdx}
+                        onViewDetails={() => setDiscoverDetailCard(card)}
+                        onSwipe={(dir) => void handleSwipe(card, dir)}
+                      />
+                    ))
+                )}
               </AnimatePresence>
             </div>
 
@@ -548,13 +581,12 @@ export function UTradeCards({
               {filteredCards.map((c, i) => (
                 <span
                   key={c.ticker}
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === index
+                  className={`h-1.5 rounded-full transition-all ${i === index
                       ? "w-6 bg-scotia-red"
                       : i < index
                         ? "w-1.5 bg-scotia-navy/30"
                         : "w-1.5 bg-scotia-navy/15"
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -587,6 +619,7 @@ export function UTradeCards({
         onSelect={(id) => {
           setActiveTab(id);
           setSelectedTicker(null);
+          setDiscoverDetailCard(null);
         }}
       />
 
