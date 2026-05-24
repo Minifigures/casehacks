@@ -24,6 +24,7 @@ import {
   AlertTriangle,
   ShieldCheck,
   BookOpen,
+  ExternalLink,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
@@ -74,6 +75,19 @@ interface HistoryEntry {
   changePct: number;
   action: HistoryAction;
 }
+
+const learningResources = [
+  {
+    title: "Youth Guide to Finance and Investing",
+    source: "CIRO — Canadian Investment Regulatory Organization",
+    href: "https://www.ciro.ca/office-investor/guides-investors/youth-guide-finance-and-investing",
+  },
+  {
+    title: "Investing for Canadian Beginners",
+    source: "NerdWallet Canada",
+    href: "https://www.nerdwallet.com/ca/p/article/investing/investing-for-canadian-beginners",
+  },
+] as const;
 
 interface SwipeCardProps {
   card: CardData;
@@ -388,6 +402,7 @@ export function UTradeCards({
   const [portfolio, setPortfolio] = useState<ReadonlyArray<PortfolioHolding>>([]);
   const [history, setHistory] = useState<ReadonlyArray<HistoryEntry>>([]);
   const [historySearch, setHistorySearch] = useState("");
+  const [showLearning, setShowLearning] = useState(false);
 
   const filteredCards = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -610,15 +625,25 @@ export function UTradeCards({
                         : "— discover stocks"}
             </span>
           </div>
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
-            {activeTab === "portfolio"
-              ? portfolio.length
-              : activeTab === "referral"
-                ? referralState.activity.length
-                : activeTab === "history"
-                  ? history.length
-                  : Math.min(index + 1, filteredCards.length)}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
+              {activeTab === "portfolio"
+                ? portfolio.length
+                : activeTab === "referral"
+                  ? referralState.activity.length
+                  : activeTab === "history"
+                    ? history.length
+                    : Math.min(index + 1, filteredCards.length)}
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowLearning(true)}
+              className="grid h-7 w-7 place-items-center rounded-full bg-scotia-navy text-[10px] font-bold text-white"
+              aria-label="Profile — learning resources"
+            >
+              MA
+            </button>
+          </div>
         </header>
 
         {activeTab === "referral" ? (
@@ -913,6 +938,74 @@ export function UTradeCards({
         funding={orderFunding}
         onClose={handleClose}
       />
+
+      <AnimatePresence>
+        {showLearning ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-40 flex flex-col justify-end bg-scotia-navy/40 p-4"
+            onClick={() => setShowLearning(false)}
+          >
+            <motion.div
+              initial={{ y: 24 }}
+              animate={{ y: 0 }}
+              exit={{ y: 24 }}
+              transition={{ type: "spring", stiffness: 320, damping: 28 }}
+              className="rounded-3xl bg-white p-5 shadow-[0_20px_50px_-12px_rgba(0,15,77,0.25)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-scotia-red">
+                    Learn before you invest
+                  </p>
+                  <h3 className="mt-1 text-[18px] font-bold leading-snug text-scotia-navy">
+                    Trusted guides for Canadian beginners
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowLearning(false)}
+                  aria-label="Close"
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-elevated text-scotia-navy"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <ul className="mt-4 space-y-3">
+                {learningResources.map((resource) => (
+                  <li key={resource.href}>
+                    <a
+                      href={resource.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-3 rounded-2xl bg-surface-elevated p-4 ring-1 ring-black/5 transition-colors hover:bg-white hover:ring-scotia-red/20"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[14px] font-bold leading-snug text-scotia-navy">
+                          {resource.title}
+                        </p>
+                        <p className="mt-0.5 text-[11px] text-scotia-grey">
+                          {resource.source}
+                        </p>
+                      </div>
+                      <ExternalLink
+                        className="mt-0.5 h-4 w-4 shrink-0 text-scotia-red"
+                        aria-hidden
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-center text-[10px] text-scotia-grey">
+                Opens in a new tab · Educational resources only
+              </p>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
