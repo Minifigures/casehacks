@@ -9,6 +9,14 @@ import { SuccessState } from "@/components/screens/success-state";
 import { MoneyCoach } from "@/components/screens/money-coach";
 import { UTradeCards } from "@/components/screens/u-trade-cards";
 import type { QuizState, ScreenId } from "@/lib/types";
+import {
+  SEED_REFERRAL_ACTIVITY,
+  VALID_REDEEM_CODES,
+  type ReferralActivity,
+  type ReferralState,
+} from "@/lib/referral";
+
+const REFERRAL_CODE = "uTrade-2026";
 
 const screenOrder: ReadonlyArray<ScreenId> = [
   "chequing",
@@ -24,6 +32,13 @@ export function UTradeApp() {
   const [screen, setScreen] = useState<ScreenId>("chequing");
   const [, setQuiz] = useState<QuizState>({ horizon: null, risk: null });
   const [balance, setBalance] = useState<number>(STARTING_BALANCE);
+  const referralCode = REFERRAL_CODE;
+  const [redeemedCodes, setRedeemedCodes] = useState<ReadonlyArray<string>>(
+    [],
+  );
+  const [activity, setActivity] = useState<ReadonlyArray<ReferralActivity>>(
+    SEED_REFERRAL_ACTIVITY,
+  );
 
   const goto = useCallback((next: ScreenId) => setScreen(next), []);
   const debit = useCallback((amount: number) => {
@@ -32,11 +47,39 @@ export function UTradeApp() {
   const credit = useCallback((amount: number) => {
     setBalance((b) => b + amount);
   }, []);
+  const redeemReferral = useCallback((normalizedCode: string) => {
+    const reward = VALID_REDEEM_CODES[normalizedCode];
+    if (reward === undefined) return;
+    setRedeemedCodes((prev) =>
+      prev.includes(normalizedCode) ? prev : [...prev, normalizedCode],
+    );
+    setBalance((b) => b + reward);
+    setActivity((prev) => [
+      {
+        id: `redeem-${normalizedCode}-${Date.now()}`,
+        name: `Redeemed code ${normalizedCode}`,
+        date: "Today",
+        reward,
+        kind: "redeemed",
+      },
+      ...prev,
+    ]);
+  }, []);
   const restart = useCallback(() => {
     setQuiz({ horizon: null, risk: null });
     setBalance(STARTING_BALANCE);
+    setRedeemedCodes([]);
+    setActivity(SEED_REFERRAL_ACTIVITY);
     setScreen("chequing");
   }, []);
+
+  const earnedFromActivity = activity.reduce((sum, a) => sum + a.reward, 0);
+  const referralState: ReferralState = {
+    code: referralCode,
+    redeemedCodes,
+    activity,
+    earned: earnedFromActivity,
+  };
 
   const currentIndex = screenOrder.indexOf(screen);
 
@@ -69,6 +112,7 @@ export function UTradeApp() {
               {screen === "chequing" ? (
                 <ChequingDashboard
                   balance={balance}
+                  referralCode={referralCode}
                   onAdvance={() => goto("quiz")}
                 />
               ) : null}
@@ -82,7 +126,11 @@ export function UTradeApp() {
                 />
               ) : null}
               {screen === "success" ? (
-                <SuccessState onAdvance={() => goto("coach")} />
+                <SuccessState
+                  referralState={referralState}
+                  onRedeem={redeemReferral}
+                  onAdvance={() => goto("coach")}
+                />
               ) : null}
               {screen === "coach" ? (
                 <MoneyCoach onAdvance={() => goto("utrade")} />
@@ -90,8 +138,10 @@ export function UTradeApp() {
               {screen === "utrade" ? (
                 <UTradeCards
                   balance={balance}
+                  referralState={referralState}
                   onDebit={debit}
                   onCredit={credit}
+                  onRedeemReferral={redeemReferral}
                   onRestart={restart}
                 />
               ) : null}

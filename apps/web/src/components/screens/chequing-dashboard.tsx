@@ -15,6 +15,7 @@ import {
   TrendingUp,
   Menu,
   Bell,
+  Gift,
 } from "lucide-react";
 import { ScotiaMark } from "@/components/scotia-mark";
 import { SignOutButton } from "@/components/sign-out-button";
@@ -22,6 +23,7 @@ import { TabBar } from "@/components/tab-bar";
 
 interface ChequingDashboardProps {
   balance: number;
+  referralCode: string;
   onAdvance: () => void;
 }
 
@@ -53,6 +55,7 @@ function formatAmount(value: number) {
 
 export function ChequingDashboard({
   balance,
+  referralCode,
   onAdvance,
 }: ChequingDashboardProps) {
   const dollars = Math.floor(balance);
@@ -155,6 +158,26 @@ export function ChequingDashboard({
               </li>
             ))}
           </ul>
+        </section>
+
+        <section className="mt-5 flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-black/5">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-scotia-red/10 text-scotia-red">
+            <Gift className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[13px] font-bold text-scotia-navy">
+              Refer a friend, earn $25
+            </p>
+            <p className="mt-0.5 truncate text-[11px] text-scotia-grey">
+              Your code:{" "}
+              <span className="font-bold tracking-wider text-scotia-navy">
+                {referralCode}
+              </span>
+            </p>
+          </div>
+          <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-scotia-red">
+            New
+          </span>
         </section>
 
         <motion.button

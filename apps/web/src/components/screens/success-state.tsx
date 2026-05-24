@@ -1,13 +1,50 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Target, Sparkles } from "lucide-react";
+import { Check, Target, Sparkles, Ticket } from "lucide-react";
+import { evaluateRedeem, type ReferralState } from "@/lib/referral";
 
 interface SuccessStateProps {
+  referralState: ReferralState;
+  onRedeem: (normalizedCode: string) => void;
   onAdvance: () => void;
 }
 
-export function SuccessState({ onAdvance }: SuccessStateProps) {
+export function SuccessState({
+  referralState,
+  onRedeem,
+  onAdvance,
+}: SuccessStateProps) {
+  const [code, setCode] = useState("");
+  const [feedback, setFeedback] = useState<
+    | { kind: "success"; message: string }
+    | { kind: "error"; message: string }
+    | null
+  >(null);
+
+  const handleRedeem = () => {
+    const result = evaluateRedeem(code, referralState.redeemedCodes);
+    if (!result.ok) {
+      setFeedback({
+        kind: "error",
+        message:
+          result.reason === "empty"
+            ? "Enter a code first."
+            : result.reason === "already-redeemed"
+              ? "Already redeemed."
+              : "Invalid code.",
+      });
+      return;
+    }
+    onRedeem(result.normalizedCode);
+    setFeedback({
+      kind: "success",
+      message: `+$${result.reward} added to chequing.`,
+    });
+    setCode("");
+  };
+
   return (
     <div className="relative flex h-full flex-col bg-white px-5 pb-6">
       <div className="absolute inset-x-0 top-0 -z-10 h-64 bg-gradient-to-b from-scotia-navy/10 via-scotia-navy/5 to-transparent" />
@@ -68,6 +105,45 @@ export function SuccessState({ onAdvance }: SuccessStateProps) {
               </p>
             </div>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.65, duration: 0.4 }}
+          className="mt-4 w-full rounded-2xl bg-white p-4 ring-1 ring-black/5"
+        >
+          <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-scotia-grey">
+            <Ticket className="h-3 w-3" /> Got a referral code?
+          </p>
+          <div className="mt-2 flex gap-2">
+            <input
+              type="text"
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value);
+                if (feedback) setFeedback(null);
+              }}
+              placeholder="WELCOME25"
+              className="w-full rounded-xl bg-surface-elevated px-3 py-2 text-[13px] font-semibold uppercase tracking-wider text-scotia-navy ring-1 ring-black/5 placeholder:text-scotia-grey/70 focus:outline-none focus:ring-scotia-red/40"
+            />
+            <button
+              type="button"
+              onClick={handleRedeem}
+              className="rounded-xl bg-scotia-navy px-4 text-[12px] font-semibold text-white"
+            >
+              Redeem
+            </button>
+          </div>
+          {feedback ? (
+            <p
+              className={`mt-2 text-left text-[11px] font-semibold ${
+                feedback.kind === "success" ? "text-success" : "text-loss"
+              }`}
+            >
+              {feedback.message}
+            </p>
+          ) : null}
         </motion.div>
       </div>
 
