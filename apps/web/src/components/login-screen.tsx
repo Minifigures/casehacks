@@ -1,44 +1,19 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
 import { PhoneFrame } from "@/components/phone-frame";
 import { ScotiaMark } from "@/components/scotia-mark";
 
 export function LoginScreen() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!response.ok) {
-        setError("Invalid username or password.");
-        return;
-      }
-
-      const from = searchParams.get("from");
-      router.replace(from && from !== "/login" ? from : "/");
-      router.refresh();
-    } catch {
-      setError("Could not sign in. Try again.");
-    } finally {
-      setLoading(false);
-    }
+    router.push("/app");
   }
 
   return (
@@ -69,7 +44,6 @@ export function LoginScreen() {
                 type="text"
                 name="username"
                 autoComplete="username"
-                required
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-[15px] text-scotia-navy outline-none ring-scotia-red/30 focus:ring-2"
@@ -84,30 +58,22 @@ export function LoginScreen() {
                 type="password"
                 name="password"
                 autoComplete="current-password"
-                required
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-[15px] text-scotia-navy outline-none ring-scotia-red/30 focus:ring-2"
               />
             </label>
 
-            {error ? (
-              <p className="rounded-lg bg-loss/10 px-3 py-2 text-[13px] font-medium text-loss">
-                {error}
-              </p>
-            ) : null}
-
             <button
               type="submit"
-              disabled={loading}
-              className="mt-2 w-full rounded-xl bg-scotia-red py-3.5 text-[15px] font-semibold text-white transition-opacity disabled:opacity-60"
+              className="mt-2 w-full rounded-xl bg-scotia-red py-3.5 text-[15px] font-semibold text-white"
             >
-              {loading ? "Signing in…" : "Sign in"}
+              Sign in
             </button>
           </form>
 
           <p className="mt-auto pt-8 text-center text-[12px] text-scotia-grey">
-            Demo access for caseHACKS judges. Credentials are configured via environment variables.
+            Demo mockup for caseHACKS judges. Authentication is not wired up.
           </p>
         </div>
       </div>
