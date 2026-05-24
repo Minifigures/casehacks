@@ -24,3 +24,11 @@ export interface CardData {
   brandColor: string;
   price: number;
 }
+
+export interface PortfolioHolding {
+  ticker: string;
+  name: string;
+  shares: number;
+  executionPrice: number;
+  changePct: number;
+}

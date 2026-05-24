@@ -11,9 +11,10 @@ interface TabItem {
 interface TabBarProps {
   items: ReadonlyArray<TabItem>;
   activeId: string;
+  onSelect?: (id: string) => void;
 }
 
-export function TabBar({ items, activeId }: TabBarProps) {
+export function TabBar({ items, activeId, onSelect }: TabBarProps) {
   return (
     <nav className="mt-auto border-t border-black/5 bg-white/95 backdrop-blur">
       <ul className="grid grid-cols-5 px-2 pb-5 pt-2">
@@ -23,6 +24,7 @@ export function TabBar({ items, activeId }: TabBarProps) {
             <li key={id}>
               <button
                 type="button"
+                onClick={() => onSelect?.(id)}
                 className={`flex w-full flex-col items-center gap-1 py-1 ${
                   active ? "text-scotia-red" : "text-scotia-grey"
                 }`}
