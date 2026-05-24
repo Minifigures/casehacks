@@ -21,6 +21,7 @@ import { SignOutButton } from "@/components/sign-out-button";
 import { TabBar } from "@/components/tab-bar";
 
 interface ChequingDashboardProps {
+  balance: number;
   onAdvance: () => void;
 }
 
@@ -50,7 +51,15 @@ function formatAmount(value: number) {
   return `${sign}$${Math.abs(value).toFixed(2)}`;
 }
 
-export function ChequingDashboard({ onAdvance }: ChequingDashboardProps) {
+export function ChequingDashboard({
+  balance,
+  onAdvance,
+}: ChequingDashboardProps) {
+  const dollars = Math.floor(balance);
+  const cents = Math.round((balance - dollars) * 100)
+    .toString()
+    .padStart(2, "0");
+  const dollarsFormatted = dollars.toLocaleString("en-CA");
   return (
     <div className="flex h-full flex-col bg-surface-elevated">
       <div className="flex-1 overflow-y-auto px-5 pb-5">
@@ -88,7 +97,7 @@ export function ChequingDashboard({ onAdvance }: ChequingDashboardProps) {
             Everyday Chequing
           </p>
           <p className="mt-2 text-[36px] font-black tabular-nums tracking-tight text-scotia-navy">
-            $1,847.<span className="text-[24px] text-scotia-navy/80">32</span>
+            ${dollarsFormatted}.<span className="text-[24px] text-scotia-navy/80">{cents}</span>
           </p>
           <p className="mt-1 text-[12px] text-scotia-grey">Available Balance</p>
         </motion.section>
@@ -156,7 +165,7 @@ export function ChequingDashboard({ onAdvance }: ChequingDashboardProps) {
         >
           <span className="flex-1">
             <span className="block text-[14px] font-bold leading-tight">
-              Your $1,847 is earning 0.05%.
+              Your ${dollarsFormatted} is earning 0.05%.
             </span>
             <span className="mt-0.5 block text-[13px] font-medium text-white/90">
               Open a TFSA in 30 seconds.

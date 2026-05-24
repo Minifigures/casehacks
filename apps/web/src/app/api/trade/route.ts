@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const shares = Math.max(0.01, Math.min(1, body.fractionalShares ?? 0.5));
+  const shares = Math.max(0.0001, body.fractionalShares ?? 0.5);
   const orderId = generateOrderId();
   const placedAt = new Date().toISOString();
   const settleDate = new Date(Date.now() + 86_400_000 * 1).toISOString();
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       orderId,
       ticker: card.ticker,
       name: card.name,
-      shares: Number(shares.toFixed(2)),
+      shares: Number(shares.toFixed(4)),
       executionPrice: card.price,
       notional: Number((shares * card.price).toFixed(2)),
       currency: "USD",
