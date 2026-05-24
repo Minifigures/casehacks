@@ -32,7 +32,7 @@ export function UTradeApp() {
 
   return (
     <PhoneFrame>
-      <div className="relative flex flex-1 flex-col bg-white">
+      <div className="relative flex min-h-0 flex-1 flex-col bg-white">
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 px-5 pt-2">
           <div className="flex gap-1">
             {screenOrder.map((id, i) => (
@@ -46,7 +46,7 @@ export function UTradeApp() {
           </div>
         </div>
 
-        <div className="relative flex flex-1 flex-col pt-3">
+        <div className="relative flex min-h-0 flex-1 flex-col pt-3">
           <AnimatePresence mode="wait">
             <motion.div
               key={screen}
@@ -54,7 +54,7 @@ export function UTradeApp() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -24 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="flex flex-1 flex-col"
+              className="flex min-h-0 flex-1 flex-col"
             >
               {screen === "chequing" ? (
                 <ChequingDashboard onAdvance={() => goto("quiz")} />

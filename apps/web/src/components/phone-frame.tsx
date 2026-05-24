@@ -10,7 +10,7 @@ interface PhoneFrameProps {
 export function PhoneFrame({ children }: PhoneFrameProps) {
   return (
     <>
-      <div className="md:hidden flex min-h-[100dvh] flex-col bg-white">
+      <div className="md:hidden flex h-screen [height:100dvh] flex-col overflow-hidden bg-white">
         {children}
       </div>
 

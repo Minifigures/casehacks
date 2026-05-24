@@ -4,8 +4,11 @@ Swipe-native stock discovery inside Scotia mobile banking, funded by the chequin
 
 > Wealthsimple can give you returns. Only Scotia can make you an owner.
 
-**Live demo:** https://utrade-scotia.vercel.app
+**Live demo (primary):** https://utrade-scotia.vercel.app
+**Live demo (mirror):** https://utrade-scotia-app.vercel.app
 **Repo:** https://github.com/Minifigures/casehacks
+
+Both URLs serve the same fullstack Next.js build from independent Vercel projects, so the demo stays up if one project hits a quota or rolls back.
 
 [![Deployed on Vercel](https://img.shields.io/badge/deployed-Vercel-000?logo=vercel)](https://utrade-scotia.vercel.app)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=next.js)](https://nextjs.org)
@@ -17,13 +20,13 @@ Swipe-native stock discovery inside Scotia mobile banking, funded by the chequin
 
 ## Quick links
 
-| What | Where |
-|---|---|
-| Live mobile demo | https://utrade-scotia.vercel.app |
-| API health check | https://utrade-scotia.vercel.app/api/health |
-| Card stack feed | https://utrade-scotia.vercel.app/api/cards |
-| Money Coach nudge | https://utrade-scotia.vercel.app/api/coach |
-| Source code | `apps/web/` |
+| What | Primary | Mirror |
+|---|---|---|
+| Live mobile demo | https://utrade-scotia.vercel.app | https://utrade-scotia-app.vercel.app |
+| API health check | [/api/health](https://utrade-scotia.vercel.app/api/health) | [/api/health](https://utrade-scotia-app.vercel.app/api/health) |
+| Card stack feed | [/api/cards](https://utrade-scotia.vercel.app/api/cards) | [/api/cards](https://utrade-scotia-app.vercel.app/api/cards) |
+| Money Coach nudge | [/api/coach](https://utrade-scotia.vercel.app/api/coach) | [/api/coach](https://utrade-scotia-app.vercel.app/api/coach) |
+| Source code | `apps/web/` | same |
 
 ## Repo layout
 
@@ -126,7 +129,7 @@ One web build covers every device. No iOS or Android native code, no App Store, 
 - Tailwind CSS v4
 - framer-motion (swipe physics, screen transitions)
 - lucide-react (icons)
-- Deployed on Vercel (`utrade-scotia.vercel.app`)
+- Deployed on Vercel, two independent projects: `utrade-scotia.vercel.app` (primary) and `utrade-scotia-app.vercel.app` (mirror)
 - Designs from Google Stitch, hand-translated to React
 
 ## Demo flow for Sahil
