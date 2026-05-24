@@ -1,16 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowLeft, BarChart3, Newspaper } from "lucide-react";
+import { ArrowLeft, BarChart3, Minus, Newspaper, Plus } from "lucide-react";
 import type { CardData, PortfolioHolding } from "@/lib/types";
 import { StockDetailChart } from "@/components/stock-detail-chart";
+import {
+  AdjustHoldingSheet,
+  type AdjustMode,
+} from "@/components/adjust-holding-sheet";
 
 const timeframes = ["1D", "5D", "1M", "6M", "YTD", "1Y"] as const;
 
 interface PortfolioStockDetailProps {
   holding: PortfolioHolding;
   card: CardData | undefined;
+  balance: number;
   onBack: () => void;
+  onBuyMore: (ticker: string, amount: number) => void;
+  onSell: (ticker: string, amount: number) => void;
 }
 
 function formatMoney(value: number) {
@@ -23,9 +30,13 @@ function formatMoney(value: number) {
 export function PortfolioStockDetail({
   holding,
   card,
+  balance,
   onBack,
+  onBuyMore,
+  onSell,
 }: PortfolioStockDetailProps) {
   const [timeframe, setTimeframe] = useState<(typeof timeframes)[number]>("1M");
+  const [adjustMode, setAdjustMode] = useState<AdjustMode | null>(null);
 
   const changePct = card?.changePct ?? holding.changePct;
   const price = card?.price ?? holding.executionPrice;
@@ -35,9 +46,16 @@ export function PortfolioStockDetail({
   const gain = marketValue - costBasis;
   const gainPct = costBasis > 0 ? (gain / costBasis) * 100 : 0;
 
+  const handleConfirmAdjust = (amount: number) => {
+    if (adjustMode === "buy") onBuyMore(holding.ticker, amount);
+    else if (adjustMode === "sell") onSell(holding.ticker, amount);
+    setAdjustMode(null);
+  };
+
   const stats = useMemo(
     () => [
       { label: "Your shares", value: holding.shares.toFixed(4) },
+      { label: "Invested", value: `$${formatMoney(costBasis)}` },
       { label: "Avg. cost", value: `$${formatMoney(holding.executionPrice)}` },
       { label: "Market value", value: `$${formatMoney(marketValue)}` },
       { label: "Previous close", value: `$${formatMoney(price - dayChange)}` },
@@ -52,7 +70,7 @@ export function PortfolioStockDetail({
         value: `${gain >= 0 ? "+" : ""}$${formatMoney(gain)} (${gainPct >= 0 ? "+" : ""}${gainPct.toFixed(2)}%)`,
       },
     ],
-    [dayChange, gain, gainPct, holding, marketValue, price],
+    [costBasis, dayChange, gain, gainPct, holding, marketValue, price],
   );
 
   return (
@@ -126,6 +144,24 @@ export function PortfolioStockDetail({
         ))}
       </div>
 
+      <div className="mt-4 grid grid-cols-2 gap-3">
+        <button
+          type="button"
+          onClick={() => setAdjustMode("sell")}
+          className="flex items-center justify-center gap-2 rounded-2xl border-2 border-scotia-red/30 bg-white py-3 text-[14px] font-semibold text-scotia-red"
+        >
+          <Minus className="h-4 w-4" /> Sell
+        </button>
+        <button
+          type="button"
+          onClick={() => setAdjustMode("buy")}
+          disabled={balance <= 0}
+          className="flex items-center justify-center gap-2 rounded-2xl bg-success py-3 text-[14px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(16,185,129,0.6)] disabled:opacity-40"
+        >
+          <Plus className="h-4 w-4" /> Buy more
+        </button>
+      </div>
+
       {card ? (
         <div className="mt-4 space-y-3 rounded-2xl bg-white p-4 ring-1 ring-black/5">
           <div>
@@ -149,6 +185,16 @@ export function PortfolioStockDetail({
           </div>
         </div>
       ) : null}
+
+      <AdjustHoldingSheet
+        open={adjustMode !== null}
+        mode={adjustMode ?? "buy"}
+        holding={holding}
+        currentPrice={price}
+        balance={balance}
+        onConfirm={handleConfirmAdjust}
+        onClose={() => setAdjustMode(null)}
+      />
     </div>
   );
 }
