@@ -29,15 +29,16 @@ Swipe-native stock discovery inside Scotia mobile banking, funded by the chequin
 
 ```
 .
-|-- PRD.md                 # Product Requirements Doc for the MVP
-|-- bankingbros.md         # Source product brief (internal codename "BankingBros")
-|-- marco_ideas_FINAL.md   # Full research backing
-|-- caseHackswinners_DeckCopy.md
-|-- deck-visuals.html
-|-- apps/
-|   `-- web/               # Next.js 16 app, ships the 5-screen prototype + JSON API
-`-- research/              # Raw research notes and citations
+|-- LICENSE                # Proprietary, all rights reserved
+|-- README.md              # You are here
+`-- apps/
+    `-- web/               # Next.js 16 app, ships the 5-screen prototype + JSON API
+        |-- src/app/       # Routes (page, layout, OG image) + /api endpoints
+        |-- src/components/# PhoneFrame, screens, TradeConfirmation, etc.
+        `-- src/lib/       # Shared types, frozen card data, trade client
 ```
+
+Internal planning docs (PRD, deck copy, research notes) are kept out of the public repo. The README, the live URL, and the code are the public surface.
 
 ## Run locally
 
