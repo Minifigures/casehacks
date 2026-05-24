@@ -17,6 +17,7 @@ import {
   Bell,
 } from "lucide-react";
 import { ScotiaMark } from "@/components/scotia-mark";
+import { SignOutButton } from "@/components/sign-out-button";
 import { TabBar } from "@/components/tab-bar";
 
 interface ChequingDashboardProps {
@@ -65,6 +66,7 @@ export function ChequingDashboard({ onAdvance }: ChequingDashboardProps) {
             >
               <Bell className="h-4 w-4" />
             </button>
+            <SignOutButton variant="icon" />
             <div className="grid h-9 w-9 place-items-center rounded-full bg-scotia-navy text-[11px] font-bold text-white">
               MA
             </div>

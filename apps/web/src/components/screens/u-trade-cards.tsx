@@ -21,6 +21,7 @@ import {
   History,
   Menu,
 } from "lucide-react";
+import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
 import type { CardData } from "@/lib/types";
 import { MiniChart } from "@/components/mini-chart";
@@ -266,13 +267,16 @@ export function UTradeCards({ onRestart }: UTradeCardsProps) {
                     </span>{" "}
                     of {cards.length} today.
                   </p>
-                  <button
-                    type="button"
-                    onClick={onRestart}
-                    className="mt-5 rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
-                  >
-                    Restart demo
-                  </button>
+                  <div className="mt-5 flex flex-col items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={onRestart}
+                      className="rounded-2xl bg-scotia-red px-5 py-2.5 text-[13px] font-semibold text-white"
+                    >
+                      Restart demo
+                    </button>
+                    <SignOutButton />
+                  </div>
                 </div>
               </motion.div>
             ) : (

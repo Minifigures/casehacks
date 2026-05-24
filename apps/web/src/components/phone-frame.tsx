@@ -14,8 +14,8 @@ export function PhoneFrame({ children }: PhoneFrameProps) {
         {children}
       </div>
 
-      <div className="hidden md:flex min-h-[100dvh] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(236,17,26,0.08),transparent_60%),linear-gradient(135deg,#0a0a0a_0%,#1a1a1a_100%)] px-6 py-10">
-        <div className="relative mx-auto h-[844px] w-[390px] overflow-hidden rounded-[48px] border-[10px] border-black bg-white shadow-[0_30px_80px_-20px_rgba(236,17,26,0.35)]">
+      <div className="hidden md:flex min-h-[100dvh] items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(236,17,26,0.08),transparent_60%),linear-gradient(135deg,#0a0a0a_0%,#1a1a1a_100%)] px-6 py-6">
+        <div className="relative mx-auto h-[min(844px,calc(100dvh-3rem))] w-[390px] overflow-hidden rounded-[48px] border-[10px] border-black bg-white shadow-[0_30px_80px_-20px_rgba(236,17,26,0.35)]">
           <div className="absolute left-1/2 top-2 z-30 h-[28px] w-[110px] -translate-x-1/2 rounded-full bg-black" />
 
           <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-7 pt-3 text-[12px] font-semibold text-black">
