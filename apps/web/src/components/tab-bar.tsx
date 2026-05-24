@@ -17,11 +17,11 @@ interface TabBarProps {
 export function TabBar({ items, activeId, onSelect }: TabBarProps) {
   return (
     <nav className="mt-auto border-t border-black/5 bg-white/95 backdrop-blur">
-      <ul className="grid grid-cols-5 px-2 pb-5 pt-2">
+      <ul className="flex px-2 pb-5 pt-2">
         {items.map(({ id, label, icon: Icon }) => {
           const active = id === activeId;
           return (
-            <li key={id}>
+            <li key={id} className="min-w-0 flex-1">
               <button
                 type="button"
                 onClick={() => onSelect?.(id)}
