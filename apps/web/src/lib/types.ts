@@ -25,10 +25,15 @@ export interface CardData {
   price: number;
 }
 
+export type TradeDirection = "long" | "short";
+export type FundingSource = "cash" | "points";
+
 export interface PortfolioHolding {
   ticker: string;
   name: string;
   shares: number;
   executionPrice: number;
   changePct: number;
+  direction: TradeDirection;
+  funding: FundingSource;
 }

@@ -17,14 +17,22 @@ import {
   Newspaper,
   Compass,
   PieChart,
-  ArrowLeftRight,
   History,
-  Menu,
+  Gift,
   Search,
+  TrendingDown,
+  AlertTriangle,
+  ShieldCheck,
+  BookOpen,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
 import { cards } from "@/lib/cards";
-import type { CardData, PortfolioHolding } from "@/lib/types";
+import type {
+  CardData,
+  FundingSource,
+  PortfolioHolding,
+  TradeDirection,
+} from "@/lib/types";
 import type { ReferralState } from "@/lib/referral";
 import { MiniChart } from "@/components/mini-chart";
 import { PortfolioStockDetail } from "@/components/screens/portfolio-stock-detail";
@@ -36,20 +44,36 @@ import { placeTrade, type TradeOrder } from "@/lib/api";
 
 interface UTradeCardsProps {
   balance: number;
+  scenePoints: number;
+  shortAcknowledged: boolean;
   referralState: ReferralState;
   onDebit: (amount: number) => void;
   onCredit: (amount: number) => void;
+  onDebitPoints: (points: number) => void;
+  onAcknowledgeShort: () => void;
   onRedeemReferral: (normalizedCode: string) => void;
   onRestart: () => void;
 }
 
+const POINTS_PER_DOLLAR = 100;
+
 const utradeTabs = [
   { id: "discover", label: "Discover", icon: Compass },
   { id: "portfolio", label: "Portfolio", icon: PieChart },
-  { id: "trade", label: "Trade", icon: ArrowLeftRight },
   { id: "history", label: "History", icon: History },
-  { id: "more", label: "More", icon: Menu },
+  { id: "referral", label: "Referral", icon: Gift },
 ] as const;
+
+type HistoryAction = "passed" | "bought" | "skipped";
+
+interface HistoryEntry {
+  id: string;
+  ticker: string;
+  name: string;
+  price: number;
+  changePct: number;
+  action: HistoryAction;
+}
 
 interface SwipeCardProps {
   card: CardData;
@@ -188,14 +212,133 @@ function SwipeCard({ card, onSwipe, onViewDetails, isTop, depth }: SwipeCardProp
   );
 }
 
-function toHolding(card: CardData, trade: TradeOrder): PortfolioHolding {
+function toHolding(
+  card: CardData,
+  trade: TradeOrder,
+  direction: TradeDirection,
+  funding: FundingSource,
+): PortfolioHolding {
   return {
     ticker: card.ticker,
     name: card.name,
     shares: trade.shares,
     executionPrice: trade.executionPrice,
     changePct: card.changePct,
+    direction,
+    funding,
   };
+}
+
+const HISTORY_ACTION_STYLES: Readonly<
+  Record<HistoryAction, { label: string; className: string }>
+> = {
+  passed: {
+    label: "Passed",
+    className: "bg-scotia-navy/10 text-scotia-navy",
+  },
+  bought: {
+    label: "Bought",
+    className: "bg-success/10 text-success",
+  },
+  skipped: {
+    label: "Skipped",
+    className: "bg-amber-500/10 text-amber-600",
+  },
+};
+
+interface HistoryListProps {
+  entries: ReadonlyArray<HistoryEntry>;
+  search: string;
+  onSearchChange: (value: string) => void;
+}
+
+function HistoryList({ entries, search, onSearchChange }: HistoryListProps) {
+  const q = search.trim().toLowerCase();
+  const filtered =
+    q === ""
+      ? entries
+      : entries.filter(
+          (e) =>
+            e.ticker.toLowerCase().includes(q) ||
+            e.name.toLowerCase().includes(q),
+        );
+
+  return (
+    <div className="mt-4">
+      <label className="flex items-center gap-2 rounded-2xl bg-surface-elevated px-3 py-2 ring-1 ring-black/5 focus-within:ring-scotia-red/40">
+        <Search className="h-4 w-4 text-scotia-grey" />
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder="Search history"
+          className="w-full bg-transparent text-[13px] font-medium text-scotia-navy placeholder:text-scotia-grey focus:outline-none"
+        />
+        {search ? (
+          <button
+            type="button"
+            onClick={() => onSearchChange("")}
+            aria-label="Clear search"
+            className="grid h-5 w-5 place-items-center rounded-full bg-scotia-navy/10 text-scotia-navy hover:bg-scotia-navy/15"
+          >
+            <X className="h-3 w-3" />
+          </button>
+        ) : null}
+      </label>
+
+      {entries.length === 0 ? (
+        <p className="mt-3 rounded-2xl bg-surface-elevated p-6 text-center text-[14px] text-scotia-grey ring-1 ring-black/5">
+          No history yet. Swipe on Discover to start tracking the stocks
+          you&apos;ve seen.
+        </p>
+      ) : filtered.length === 0 ? (
+        <p className="mt-3 rounded-2xl bg-surface-elevated p-6 text-center text-[13px] text-scotia-grey ring-1 ring-black/5">
+          Nothing in your history matches &ldquo;{search}&rdquo;.
+        </p>
+      ) : (
+        <ul className="mt-3 space-y-2">
+          {filtered.map((entry) => {
+            const style = HISTORY_ACTION_STYLES[entry.action];
+            const trendColor =
+              entry.changePct >= 0 ? "text-success" : "text-loss";
+            return (
+              <li key={entry.id}>
+                <div className="flex items-center justify-between gap-3 rounded-2xl bg-white p-3 ring-1 ring-black/5">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-surface-elevated text-[13px] font-black text-scotia-navy ring-1 ring-black/5">
+                      {entry.ticker.charAt(0)}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[14px] font-bold text-scotia-navy">
+                        {entry.ticker}
+                      </p>
+                      <p className="truncate text-[11px] text-scotia-grey">
+                        {entry.name}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${style.className}`}
+                    >
+                      {style.label}
+                    </span>
+                    <p className="text-[12px] font-semibold tabular-nums text-scotia-navy">
+                      ${entry.price.toFixed(2)}
+                    </p>
+                    <p className={`text-[10px] font-semibold tabular-nums ${trendColor}`}>
+                      {entry.changePct >= 0 ? "+" : ""}
+                      {entry.changePct}% Y
+                    </p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 function previewHoldingFromCard(card: CardData): PortfolioHolding {
@@ -205,14 +348,25 @@ function previewHoldingFromCard(card: CardData): PortfolioHolding {
     shares: 0.5,
     executionPrice: card.price,
     changePct: card.changePct,
+    direction: "long",
+    funding: "cash",
   };
+}
+
+interface PendingTrade {
+  ticker: string;
+  direction: TradeDirection;
 }
 
 export function UTradeCards({
   balance,
+  scenePoints,
+  shortAcknowledged,
   referralState,
   onDebit,
   onCredit,
+  onDebitPoints,
+  onAcknowledgeShort,
   onRedeemReferral,
   onRestart,
 }: UTradeCardsProps) {
@@ -224,9 +378,16 @@ export function UTradeCards({
   const [index, setIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [intentCard, setIntentCard] = useState<CardData | null>(null);
-  const [pendingTicker, setPendingTicker] = useState<string | null>(null);
+  const [intentDirection, setIntentDirection] =
+    useState<TradeDirection>("long");
+  const [shortAckCard, setShortAckCard] = useState<CardData | null>(null);
+  const [pending, setPending] = useState<PendingTrade | null>(null);
   const [order, setOrder] = useState<TradeOrder | null>(null);
+  const [orderDirection, setOrderDirection] = useState<TradeDirection>("long");
+  const [orderFunding, setOrderFunding] = useState<FundingSource>("cash");
   const [portfolio, setPortfolio] = useState<ReadonlyArray<PortfolioHolding>>([]);
+  const [history, setHistory] = useState<ReadonlyArray<HistoryEntry>>([]);
+  const [historySearch, setHistorySearch] = useState("");
 
   const filteredCards = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -251,10 +412,40 @@ export function UTradeCards({
     [selectedTicker],
   );
 
+  const pushHistory = (card: CardData, action: HistoryAction) => {
+    setHistory((prev) => [
+      {
+        id: `${card.ticker}-${Date.now()}-${Math.round(Math.random() * 1e6)}`,
+        ticker: card.ticker,
+        name: card.name,
+        price: card.price,
+        changePct: card.changePct,
+        action,
+      },
+      ...prev,
+    ]);
+  };
+
+  const openBuyIntent = (card: CardData) => {
+    setIntentDirection("long");
+    setIntentCard(card);
+  };
+
+  const openShortIntent = (card: CardData) => {
+    if (!shortAcknowledged) {
+      setShortAckCard(card);
+      return;
+    }
+    setIntentDirection("short");
+    setIntentCard(card);
+  };
+
   const handleSwipe = (card: CardData, direction: "left" | "right") => {
     setIndex((i) => i + 1);
     if (direction === "right") {
-      setIntentCard(card);
+      openBuyIntent(card);
+    } else {
+      pushHistory(card, "passed");
     }
   };
 
@@ -263,22 +454,61 @@ export function UTradeCards({
     handleSwipe(filteredCards[index], direction);
   };
 
+  const handleShortAction = () => {
+    if (done) return;
+    setIndex((i) => i + 1);
+    openShortIntent(filteredCards[index]);
+  };
+
+  const handleAcknowledgeShort = () => {
+    const card = shortAckCard;
+    if (card === null) return;
+    onAcknowledgeShort();
+    setShortAckCard(null);
+    setIntentDirection("short");
+    setIntentCard(card);
+  };
+
   const handleSearchChange = (value: string) => {
     setSearch(value);
     setIndex(0);
   };
 
-  const handleConfirmAmount = async (amount: number) => {
+  const fundingLabel = (
+    direction: TradeDirection,
+    funding: FundingSource,
+  ): string => {
+    if (direction === "short") return "Margin, securities-lending desk";
+    if (funding === "points") return "Scene+ points (100 pts = $1)";
+    return "Smart Sweep, Scotia HISA";
+  };
+
+  const handleConfirmAmount = async (
+    amount: number,
+    payment: FundingSource,
+  ) => {
     const card = intentCard;
+    const direction = intentDirection;
     if (card === null) return;
     setIntentCard(null);
-    onDebit(amount);
-    setPendingTicker(card.ticker);
+    if (direction === "short") {
+      // shorts don't move cash on entry in this prototype
+    } else if (payment === "points") {
+      onDebitPoints(amount * POINTS_PER_DOLLAR);
+    } else {
+      onDebit(amount);
+    }
+    setPending({ ticker: card.ticker, direction });
+    setOrderDirection(direction);
+    setOrderFunding(payment);
+    pushHistory(card, "bought");
     const shares = amount / card.price;
+    const fundingText = fundingLabel(direction, payment);
     try {
       const result = await placeTrade(card.ticker, shares);
-      setPortfolio((prev) => [...prev, toHolding(card, result)]);
-      setOrder(result);
+      const order = { ...result, funding: fundingText };
+      setPortfolio((prev) => [...prev, toHolding(card, order, direction, payment)]);
+      setOrder(order);
     } catch {
       const fallback: TradeOrder = {
         status: "filled",
@@ -293,26 +523,27 @@ export function UTradeCards({
         settleDate: new Date(Date.now() + 86_400_000).toISOString(),
         commission: 0,
         route: "Scotia iTRADE, best execution",
-        funding: "Smart Sweep, Scotia HISA",
-        accountType: "TFSA",
+        funding: fundingText,
+        accountType: direction === "short" ? "Margin" : "TFSA",
         compliance: {
-          ciroRules: ["3252", "3400"],
+          ciroRules: direction === "short" ? ["3252", "3400", "5.2"] : ["3252", "3400"],
           ofsiE23Tier: 1,
           recordRetentionYears: 7,
         },
       };
-      setPortfolio((prev) => [...prev, toHolding(card, fallback)]);
+      setPortfolio((prev) => [...prev, toHolding(card, fallback, direction, payment)]);
       setOrder(fallback);
     }
   };
 
   const handleCancelIntent = () => {
+    if (intentCard !== null) pushHistory(intentCard, "skipped");
     setIntentCard(null);
   };
 
   const handleClose = () => {
     setOrder(null);
-    setPendingTicker(null);
+    setPending(null);
   };
 
   const handleBuyMore = (ticker: string, amount: number) => {
@@ -370,26 +601,36 @@ export function UTradeCards({
                 ? "— stock detail"
                 : activeTab === "portfolio"
                   ? "— your holdings"
-                  : activeTab === "more"
+                  : activeTab === "referral"
                     ? "— refer a friend"
-                    : discoverDetailCard
-                      ? "— stock detail"
-                      : "— discover stocks"}
+                    : activeTab === "history"
+                      ? "— stocks you've seen"
+                      : discoverDetailCard
+                        ? "— stock detail"
+                        : "— discover stocks"}
             </span>
           </div>
           <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-[11px] font-bold text-scotia-navy">
             {activeTab === "portfolio"
               ? portfolio.length
-              : activeTab === "more"
+              : activeTab === "referral"
                 ? referralState.activity.length
-                : Math.min(index + 1, filteredCards.length)}
+                : activeTab === "history"
+                  ? history.length
+                  : Math.min(index + 1, filteredCards.length)}
           </span>
         </header>
 
-        {activeTab === "more" ? (
+        {activeTab === "referral" ? (
           <ReferralScreen
             state={referralState}
             onRedeem={onRedeemReferral}
+          />
+        ) : activeTab === "history" ? (
+          <HistoryList
+            entries={history}
+            search={historySearch}
+            onSearchChange={setHistorySearch}
           />
         ) : activeTab === "portfolio" ? (
           <div className="mt-4">
@@ -417,9 +658,20 @@ export function UTradeCards({
                       className="flex w-full items-center justify-between rounded-2xl bg-white p-4 text-left ring-1 ring-black/5 transition-colors hover:bg-surface-elevated active:bg-surface-elevated"
                     >
                       <div>
-                        <p className="text-[15px] font-bold text-scotia-navy">
-                          {holding.ticker}
-                        </p>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-[15px] font-bold text-scotia-navy">
+                            {holding.ticker}
+                          </p>
+                          {holding.direction === "short" ? (
+                            <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-amber-600 ring-1 ring-amber-500/30">
+                              Short
+                            </span>
+                          ) : holding.funding === "points" ? (
+                            <span className="rounded-md bg-scotia-red/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-scotia-red ring-1 ring-scotia-red/20">
+                              Scene+
+                            </span>
+                          ) : null}
+                        </div>
                         <p className="text-[12px] text-scotia-grey">{holding.name}</p>
                       </div>
                       <div className="text-right">
@@ -485,15 +737,20 @@ export function UTradeCards({
 
             <div className="mt-3 flex items-center justify-between gap-2">
               <p className="text-[11px] text-scotia-grey">
-                Swipe right to buy. Funded from Smart Sweep.
+                Swipe right to buy. Tap Short to bet against.
               </p>
-              <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[11px] font-bold tabular-nums text-scotia-navy ring-1 ring-black/5">
-                $
-                {balance.toLocaleString("en-CA", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="rounded-full bg-scotia-red/10 px-2 py-1 text-[10px] font-bold tabular-nums text-scotia-red ring-1 ring-scotia-red/20">
+                  ✦ {scenePoints.toLocaleString("en-CA")} pts
+                </span>
+                <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[11px] font-bold tabular-nums text-scotia-navy ring-1 ring-black/5">
+                  $
+                  {balance.toLocaleString("en-CA", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
+              </div>
             </div>
 
             <div
@@ -591,20 +848,28 @@ export function UTradeCards({
               ))}
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="mt-4 grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => handleAction("left")}
                 disabled={done}
-                className="flex items-center justify-center gap-2 rounded-2xl border-2 border-loss/30 bg-white py-3 text-[14px] font-semibold text-loss disabled:opacity-40"
+                className="flex items-center justify-center gap-1.5 rounded-2xl border-2 border-loss/30 bg-white py-3 text-[13px] font-semibold text-loss disabled:opacity-40"
               >
                 <X className="h-4 w-4" /> Pass
               </button>
               <button
                 type="button"
+                onClick={handleShortAction}
+                disabled={done}
+                className="flex items-center justify-center gap-1.5 rounded-2xl border-2 border-amber-600/40 bg-white py-3 text-[13px] font-semibold text-amber-600 disabled:opacity-40"
+              >
+                <TrendingDown className="h-4 w-4" /> Short
+              </button>
+              <button
+                type="button"
                 onClick={() => handleAction("right")}
                 disabled={done}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-success py-3 text-[14px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(16,185,129,0.6)] disabled:opacity-40"
+                className="flex items-center justify-center gap-1.5 rounded-2xl bg-success py-3 text-[13px] font-semibold text-white shadow-[0_10px_24px_-10px_rgba(16,185,129,0.6)] disabled:opacity-40"
               >
                 <Check className="h-4 w-4" /> Buy
               </button>
@@ -620,21 +885,119 @@ export function UTradeCards({
           setActiveTab(id);
           setSelectedTicker(null);
           setDiscoverDetailCard(null);
+          if (id !== "history") setHistorySearch("");
         }}
       />
 
       <TradeAmountSheet
         card={intentCard}
+        direction={intentDirection}
         balance={balance}
-        onConfirm={(amount) => void handleConfirmAmount(amount)}
+        scenePoints={scenePoints}
+        onConfirm={(amount, payment) =>
+          void handleConfirmAmount(amount, payment)
+        }
         onClose={handleCancelIntent}
+      />
+
+      <ShortRiskAckModal
+        card={shortAckCard}
+        onAcknowledge={handleAcknowledgeShort}
+        onClose={() => setShortAckCard(null)}
       />
 
       <TradeConfirmation
         order={order}
-        pendingTicker={pendingTicker}
+        pending={pending}
+        direction={orderDirection}
+        funding={orderFunding}
         onClose={handleClose}
       />
     </div>
+  );
+}
+
+interface ShortRiskAckModalProps {
+  card: CardData | null;
+  onAcknowledge: () => void;
+  onClose: () => void;
+}
+
+function ShortRiskAckModal({
+  card,
+  onAcknowledge,
+  onClose,
+}: ShortRiskAckModalProps) {
+  return (
+    <AnimatePresence>
+      {card !== null ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 z-50 grid place-items-center bg-black/50 px-4"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ y: 40, opacity: 0, scale: 0.96 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 20, opacity: 0, scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 240, damping: 22 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full rounded-3xl bg-white p-6 shadow-2xl"
+          >
+            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-amber-500/10 text-amber-600">
+              <AlertTriangle className="h-7 w-7" />
+            </div>
+            <h2 className="mt-4 text-center text-[20px] font-bold leading-tight text-scotia-navy">
+              Short selling is opt-in.
+            </h2>
+            <p className="mt-2 text-center text-[13px] text-scotia-grey">
+              Profits if {card.ticker} falls. Losses can exceed your deposit —
+              short positions are theoretically unlimited risk.
+            </p>
+
+            <ul className="mt-5 space-y-2.5 text-[12px] text-scotia-navy">
+              <li className="flex items-start gap-2">
+                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-scotia-red" />
+                <span>
+                  <span className="font-bold">Position cap:</span> max $500
+                  notional per name for new shorters.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-scotia-red" />
+                <span>
+                  <span className="font-bold">Education first:</span>{" "}
+                  you&apos;ve read how shorts work and the max-loss warning.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                <span>
+                  <span className="font-bold">Order-Execution-Only:</span> Scotia
+                  doesn&apos;t recommend this trade. CIRO-aligned.
+                </span>
+              </li>
+            </ul>
+
+            <button
+              type="button"
+              onClick={onAcknowledge}
+              className="mt-6 w-full rounded-2xl bg-amber-600 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_32px_-12px_rgba(217,119,6,0.6)]"
+            >
+              I understand — enable short selling
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-2 w-full rounded-2xl border border-black/10 py-3 text-[13px] font-semibold text-scotia-navy"
+            >
+              Not now
+            </button>
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }
