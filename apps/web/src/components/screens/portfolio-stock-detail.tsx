@@ -1,7 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowLeft, BarChart3, Minus, Newspaper, Plus } from "lucide-react";
+import {
+  ArrowLeft,
+  BarChart3,
+  Minus,
+  Newspaper,
+  Plus,
+  Sparkles,
+  TrendingDown,
+} from "lucide-react";
 import type { CardData, PortfolioHolding } from "@/lib/types";
 import { StockDetailChart } from "@/components/stock-detail-chart";
 import {
@@ -46,12 +54,13 @@ export function PortfolioStockDetail({
   const [timeframe, setTimeframe] = useState<(typeof timeframes)[number]>("1M");
   const [adjustMode, setAdjustMode] = useState<AdjustMode | null>(null);
 
+  const isShort = holding.direction === "short";
   const changePct = card?.changePct ?? holding.changePct;
   const price = card?.price ?? holding.executionPrice;
   const dayChange = price * (changePct / 100);
   const marketValue = holding.shares * price;
   const costBasis = holding.shares * holding.executionPrice;
-  const gain = marketValue - costBasis;
+  const gain = isShort ? costBasis - marketValue : marketValue - costBasis;
   const gainPct = costBasis > 0 ? (gain / costBasis) * 100 : 0;
 
   const handleConfirmAdjust = (amount: number) => {
@@ -114,10 +123,22 @@ export function PortfolioStockDetail({
       <p className="text-[11px] font-medium uppercase tracking-wider text-scotia-grey">
         Toronto · Delayed quote · CAD
       </p>
-      <h2 className="mt-1 text-[22px] font-bold tracking-tight text-scotia-navy">
-        {holding.name}{" "}
-        <span className="font-semibold text-scotia-grey">({holding.ticker})</span>
-      </h2>
+      <div className="mt-1 flex flex-wrap items-center gap-2">
+        <h2 className="text-[22px] font-bold tracking-tight text-scotia-navy">
+          {holding.name}{" "}
+          <span className="font-semibold text-scotia-grey">({holding.ticker})</span>
+        </h2>
+        {!isDiscover && isShort ? (
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-600 ring-1 ring-amber-500/30">
+            <TrendingDown className="h-3 w-3" /> Short
+          </span>
+        ) : null}
+        {!isDiscover && holding.funding === "points" ? (
+          <span className="inline-flex items-center gap-1 rounded-full bg-scotia-red/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-scotia-red ring-1 ring-scotia-red/20">
+            <Sparkles className="h-3 w-3" /> Scene+
+          </span>
+        ) : null}
+      </div>
 
       <p className="mt-2 text-[32px] font-black tabular-nums tracking-tight text-scotia-navy">
         ${formatMoney(price)}
@@ -171,7 +192,17 @@ export function PortfolioStockDetail({
         ))}
       </div>
 
-      {!isDiscover ? (
+      {!isDiscover && isShort ? (
+        <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-center">
+          <p className="text-[12px] font-bold uppercase tracking-wider text-amber-600">
+            Short position open
+          </p>
+          <p className="mt-1 text-[12px] text-scotia-navy">
+            Close via buy-to-cover on the trade desk. Margin held until
+            unwound.
+          </p>
+        </div>
+      ) : !isDiscover ? (
         <div className="mt-4 grid grid-cols-2 gap-3">
           <button
             type="button"
@@ -215,7 +246,7 @@ export function PortfolioStockDetail({
         </div>
       ) : null}
 
-      {!isDiscover ? (
+      {!isDiscover && !isShort ? (
         <AdjustHoldingSheet
           open={adjustMode !== null}
           mode={adjustMode ?? "buy"}

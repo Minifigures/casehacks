@@ -1,12 +1,20 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, TrendingDown } from "lucide-react";
 import type { TradeOrder } from "@/lib/api";
+import type { FundingSource, TradeDirection } from "@/lib/types";
+
+interface PendingTrade {
+  ticker: string;
+  direction: TradeDirection;
+}
 
 interface TradeConfirmationProps {
   order: TradeOrder | null;
-  pendingTicker: string | null;
+  pending: PendingTrade | null;
+  direction: TradeDirection;
+  funding: FundingSource;
   onClose: () => void;
 }
 
@@ -16,10 +24,17 @@ function shortenOrderId(id: string) {
 
 export function TradeConfirmation({
   order,
-  pendingTicker,
+  pending,
+  direction,
+  funding,
   onClose,
 }: TradeConfirmationProps) {
-  const visible = order !== null || pendingTicker !== null;
+  const visible = order !== null || pending !== null;
+  const isShort = direction === "short";
+  const accentBg = isShort ? "bg-amber-600" : "bg-success";
+  const accentShadow = isShort
+    ? "shadow-[0_12px_28px_-10px_rgba(217,119,6,0.6)]"
+    : "shadow-[0_12px_28px_-10px_rgba(16,185,129,0.6)]";
 
   return (
     <AnimatePresence>
@@ -41,10 +56,16 @@ export function TradeConfirmation({
               <div className="grid place-items-center py-8">
                 <Loader2 className="h-10 w-10 animate-spin text-scotia-red" />
                 <p className="mt-4 text-[14px] font-semibold text-scotia-navy">
-                  Routing {pendingTicker} through iTRADE...
+                  {pending?.direction === "short"
+                    ? `Routing short ${pending.ticker} through iTRADE...`
+                    : `Routing ${pending?.ticker ?? ""} through iTRADE...`}
                 </p>
                 <p className="mt-1 text-[12px] text-scotia-grey">
-                  Funded from Smart Sweep
+                  {pending?.direction === "short"
+                    ? "Locating borrow via securities-lending desk"
+                    : funding === "points"
+                      ? "Redeeming Scene+ points to equity"
+                      : "Funded from Smart Sweep"}
                 </p>
               </div>
             ) : (
@@ -58,18 +79,29 @@ export function TradeConfirmation({
                     stiffness: 260,
                     damping: 18,
                   }}
-                  className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success text-white shadow-[0_12px_28px_-10px_rgba(16,185,129,0.6)]"
+                  className={`mx-auto grid h-16 w-16 place-items-center rounded-full text-white ${accentBg} ${accentShadow}`}
                 >
-                  <Check className="h-8 w-8" strokeWidth={3} />
+                  {isShort ? (
+                    <TrendingDown className="h-8 w-8" strokeWidth={3} />
+                  ) : (
+                    <Check className="h-8 w-8" strokeWidth={3} />
+                  )}
                 </motion.div>
 
                 <h2 className="mt-5 text-center text-[20px] font-bold leading-tight text-scotia-navy">
-                  Bought {order.shares} shares of {order.ticker} at $
-                  {order.executionPrice.toFixed(2)}.
+                  {isShort
+                    ? `Sold short ${order.shares} shares of ${order.ticker} at $${order.executionPrice.toFixed(2)}.`
+                    : `Bought ${order.shares} shares of ${order.ticker} at $${order.executionPrice.toFixed(2)}.`}
                 </h2>
 
-                <p className="mt-2 text-center text-[13px] font-semibold text-scotia-red">
-                  Funded from {order.funding}
+                <p
+                  className={`mt-2 text-center text-[13px] font-semibold ${
+                    isShort ? "text-amber-600" : "text-scotia-red"
+                  }`}
+                >
+                  {funding === "points" && !isShort
+                    ? "Redeemed from Scene+ points"
+                    : `Funded from ${order.funding}`}
                 </p>
 
                 <p className="mt-1 text-center text-[12px] text-scotia-grey">
@@ -95,9 +127,9 @@ export function TradeConfirmation({
                     </span>
                   </div>
                   <div className="mt-1 flex items-center justify-between">
-                    <span>Commission</span>
+                    <span>{isShort ? "Side" : "Commission"}</span>
                     <span className="font-semibold text-scotia-navy">
-                      ${order.commission.toFixed(2)}
+                      {isShort ? "SHORT" : `$${order.commission.toFixed(2)}`}
                     </span>
                   </div>
                   <div className="mt-1 flex items-center justify-between">

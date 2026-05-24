@@ -27,11 +27,14 @@ const screenOrder: ReadonlyArray<ScreenId> = [
 ];
 
 const STARTING_BALANCE = 1847.32;
+const STARTING_SCENE_POINTS = 4250;
 
 export function UTradeApp() {
   const [screen, setScreen] = useState<ScreenId>("chequing");
   const [, setQuiz] = useState<QuizState>({ horizon: null, risk: null });
   const [balance, setBalance] = useState<number>(STARTING_BALANCE);
+  const [scenePoints, setScenePoints] = useState<number>(STARTING_SCENE_POINTS);
+  const [shortAcknowledged, setShortAcknowledged] = useState<boolean>(false);
   const referralCode = REFERRAL_CODE;
   const [redeemedCodes, setRedeemedCodes] = useState<ReadonlyArray<string>>(
     [],
@@ -46,6 +49,12 @@ export function UTradeApp() {
   }, []);
   const credit = useCallback((amount: number) => {
     setBalance((b) => b + amount);
+  }, []);
+  const debitPoints = useCallback((points: number) => {
+    setScenePoints((p) => Math.max(0, p - points));
+  }, []);
+  const acknowledgeShort = useCallback(() => {
+    setShortAcknowledged(true);
   }, []);
   const redeemReferral = useCallback((normalizedCode: string) => {
     const reward = VALID_REDEEM_CODES[normalizedCode];
@@ -68,6 +77,8 @@ export function UTradeApp() {
   const restart = useCallback(() => {
     setQuiz({ horizon: null, risk: null });
     setBalance(STARTING_BALANCE);
+    setScenePoints(STARTING_SCENE_POINTS);
+    setShortAcknowledged(false);
     setRedeemedCodes([]);
     setActivity(SEED_REFERRAL_ACTIVITY);
     setScreen("chequing");
@@ -138,9 +149,13 @@ export function UTradeApp() {
               {screen === "utrade" ? (
                 <UTradeCards
                   balance={balance}
+                  scenePoints={scenePoints}
+                  shortAcknowledged={shortAcknowledged}
                   referralState={referralState}
                   onDebit={debit}
                   onCredit={credit}
+                  onDebitPoints={debitPoints}
+                  onAcknowledgeShort={acknowledgeShort}
                   onRedeemReferral={redeemReferral}
                   onRestart={restart}
                 />
