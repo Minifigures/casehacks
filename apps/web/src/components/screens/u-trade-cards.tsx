@@ -46,7 +46,6 @@ interface UTradeCardsProps {
 const utradeTabs = [
   { id: "discover", label: "Discover", icon: Compass },
   { id: "portfolio", label: "Portfolio", icon: PieChart },
-  { id: "trade", label: "Trade", icon: ArrowLeftRight },
   { id: "history", label: "History", icon: History },
   { id: "more", label: "More", icon: Menu },
 ] as const;
