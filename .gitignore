@@ -44,6 +44,7 @@ next-env.d.ts
 
 # internal strategy and planning docs, kept local only
 /PRD.md
+/PITCH.md
 /bankingbros.md
 /caseHackswinners_DeckCopy.md
 /marco_ideas_FINAL.md
