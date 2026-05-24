@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trade Failed - uTrade</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "background": "#fbf9fc",
+                        "tertiary-fixed-dim": "#c6c6cb",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "on-primary-fixed-variant": "#930008",
+                        "surface-dim": "#dbd9dd",
+                        "on-tertiary-fixed-variant": "#45474b",
+                        "surface-variant": "#e3e2e5",
+                        "surface-container-high": "#e9e7eb",
+                        "surface-tint": "#c0000f",
+                        "tertiary-container": "#75777b",
+                        "on-surface": "#1b1b1e",
+                        "surface-container-low": "#f5f3f6",
+                        "outline-variant": "#e9bcb6",
+                        "surface-container-highest": "#e3e2e5",
+                        "inverse-surface": "#303033",
+                        "tertiary-fixed": "#e2e2e7",
+                        "primary": "#bf000f",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#936e69",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1b1b1e",
+                        "on-secondary-fixed": "#041451",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#fbf9fc",
+                        "on-tertiary-fixed": "#1a1c1f",
+                        "on-surface-variant": "#5e3f3b",
+                        "secondary-container": "#aebaff",
+                        "on-primary-fixed": "#410001",
+                        "on-secondary-container": "#3c4985",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#dde1ff",
+                        "inverse-primary": "#ffb4aa",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "primary-fixed": "#ffdad5",
+                        "on-primary-container": "#ffffff",
+                        "inverse-on-surface": "#f2f0f3",
+                        "primary-container": "#ec111a",
+                        "secondary": "#4e5a98",
+                        "on-tertiary-container": "#040508",
+                        "error": "#ba1a1a",
+                        "tertiary": "#5d5e62",
+                        "surface-container": "#efedf0",
+                        "surface": "#fbf9fc",
+                        "on-error-container": "#93000a"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "stack-sm": "8px",
+                        "unit": "4px",
+                        "stack-lg": "24px",
+                        "edge-margin": "16px",
+                        "stack-md": "16px",
+                        "gutter": "12px",
+                        "section-gap": "32px"
+                    },
+                    fontFamily: {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg-mobile": ["24px", { lineHeight: "30px", fontWeight: "700" }],
+                        "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "headline-lg": ["28px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "display-lg": ["34px", { lineHeight: "41px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "title-lg": ["20px", { lineHeight: "25px", fontWeight: "600" }],
+                        "label-sm": ["11px", { lineHeight: "13px", fontWeight: "600" }],
+                        "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }],
+                        "body-md": ["15px", { lineHeight: "20px", fontWeight: "400" }],
+                        "display-lg-mobile": ["28px", { lineHeight: "34px", fontWeight: "700" }],
+                        "body-lg": ["17px", { lineHeight: "22px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-variant flex items-center justify-center min-h-screen p-edge-margin relative overflow-hidden text-on-surface antialiased">
+<!-- Simulated background content (blurred) -->
+<div class="absolute inset-0 z-0 opacity-40 blur-sm pointer-events-none flex flex-col pt-20 px-edge-margin gap-stack-md">
+<div class="h-12 bg-surface-container-high rounded-lg w-full"></div>
+<div class="h-64 bg-surface-container-high rounded-xl w-full"></div>
+<div class="h-20 bg-surface-container-high rounded-lg w-full"></div>
+</div>
+<!-- Dark Overlay (Z-3 Layer) -->
+<div class="absolute inset-0 z-10 bg-on-surface/40 backdrop-blur-[2px]"></div>
+<!-- Modal Container (Z-3 Floating) -->
+<div class="relative z-20 w-full max-w-[340px] bg-surface-container-lowest rounded-[24px] shadow-[0px_8px_24px_rgba(4,20,81,0.12)] p-stack-lg flex flex-col items-center text-center animate-[slideUp_0.3s_ease-out]">
+<!-- Icon -->
+<div class="w-16 h-16 rounded-full bg-error-container flex items-center justify-center mb-stack-md">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 1;">
+                error
+            </span>
+</div>
+<!-- Text Content -->
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-sm">
+            Trade Failed
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-lg">
+            We couldn't process your order for 0.5 shares of AMZN due to insufficient funds.
+        </p>
+<!-- Actions -->
+<div class="w-full flex flex-col gap-stack-sm">
+<button class="w-full h-[52px] bg-primary-container text-on-primary-container font-label-md text-label-md rounded-[16px] hover:bg-primary transition-colors duration-200">
+                Transfer Funds
+            </button>
+<button class="w-full h-[52px] bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md rounded-[16px] border border-outline hover:bg-surface-container-low transition-colors duration-200">
+                Cancel
+            </button>
+</div>
+</div>
+<style>
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</body></html>

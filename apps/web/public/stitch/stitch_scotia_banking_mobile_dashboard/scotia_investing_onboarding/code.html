@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scotia Onboarding Quiz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1b1e",
+                        "on-primary-fixed-variant": "#930008",
+                        "surface": "#fbf9fc",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "on-error": "#ffffff",
+                        "outline": "#936e69",
+                        "on-tertiary-container": "#040508",
+                        "primary-container": "#ec111a",
+                        "on-secondary-fixed": "#041451",
+                        "tertiary-container": "#75777b",
+                        "on-tertiary-fixed-variant": "#45474b",
+                        "secondary-container": "#aebaff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#efedf0",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-low": "#f5f3f6",
+                        "secondary": "#4e5a98",
+                        "on-tertiary-fixed": "#1a1c1f",
+                        "on-background": "#1b1b1e",
+                        "secondary-fixed": "#dde1ff",
+                        "surface-tint": "#c0000f",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-bright": "#fbf9fc",
+                        "inverse-on-surface": "#f2f0f3",
+                        "on-surface-variant": "#5e3f3b",
+                        "inverse-surface": "#303033",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdad5",
+                        "on-primary-fixed": "#410001",
+                        "surface-container-highest": "#e3e2e5",
+                        "tertiary-fixed": "#e2e2e7",
+                        "surface-container-high": "#e9e7eb",
+                        "tertiary-fixed-dim": "#c6c6cb",
+                        "on-secondary-container": "#3c4985",
+                        "surface-dim": "#dbd9dd",
+                        "outline-variant": "#e9bcb6",
+                        "surface-variant": "#e3e2e5",
+                        "on-primary": "#ffffff",
+                        "background": "#fbf9fc",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#ffb4aa",
+                        "tertiary": "#5d5e62",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#bf000f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "edge-margin": "16px",
+                        "section-gap": "32px",
+                        "stack-sm": "8px",
+                        "gutter": "12px",
+                        "unit": "4px",
+                        "safe-area-inset-bottom": "34px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-lg": ["34px", {"lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["11px", {"lineHeight": "13px", "fontWeight": "600"}],
+                        "body-lg": ["17px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "700"}],
+                        "display-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "25px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["15px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-sans antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar JSON Rendering -->
+<header class="bg-surface w-full sticky top-0 z-50">
+<div class="flex items-center justify-between px-edge-margin h-14 w-full">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest shrink-0">
+<img alt="User profile photo of Marco" class="w-full h-full object-cover" data-alt="A professional headshot of a smiling young man named Marco, representing a user profile avatar. He has short dark hair and is wearing a crisp white shirt. The background is a soft, blurred light grey studio backdrop. The lighting is bright and even, fitting a modern light-mode corporate design system. The overall mood is approachable and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_b7U7v-uf9Nh9lvbTeC8RcEE8pAw8ZHQrXCDXi7tzlDlBSMDW9hLB32NY8LBKQCEZcuZj5ps-p2QcsFCHIiMuO7nDSP5h-MgK6lm1wwckRLzZsi_xSivc9AvRrpAdOL7I40AgetBfAt-SQRFJOtJXEHfMb2oOTXn_EJOyXGCs0jmCazagv2goDFxjKgvqvMvw185GXKdPnN5wl-NQ34rpdkXMb2lWm-uDapcUEtTw-mK3pQJh1au69hj727Wkl65FfePD-jzpoog"/>
+</div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Hi, Marco</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/20 transition-opacity duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col px-edge-margin pt-stack-md pb-[100px]">
+<!-- Progress Bar -->
+<div class="w-full mb-section-gap">
+<div class="flex justify-between items-end mb-unit">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Progress</span>
+<span class="font-label-sm text-label-sm text-primary-container">1 of 2</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full w-1/2 transition-all duration-500 ease-out"></div>
+</div>
+</div>
+<!-- Quiz Content -->
+<div class="flex-grow flex flex-col">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-on-surface mb-section-gap leading-tight">
+                When do you need this money?
+            </h1>
+<div class="flex flex-col gap-stack-md">
+<!-- Option 1 -->
+<button class="w-full text-left bg-surface-bright border-2 border-surface-container-highest hover:border-outline-variant rounded-2xl p-stack-md flex items-center justify-between transition-all duration-200 active:scale-[0.98] group">
+<span class="font-title-lg text-title-lg text-on-surface group-hover:text-primary-container transition-colors">Within 1 year</span>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-highest group-hover:border-primary-container flex items-center justify-center transition-colors"></div>
+</button>
+<!-- Option 2 -->
+<button class="w-full text-left bg-surface-bright border-2 border-surface-container-highest hover:border-outline-variant rounded-2xl p-stack-md flex items-center justify-between transition-all duration-200 active:scale-[0.98] group">
+<span class="font-title-lg text-title-lg text-on-surface group-hover:text-primary-container transition-colors">1–5 years</span>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-highest group-hover:border-primary-container flex items-center justify-center transition-colors"></div>
+</button>
+<!-- Option 3 -->
+<button class="w-full text-left bg-surface-bright border-2 border-surface-container-highest hover:border-outline-variant rounded-2xl p-stack-md flex items-center justify-between transition-all duration-200 active:scale-[0.98] group">
+<span class="font-title-lg text-title-lg text-on-surface group-hover:text-primary-container transition-colors">5+ years</span>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-highest group-hover:border-primary-container flex items-center justify-center transition-colors"></div>
+</button>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom Footer (Transactional/Linear flow, BottomNavBar suppressed) -->
+<footer class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-md pb-safe-area-inset-bottom pt-stack-md px-edge-margin z-40 border-t border-surface-container-low">
+<button class="w-full h-[52px] rounded-[16px] bg-surface-container-highest text-tertiary-fixed-dim font-headline-md text-headline-md flex items-center justify-center cursor-not-allowed opacity-80" disabled="">
+            Continue
+        </button>
+</footer>
+<script>
+        // Simple interaction script to demonstrate state change (optional polish)
+        document.addEventListener('DOMContentLoaded', () => {
+            const options = document.querySelectorAll('main button');
+            const continueBtn = document.querySelector('footer button');
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Reset all options
+                    options.forEach(opt => {
+                        opt.classList.remove('border-primary-container', 'bg-surface-container-low');
+                        opt.classList.add('border-surface-container-highest', 'bg-surface-bright');
+                        const circle = opt.querySelector('div');
+                        circle.classList.remove('border-primary-container', 'bg-primary-container');
+                        circle.classList.add('border-surface-container-highest');
+                        circle.innerHTML = '';
+                    });
+
+                    // Set active option
+                    option.classList.remove('border-surface-container-highest', 'bg-surface-bright');
+                    option.classList.add('border-primary-container', 'bg-surface-container-low');
+                    
+                    const activeCircle = option.querySelector('div');
+                    activeCircle.classList.remove('border-surface-container-highest');
+                    activeCircle.classList.add('border-primary-container', 'bg-primary-container');
+                    activeCircle.innerHTML = '<span class="material-symbols-outlined text-white text-[16px]" style="font-variation-settings: \'wght\' 700;">check</span>';
+
+                    // Enable continue button
+                    continueBtn.disabled = false;
+                    continueBtn.classList.remove('bg-surface-container-highest', 'text-tertiary-fixed-dim', 'cursor-not-allowed', 'opacity-80');
+                    continueBtn.classList.add('bg-primary-container', 'text-white', 'cursor-pointer', 'active:scale-95', 'transition-transform');
+                });
+            });
+        });
+    </script>
+</body></html>

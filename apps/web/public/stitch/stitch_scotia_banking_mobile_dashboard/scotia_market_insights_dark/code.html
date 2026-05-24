@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Market Insights</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#201f1f",
+                        "error": "#ffb4ab",
+                        "background": "#131313",
+                        "on-primary-fixed": "#410001",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-container": "#000703",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "tertiary-container": "#00885d",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "tertiary": "#4edea3",
+                        "error-container": "#93000a",
+                        "surface-variant": "#353534",
+                        "primary-container": "#ec111a",
+                        "inverse-primary": "#c0000f",
+                        "surface-bright": "#393939",
+                        "secondary-fixed": "#dde1ff",
+                        "surface-dim": "#131313",
+                        "primary": "#ffb4aa",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-surface-variant": "#e9bcb6",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "outline-variant": "#5e3f3b",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed": "#ffdad5",
+                        "on-tertiary-fixed": "#002113",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-highest": "#353534",
+                        "on-secondary-fixed": "#041451",
+                        "on-background": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-container": "#ffffff",
+                        "outline": "#af8782",
+                        "on-secondary-container": "#a5b1f5",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary": "#003824",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#2a2a2a",
+                        "on-error": "#690005",
+                        "on-primary": "#690004",
+                        "secondary": "#b9c3ff",
+                        "surface": "#131313",
+                        "secondary-container": "#36427e",
+                        "on-primary-fixed-variant": "#930008",
+                        "on-secondary": "#1e2b66"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "40px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-emerald-500 { color: #10b981; } /* Fallback for tertiary if needed, but sticking to config */
+        .bg-emerald-500 { background-color: #10b981; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-md h-16 bg-background dark:bg-background border-b border-surface-variant dark:border-surface-variant transition-colors duration-200 docked full-width top-0 z-50">
+<div class="flex items-center gap-sm">
+<button class="p-2 hover:bg-surface-container dark:hover:bg-surface-container rounded-full text-primary-container dark:text-primary-container">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-on-background dark:text-on-background">Scotia uTrade</h1>
+</div>
+<div>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-surface-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC10lRiSN4V3cPyRNIrVEWn8CyxVXysyz1mNyaulxEmCB4XlgLqnXJeRHyMFfgiUVJqXN-AmvlzQC6arZfGTBLuMrJ7GFDIDVDqlIV-ULTbh-BsVeDAx7fuW2Ti6m-5Yc4LDeUtNcBofrXLgYt1LYBU3U5i5tNz7AzMglcv3uJBiOPrKetO1KTxKBFbOyD3_uakJa1GFHE_e6vUYWvwMdB_eI7hoZcKBUV-zjGeclmuuyhh3seR99v224O6N9VcMIvaWKh0XL0umIM"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto pb-24 px-md pt-md space-y-md">
+<!-- Screen Title -->
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background mb-xs">Market Insights</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">S&amp;P 500 (SPX) Analysis</p>
+</div>
+<!-- Technical Analysis Chart Card -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] rounded-xl p-md border-t-[#3a3a3a] shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="font-headline-md-mobile text-[18px] text-on-surface font-semibold">Technical Analysis</h3>
+<span class="bg-[#131313] text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded border border-[#2D2D2D]">1D</span>
+</div>
+<!-- Placeholder for Candlestick Chart -->
+<div class="w-full h-48 bg-[#131313] rounded-lg border border-[#2D2D2D] relative overflow-hidden flex items-end px-2 pt-4 pb-2 space-x-1">
+<!-- Decorative pseudo-candles -->
+<div class="flex-1 flex flex-col justify-end items-center h-[80%]">
+<div class="w-1 h-full bg-tertiary opacity-50 relative">
+<div class="w-3 h-1/2 bg-tertiary absolute bottom-1/4 -left-1 rounded-sm"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center h-[60%]">
+<div class="w-1 h-full bg-error opacity-50 relative">
+<div class="w-3 h-2/3 bg-error absolute top-1/4 -left-1 rounded-sm"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center h-[90%]">
+<div class="w-1 h-full bg-tertiary opacity-50 relative">
+<div class="w-3 h-1/3 bg-tertiary absolute top-1/4 -left-1 rounded-sm"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center h-[70%]">
+<div class="w-1 h-full bg-tertiary opacity-50 relative">
+<div class="w-3 h-1/2 bg-tertiary absolute top-1/3 -left-1 rounded-sm"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center h-[50%]">
+<div class="w-1 h-full bg-error opacity-50 relative">
+<div class="w-3 h-full bg-error absolute top-0 -left-1 rounded-sm"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center h-[65%]">
+<div class="w-1 h-full bg-tertiary opacity-50 relative">
+<div class="w-3 h-1/2 bg-tertiary absolute top-1/4 -left-1 rounded-sm"></div>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-end items-center h-[85%]">
+<div class="w-1 h-full bg-tertiary opacity-50 relative">
+<div class="w-3 h-1/3 bg-tertiary absolute top-1/4 -left-1 rounded-sm"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-xs font-label-sm text-label-sm text-on-surface-variant px-1">
+<span>09:30</span>
+<span>11:00</span>
+<span>13:00</span>
+<span>15:00</span>
+</div>
+</div>
+<!-- Indicator Cards (Bento style) -->
+<div class="grid grid-cols-2 gap-md">
+<!-- RSI -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] rounded-xl p-md border-t-[#3a3a3a] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">RSI (14)</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">trending_up</span>
+</div>
+<div>
+<div class="font-headline-md-mobile text-[20px] text-on-surface font-bold mb-1">68.5</div>
+<div class="inline-flex bg-tertiary/20 text-tertiary font-label-sm text-[10px] px-2 py-0.5 rounded">Bullish Divergence</div>
+</div>
+</div>
+<!-- MACD -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] rounded-xl p-md border-t-[#3a3a3a] flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">MACD</span>
+<span class="material-symbols-outlined text-error text-[18px]">trending_down</span>
+</div>
+<div>
+<div class="font-headline-md-mobile text-[20px] text-on-surface font-bold mb-1">-0.42</div>
+<div class="inline-flex bg-error/20 text-error font-label-sm text-[10px] px-2 py-0.5 rounded">Bearish Cross</div>
+</div>
+</div>
+<!-- Moving Averages -->
+<div class="col-span-2 bg-[#1E1E1E] border border-[#2D2D2D] rounded-xl p-md border-t-[#3a3a3a] flex flex-row items-center justify-between">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Moving Averages (50/200)</div>
+<div class="font-headline-md-mobile text-[18px] text-on-surface font-bold">Golden Cross Approaching</div>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-tertiary flex items-center justify-center text-tertiary bg-tertiary/10">
+<span class="material-symbols-outlined">moving</span>
+</div>
+</div>
+</div>
+<!-- Sentiment Meter -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] rounded-xl p-md border-t-[#3a3a3a]">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="font-headline-md-mobile text-[18px] text-on-surface font-semibold">Market Sentiment</h3>
+<span class="font-label-sm text-label-sm text-tertiary">72 / 100</span>
+</div>
+<div class="relative w-full h-3 bg-[#131313] rounded-full overflow-hidden border border-[#2D2D2D]">
+<div class="absolute top-0 left-0 h-full w-[72%] bg-gradient-to-r from-error via-yellow-500 to-tertiary rounded-full"></div>
+</div>
+<div class="flex justify-between mt-2 font-label-sm text-[10px] text-on-surface-variant uppercase">
+<span>Extreme Fear</span>
+<span>Neutral</span>
+<span class="text-tertiary font-bold">Greed</span>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary-container text-on-primary-container font-headline-md-mobile text-[16px] font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-inverse-primary transition-colors duration-200">
+<span class="material-symbols-outlined text-[20px]">summarize</span>
+            View Detailed Report
+        </button>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center py-sm bg-surface-container-low dark:bg-surface-container-low border-t border-surface-variant dark:border-surface-variant shadow-md z-50 md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 hover:opacity-100 active:scale-95 transition-transform duration-150 w-16">
+<span class="material-symbols-outlined mb-1">account_balance_wallet</span>
+<span class="font-label-sm text-[10px]">Portfolio</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 hover:opacity-100 active:scale-95 transition-transform duration-150 w-16">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-label-sm text-[10px]">History</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 hover:opacity-100 active:scale-95 transition-transform duration-150 w-16">
+<span class="material-symbols-outlined mb-1">swap_horiz</span>
+<span class="font-label-sm text-[10px]">Trade</span>
+</button>
+<!-- Active Tab: Markets -->
+<button class="flex flex-col items-center justify-center text-primary-container dark:text-primary-container bg-surface-container-highest rounded-full px-4 py-1 active:scale-95 transition-transform duration-150 w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">show_chart</span>
+<span class="font-label-sm text-[10px]">Markets</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant opacity-70 hover:opacity-100 active:scale-95 transition-transform duration-150 w-16">
+<span class="material-symbols-outlined mb-1">payments</span>
+<span class="font-label-sm text-[10px]">Dividends</span>
+</button>
+</nav>
+</body></html>

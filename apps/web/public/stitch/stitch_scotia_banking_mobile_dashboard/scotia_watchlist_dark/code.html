@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Watchlist - Compare Stocks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e5e2e1",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-tertiary-container": "#000703",
+                        "on-tertiary": "#003824",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#1e2b66",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#a5b1f5",
+                        "primary": "#ffb4aa",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "secondary": "#b9c3ff",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "outline": "#af8782",
+                        "on-primary-fixed-variant": "#930008",
+                        "surface-container-low": "#1c1b1b",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary-fixed": "#dde1ff",
+                        "secondary-container": "#36427e",
+                        "tertiary-container": "#00885d",
+                        "outline-variant": "#5e3f3b",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "on-primary-container": "#ffffff",
+                        "on-primary": "#690004",
+                        "background": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#041451",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#c0000f",
+                        "tertiary": "#4edea3",
+                        "surface-container-highest": "#353534",
+                        "surface-bright": "#393939",
+                        "surface-variant": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#313030",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed": "#ffdad5",
+                        "on-surface-variant": "#e9bcb6",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#002113",
+                        "primary-container": "#ec111a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .bento-card {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .list-row:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        .mini-chart {
+            background: linear-gradient(180deg, rgba(78, 222, 163, 0.1) 0%, rgba(78, 222, 163, 0) 100%);
+        }
+        .mini-chart-down {
+            background: linear-gradient(180deg, rgba(255, 180, 171, 0.1) 0%, rgba(255, 180, 171, 0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-dim text-on-surface min-h-screen font-body-md pb-24 md:pb-8 flex justify-center">
+<div class="w-full max-w-container-max flex flex-col min-h-screen relative">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full max-w-container-max z-50 bg-surface/80 backdrop-blur-md flex items-center justify-between px-md md:px-lg h-14">
+<div class="flex items-center gap-sm cursor-pointer active:scale-95 transition-transform duration-200">
+<span class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim tracking-tight">uTrade</span>
+</div>
+<div class="flex items-center gap-md">
+<button aria-label="Notifications" class="text-on-surface-variant hover:opacity-80 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 mt-14 px-md md:px-lg pt-lg flex flex-col gap-lg">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Watchlist</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Track your favorite assets.</p>
+</div>
+<div class="flex items-center gap-sm w-full md:w-auto">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container border border-outline-variant rounded py-2 pl-xl pr-sm text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all font-body-md text-body-md placeholder:text-on-surface-variant/50" placeholder="Search symbol..." type="text"/>
+</div>
+<button class="bg-primary-container text-on-primary-container px-md py-2 rounded font-label-sm text-label-sm uppercase flex items-center gap-xs hover:opacity-90 active:scale-95 transition-all whitespace-nowrap shadow-[0_4px_12px_rgba(236,17,26,0.2)]">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+                        Compare
+                    </button>
+</div>
+</div>
+<!-- Bento Grid List -->
+<div class="grid grid-cols-1 gap-md">
+<!-- Stock Item: NVDA -->
+<div class="bento-card bg-surface-container-low border border-surface-container-highest rounded-lg p-md flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer list-row">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center">
+<img class="w-6 h-6 rounded-full object-cover" data-alt="A stylized, glowing green microchip floating in a dark void. The scene is illuminated with highly technical, neon-green edge lighting reflecting off dark metallic surfaces. Deep blacks contrast with intense neon accents. The mood is futuristic, representing high-performance computing in a sleek, modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWVxU8ydilymh8X-l9GK5_7SGLnalWspW9U0TJITBGiUef_IJHPNBaI4ml3AvV8u2oYcUY9m0ZNb-wF1wnySPhdTVkrCkfDru7jMMm-8X0KbE1IZHnzAym1Y2bB0YgxHmO_5INkuJRWB-rt_lA6u5W6WPNT-m_rvq79sG7APIfSc1koXflkOWhDAW-6STbJtTiU6yjIgzFudrpd2Y-ouRTYvfbJzsaSq1SALgUvmsKAKSPLLgydSvIceCsKubaPClwvaGSG51qux4"/>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface uppercase font-bold">NVDA</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-[14px]">NVIDIA Corp</div>
+</div>
+</div>
+<div class="flex-1 hidden md:flex items-center justify-center px-lg">
+<div class="w-full max-w-[120px] h-8 relative overflow-hidden rounded-sm mini-chart">
+<!-- Placeholder for actual SVG chart -->
+<svg class="w-full h-full stroke-tertiary-fixed-dim" fill="none" stroke-width="2" viewbox="0 0 100 30">
+<path d="M0,25 L20,20 L40,22 L60,10 L80,15 L100,5"></path>
+</svg>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-sm text-label-sm text-on-surface text-[16px]">$822.79</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed-dim flex items-center justify-end gap-[2px]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                            +2.45%
+                        </div>
+</div>
+</div>
+<!-- Stock Item: TSLA -->
+<div class="bento-card bg-surface-container-low border border-surface-container-highest rounded-lg p-md flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer list-row">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center">
+<span class="font-headline-md text-headline-md text-on-surface">T</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface uppercase font-bold">TSLA</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-[14px]">Tesla Inc</div>
+</div>
+</div>
+<div class="flex-1 hidden md:flex items-center justify-center px-lg">
+<div class="w-full max-w-[120px] h-8 relative overflow-hidden rounded-sm mini-chart-down">
+<svg class="w-full h-full stroke-error" fill="none" stroke-width="2" viewbox="0 0 100 30">
+<path d="M0,5 L20,15 L40,10 L60,25 L80,20 L100,28"></path>
+</svg>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-sm text-label-sm text-on-surface text-[16px]">$175.22</div>
+<div class="font-label-sm text-label-sm text-error flex items-center justify-end gap-[2px]">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+                            -1.12%
+                        </div>
+</div>
+</div>
+<!-- Stock Item: NFLX -->
+<div class="bento-card bg-surface-container-low border border-surface-container-highest rounded-lg p-md flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer list-row">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center text-primary-container font-bold text-lg">
+                            N
+                        </div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface uppercase font-bold">NFLX</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-[14px]">Netflix Inc</div>
+</div>
+</div>
+<div class="flex-1 hidden md:flex items-center justify-center px-lg">
+<div class="w-full max-w-[120px] h-8 relative overflow-hidden rounded-sm mini-chart">
+<svg class="w-full h-full stroke-tertiary-fixed-dim" fill="none" stroke-width="2" viewbox="0 0 100 30">
+<path d="M0,20 L20,22 L40,15 L60,18 L80,8 L100,2"></path>
+</svg>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-sm text-label-sm text-on-surface text-[16px]">$612.05</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed-dim flex items-center justify-end gap-[2px]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                            +0.85%
+                        </div>
+</div>
+</div>
+<!-- Stock Item: AAPL -->
+<div class="bento-card bg-surface-container-low border border-surface-container-highest rounded-lg p-md flex items-center justify-between hover:bg-surface-container transition-colors cursor-pointer list-row">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface">ios</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface uppercase font-bold">AAPL</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-[14px]">Apple Inc</div>
+</div>
+</div>
+<div class="flex-1 hidden md:flex items-center justify-center px-lg">
+<div class="w-full max-w-[120px] h-8 relative overflow-hidden rounded-sm mini-chart">
+<svg class="w-full h-full stroke-tertiary-fixed-dim" fill="none" stroke-width="2" viewbox="0 0 100 30">
+<path d="M0,15 L20,18 L40,10 L60,12 L80,5 L100,8"></path>
+</svg>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-sm text-label-sm text-on-surface text-[16px]">$171.48</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed-dim flex items-center justify-end gap-[2px]">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                            +0.32%
+                        </div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-xl rounded-t-xl shadow-lg px-4 pb-8 pt-2 flex justify-around items-center">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined text-[24px] mb-1">pie_chart</span>
+<span class="font-label-sm text-label-sm text-[10px]">Portfolio</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined text-[24px] mb-1">payments</span>
+<span class="font-label-sm text-label-sm text-[10px]">Dividends</span>
+</button>
+<!-- Active State: Trade (Based on context, 'Analysis' is the closest standard option in JSON, but user specified 'Trade'. Will map Watchlist/Trade intent to a primary action style or use closest available from JSON. Assuming Analysis for Watchlist context if forced to use JSON, but instructions say 'active on Trade'. Since Trade isn't in JSON label_texts explicitly, but instructions ask for it, I will adapt standard item 3 to Trade concept or just highlight it.) 
+                 Actually, looking at JSON: ["Portfolio", "Dividends", "Analysis", "More"]. 
+                 Wait, user prompt says: "Bottom nav bar active on 'Trade'."
+                 Conflict Protocol: "Use exact labels, product names, and strings. Do not alter "Brand A" to "Brand B."
+                 If user asks for 'Trade' but JSON only has "Analysis", I must follow JSON content. I will highlight 'Analysis' as it's the closest to 'Trade' / 'Watchlist' activity.
+                 Let's stick to JSON strictly for content. I'll make 'Analysis' active as it fits the Compare stocks intent.
+            -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16 relative">
+<div class="absolute inset-0 bg-primary-container/10 rounded-lg -z-10"></div>
+<span class="material-symbols-outlined fill text-[24px] mb-1">monitoring</span>
+<span class="font-label-sm text-label-sm text-[10px]">Analysis</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined text-[24px] mb-1">more_horiz</span>
+<span class="font-label-sm text-label-sm text-[10px]">More</span>
+</button>
+</nav>
+<!-- Desktop Side Nav (Hidden on Mobile, simplified for structure if needed, but TopAppBar serves main nav on Desktop per layout rules, or we just rely on standard layout. Assuming simple single page layout for this task). -->
+</div>
+</body></html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scotia x Tangerine Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Font variation for fill */
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Ghost Button Gradient Border Trick */
+        .btn-ghost-gradient {
+            position: relative;
+            background: transparent;
+            z-index: 1;
+        }
+        .btn-ghost-gradient::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px; /* Border width */
+            background: linear-gradient(135deg, #ec111a, #fd8100); /* primary-container to secondary-container */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+        .btn-ghost-gradient:hover::before {
+            background: linear-gradient(150deg, #ec111a, #fd8100);
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#777676",
+                        "background": "#f9f9fc",
+                        "surface-container-highest": "#e2e2e5",
+                        "on-primary-container": "#ffffff",
+                        "on-primary-fixed": "#410001",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb4aa",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb785",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "primary-container": "#ec111a",
+                        "tertiary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "secondary": "#954a00",
+                        "inverse-on-surface": "#f0f0f3",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-surface": "#1a1c1e",
+                        "outline-variant": "#e9bcb6",
+                        "secondary-container": "#fd8100",
+                        "surface-container-low": "#f3f3f6",
+                        "outline": "#936e69",
+                        "surface-container": "#edeef1",
+                        "surface-container-high": "#e8e8eb",
+                        "surface-bright": "#f9f9fc",
+                        "on-surface-variant": "#5e3f3b",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#930008",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#ffdcc6",
+                        "surface-variant": "#e2e2e5",
+                        "on-secondary-container": "#5d2c00",
+                        "on-background": "#1a1c1e",
+                        "surface-tint": "#c0000f",
+                        "on-secondary-fixed-variant": "#723700",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d9dadd",
+                        "on-tertiary-container": "#ffffff",
+                        "primary-fixed": "#ffdad5",
+                        "on-secondary-fixed": "#301400",
+                        "surface": "#f9f9fc",
+                        "inverse-surface": "#2f3133",
+                        "tertiary": "#5f5e5d",
+                        "primary": "#bf000f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1.5rem", /* Updated to match Style Guidance 1.5rem */
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "margin-desktop": "64px",
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen text-on-background font-body-md antialiased pb-xl relative">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface border-b border-outline-variant flat no shadows flex items-center justify-between px-margin-mobile py-base w-full z-40 transition-colors">
+<div class="flex items-center gap-sm">
+<img alt="Scotia x Tangerine Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ug9G0hVMMS48y_0h-25QJ9HMwLks7_PFRRXc73Jwnp-awy5bGakV7hNiU28a32AHUjP_3Xd5TpsSzxtfeaFfyhkSXOiais49yL6BwUTX-YewwzM-_NivGu-ng7JsUiwkLwhU4SzDuM5zdkI6n1lABwBzuoYQD-PevZlXLUvRR0JRkPny5S59DD4z-eV6ukJD6uYog1HCOhYLigGTDdU75GdTfYq7_mF6OiLaQskBPA8VmKSSLAJ9ufFsxY"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors scale-95 active:duration-75 text-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="pt-md px-margin-mobile space-y-lg max-w-[600px] mx-auto md:px-margin-desktop md:mt-md">
+<!-- Balance Card (Level 1) -->
+<section class="bg-surface-container-lowest border border-surface-variant rounded-xl p-md relative overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<!-- 4px Red Accent Bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex flex-col gap-xs relative z-10">
+<div class="flex justify-between items-center">
+<h2 class="font-label-md text-label-md text-on-surface-variant">Everyday Chequing</h2>
+<span class="material-symbols-outlined text-tertiary-container text-sm">more_horiz</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface tracking-tight mt-1 mb-2">
+                    $1,847.32
+                </div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-tertiary bg-surface-container py-1 px-2 rounded-md">8029-XXXX-4932</span>
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Quick Actions within Card Area -->
+<div class="flex gap-sm mt-md pt-sm border-t border-surface-variant">
+<button class="flex-1 btn-ghost-gradient rounded-lg py-2 flex items-center justify-center gap-xs font-label-md text-label-md text-on-surface hover:shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary-container">swap_horiz</span>
+                    Transfer
+                </button>
+<button class="flex-1 bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-container rounded-lg py-2 flex items-center justify-center gap-xs font-label-md text-label-md hover:shadow-md hover:-translate-y-px transition-all">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                    Send
+                </button>
+</div>
+</section>
+<!-- Promo Banner -->
+<section class="bg-gradient-to-r from-primary-container to-secondary-container rounded-xl p-md shadow-lg text-on-primary-container relative overflow-hidden">
+<!-- Subtle background pattern effect using radial gradient -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="max-w-[70%]">
+<div class="font-label-sm text-label-sm bg-white/20 inline-block px-2 py-1 rounded-full mb-2 backdrop-blur-sm">Smart Saving</div>
+<h3 class="font-headline-md text-headline-md font-bold leading-tight">Open a TFSA today.</h3>
+<p class="font-body-md text-body-md opacity-90 mt-1">Tax-free growth on your terms.</p>
+</div>
+<button class="bg-surface-container-lowest text-primary-container rounded-full w-12 h-12 flex items-center justify-center shadow-md hover:scale-105 transition-transform shrink-0">
+<span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Recent Transactions -->
+<section class="space-y-sm">
+<div class="flex justify-between items-end mb-sm px-1">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Transactions</h3>
+<button class="font-label-md text-label-md text-primary hover:underline">View All</button>
+</div>
+<div class="bg-surface-container-lowest border border-surface-variant rounded-xl divide-y divide-surface-variant shadow-sm overflow-hidden">
+<!-- Transaction 1 -->
+<div class="p-sm flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined icon-fill">coffee</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Tim Hortons</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Today, 8:42 AM</div>
+</div>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface">
+                        -$4.25
+                    </div>
+</div>
+<!-- Transaction 2 -->
+<div class="p-sm flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined icon-fill">shopping_cart</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Loblaws</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Yesterday, 6:15 PM</div>
+</div>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface">
+                        -$142.80
+                    </div>
+</div>
+<!-- Transaction 3 -->
+<div class="p-sm flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined icon-fill">contactless</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Apple Pay - Transit</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Yesterday, 5:30 PM</div>
+</div>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface">
+                        -$3.25
+                    </div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-xs py-sm pb-safe bg-surface border-t border-outline-variant shadow-lg z-50 rounded-t-xl md:hidden pb-6">
+<!-- Active Tab: Accounts -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 tap-highlight-transparent active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill mb-xs" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm">Accounts</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all tap-highlight-transparent active:scale-90" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="swap_horiz">swap_horiz</span>
+<span class="font-label-sm text-label-sm">Move Money</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all tap-highlight-transparent active:scale-90" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Bills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all tap-highlight-transparent active:scale-90" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="query_stats">query_stats</span>
+<span class="font-label-sm text-label-sm">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all tap-highlight-transparent active:scale-90" href="#">
+<span class="material-symbols-outlined mb-xs" data-icon="menu">menu</span>
+<span class="font-label-sm text-label-sm">More</span>
+</a>
+</nav>
+</body></html>

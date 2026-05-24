@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scotia x Tangerine - KYC Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e2e5",
+                        "on-secondary-container": "#5d2c00",
+                        "on-primary-fixed": "#410001",
+                        "tertiary": "#5f5e5d",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1a1c1e",
+                        "surface-bright": "#f9f9fc",
+                        "secondary-fixed": "#ffdcc6",
+                        "outline-variant": "#e9bcb6",
+                        "inverse-primary": "#ffb4aa",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e2e2e5",
+                        "on-primary-fixed-variant": "#930008",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "outline": "#936e69",
+                        "tertiary-container": "#777676",
+                        "on-primary-container": "#ffffff",
+                        "tertiary-fixed": "#e5e2e1",
+                        "background": "#f9f9fc",
+                        "inverse-on-surface": "#f0f0f3",
+                        "surface-dim": "#d9dadd",
+                        "inverse-surface": "#2f3133",
+                        "primary-container": "#ec111a",
+                        "on-surface-variant": "#5e3f3b",
+                        "surface-tint": "#c0000f",
+                        "primary-fixed": "#ffdad5",
+                        "on-error": "#ffffff",
+                        "primary": "#bf000f",
+                        "surface-container-low": "#f3f3f6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#ffb785",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#474746",
+                        "error": "#ba1a1a",
+                        "surface": "#f9f9fc",
+                        "on-secondary-fixed": "#301400",
+                        "surface-container": "#edeef1",
+                        "secondary-container": "#fd8100",
+                        "secondary": "#954a00",
+                        "on-tertiary-container": "#ffffff",
+                        "on-surface": "#1a1c1e",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e8e8eb",
+                        "on-secondary-fixed-variant": "#723700"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "48px",
+                        "md": "24px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "sm": "12px",
+                        "xl": "80px",
+                        "margin-desktop": "64px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Minimal Onboarding Header (Global Nav Suppressed) -->
+<header class="w-full flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-variant/50 transition-colors active:scale-95 text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="text-label-md font-label-md font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            Scotia × Tangerine
+        </div>
+<div class="w-10"></div> <!-- Balancer -->
+</header>
+<!-- Progress Canvas -->
+<div class="px-margin-mobile md:px-margin-desktop pt-sm pb-md max-w-2xl mx-auto w-full">
+<div class="flex justify-between items-end mb-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Step 1 of 4</span>
+<span class="text-label-sm font-label-sm text-primary">25%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width: 25%;"></div>
+</div>
+</div>
+<!-- Main Form Area -->
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-md max-w-2xl mx-auto w-full flex flex-col gap-lg">
+<div class="flex flex-col gap-sm">
+<h1 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface">Personal Details</h1>
+<!-- Contextual Explanation Chip/Card -->
+<div class="flex items-start gap-sm p-4 bg-surface-container-low border border-surface-variant rounded-xl shadow-sm">
+<span class="material-symbols-outlined filled text-primary mt-0.5" data-icon="shield_lock">shield_lock</span>
+<p class="text-label-md font-label-md text-on-surface-variant leading-relaxed">
+                    We need this to verify your identity and keep your account secure. Your information is encrypted and never shared.
+                </p>
+</div>
+</div>
+<form class="flex flex-col gap-md" onsubmit="event.preventDefault();">
+<!-- Form Group: Full Name -->
+<div class="flex flex-col gap-xs group">
+<label class="text-label-md font-label-md text-on-surface" for="fullName">Full Name</label>
+<div class="relative">
+<input class="w-full px-4 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all hover:border-outline shadow-sm" id="fullName" placeholder="As it appears on your ID" type="text"/>
+</div>
+</div>
+<!-- Form Group: Date of Birth -->
+<div class="flex flex-col gap-xs group">
+<label class="text-label-md font-label-md text-on-surface" for="dob">Date of Birth</label>
+<div class="relative">
+<input class="w-full px-4 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all hover:border-outline shadow-sm appearance-none" id="dob" type="date"/>
+</div>
+</div>
+<!-- Form Group: Address -->
+<div class="flex flex-col gap-xs group relative">
+<label class="text-label-md font-label-md text-on-surface" for="address">Residential Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50">location_on</span>
+<input class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-outline-variant bg-surface-container-lowest text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all hover:border-outline shadow-sm" id="address" placeholder="Start typing your address..." type="text"/>
+</div>
+</div>
+</form>
+</main>
+<!-- Sticky Bottom CTA -->
+<footer class="w-full px-margin-mobile md:px-margin-desktop py-md max-w-2xl mx-auto bg-surface-container-lowest border-t border-surface-variant md:border-none md:bg-transparent pb-lg">
+<button class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-on-primary py-4 px-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all duration-200">
+<span class="text-label-md font-label-md">Next: Identity Verification</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</footer>
+</body></html>

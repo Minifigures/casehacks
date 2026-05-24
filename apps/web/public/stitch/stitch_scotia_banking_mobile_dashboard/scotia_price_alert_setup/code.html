@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Set Price Alert</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#e3e2e5",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#041451",
+                      "primary-fixed": "#ffdad5",
+                      "on-primary-fixed-variant": "#930008",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#3c4985",
+                      "surface-container-high": "#e9e7eb",
+                      "on-tertiary-fixed": "#1a1c1f",
+                      "inverse-primary": "#ffb4aa",
+                      "outline-variant": "#e9bcb6",
+                      "background": "#fbf9fc",
+                      "surface-container-low": "#f5f3f6",
+                      "on-primary-fixed": "#410001",
+                      "tertiary": "#5d5e62",
+                      "secondary-container": "#aebaff",
+                      "tertiary-fixed-dim": "#c6c6cb",
+                      "outline": "#936e69",
+                      "on-primary": "#ffffff",
+                      "surface-dim": "#dbd9dd",
+                      "on-error-container": "#93000a",
+                      "on-tertiary-fixed-variant": "#45474b",
+                      "on-surface-variant": "#5e3f3b",
+                      "secondary-fixed": "#dde1ff",
+                      "on-tertiary-container": "#040508",
+                      "on-primary-container": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#4e5a98",
+                      "surface-tint": "#c0000f",
+                      "on-secondary": "#ffffff",
+                      "surface": "#fbf9fc",
+                      "inverse-surface": "#303033",
+                      "tertiary-fixed": "#e2e2e7",
+                      "on-surface": "#1b1b1e",
+                      "surface-bright": "#fbf9fc",
+                      "on-secondary-fixed-variant": "#36427e",
+                      "on-background": "#1b1b1e",
+                      "surface-container-highest": "#e3e2e5",
+                      "primary-container": "#ec111a",
+                      "inverse-on-surface": "#f2f0f3",
+                      "error": "#ba1a1a",
+                      "tertiary-container": "#75777b",
+                      "surface-container": "#efedf0",
+                      "secondary-fixed-dim": "#b9c3ff",
+                      "primary-fixed-dim": "#ffb4aa",
+                      "primary": "#bf000f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "edge-margin": "16px",
+                      "gutter": "12px",
+                      "section-gap": "32px",
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "unit": "4px",
+                      "stack-lg": "24px"
+              },
+              "fontFamily": {
+                      "title-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "title-lg": ["20px", { "lineHeight": "25px", "fontWeight": "600" }],
+                      "label-sm": ["11px", { "lineHeight": "13px", "fontWeight": "600" }],
+                      "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+                      "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                      "display-lg": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "700" }],
+                      "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                      "display-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                      "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                      "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .ios-toggle-input:checked + .ios-toggle-bg {
+            background-color: theme('colors.primary');
+        }
+        .ios-toggle-input:checked + .ios-toggle-bg .ios-toggle-handle {
+            transform: translateX(1.25rem);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-sans antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- Sub-page Task TopAppBar (BottomNavBar intentionally suppressed due to transactional flow) -->
+<header class="w-full sticky top-0 z-50 bg-surface/90 backdrop-blur-md">
+<div class="flex items-center justify-between px-edge-margin h-14 w-full">
+<button aria-label="Go back" class="text-primary hover:opacity-80 transition-opacity duration-200 flex items-center justify-center w-10 h-10 -ml-2">
+<span class="material-symbols-outlined" style="font-size: 24px;">arrow_back_ios_new</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface flex-1 text-center">Set Price Alert</h1>
+<div class="w-10"></div> <!-- Balance for flex-between -->
+</div>
+</header>
+<main class="flex-1 overflow-y-auto pb-32">
+<!-- Stock Info Header -->
+<section class="flex flex-col items-center justify-center py-stack-lg px-edge-margin border-b border-surface-variant">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container shadow-sm mb-stack-sm flex items-center justify-center border border-surface-variant">
+<img alt="Apple Logo" class="w-full h-full object-cover" data-alt="A high-quality, minimalist app icon representing a modern technology company. The logo features a sleek, abstract metallic symbol against a pure, bright white background. The lighting is soft and uniform, creating a premium iOS-native aesthetic. The design relies on a clean, corporate palette, emphasizing pristine surfaces and subtle ambient shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-fx9JYx2FR-tXoCDk2Lw68qsuzydPpKUDbNJ8vO0XR7udfFisLJGKWlBTb0H3OLO6bXYDgkWmVkjpvFmTsrQSlyExipo1k5iif7dTCZ_sXohPwJE17jFJ3fzyfYrT6xRgrfj5IkwJvwWwdnq9XkIEnY02V8C4JAcS9LqoJWoUQAyWg1_m2X2r9_mecaYO25I-AQMqLi3OOKC1zFYgAVgzSmESLeWeCw6-iwnW-ePrEXhydOyvrAal2OGpCJ_laGxgVoChC1C1rc0"/>
+</div>
+<h2 class="font-title-lg text-title-lg text-on-surface">AAPL</h2>
+<p class="font-body-md text-body-md text-tertiary mb-stack-sm">Apple Inc.</p>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-surface">$175.20</span>
+<span class="font-label-md text-label-md text-on-surface">+ $2.10 (1.21%)</span>
+</div>
+</section>
+<!-- Target Price Input Section -->
+<section class="px-edge-margin py-section-gap">
+<label class="block font-label-md text-label-md text-tertiary mb-stack-sm text-center uppercase tracking-wider">Target Price</label>
+<div class="bg-surface-container-low rounded-xl p-stack-md flex items-center justify-between shadow-sm border border-surface-variant">
+<button aria-label="Decrease price" class="w-12 h-12 rounded-full bg-surface shadow-sm border border-surface-variant flex items-center justify-center text-primary hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<div class="flex flex-col items-center">
+<div class="flex items-center text-primary">
+<span class="font-headline-md text-headline-md mt-1 mr-1">$</span>
+<input class="bg-transparent border-none text-center font-display-lg text-display-lg text-primary w-32 focus:ring-0 p-0 m-0" type="number" value="180.00"/>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary mt-1">+2.74% from current</span>
+</div>
+<button aria-label="Increase price" class="w-12 h-12 rounded-full bg-surface shadow-sm border border-surface-variant flex items-center justify-center text-primary hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</section>
+<!-- Alert Preferences Sections -->
+<section class="px-edge-margin space-y-stack-lg">
+<!-- Alert Me via -->
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-stack-md">Alert Me</h3>
+<div class="bg-surface-container-low rounded-xl border border-surface-variant overflow-hidden">
+<!-- Push Notification Toggle -->
+<label class="flex items-center justify-between p-stack-md border-b border-surface-variant cursor-pointer active:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 0;">notifications_active</span>
+<span class="font-body-md text-body-md text-on-surface">Push Notification</span>
+</div>
+<div class="relative inline-block w-12 h-7">
+<input checked="" class="ios-toggle-input sr-only" type="checkbox"/>
+<div class="ios-toggle-bg block w-12 h-7 bg-surface-variant rounded-full transition-colors duration-200">
+<div class="ios-toggle-handle absolute left-[2px] top-[2px] bg-white w-6 h-6 rounded-full transition-transform duration-200 shadow-sm border border-surface-variant"></div>
+</div>
+</div>
+</label>
+<!-- Email Toggle -->
+<label class="flex items-center justify-between p-stack-md cursor-pointer active:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 0;">mail</span>
+<span class="font-body-md text-body-md text-on-surface">Email</span>
+</div>
+<div class="relative inline-block w-12 h-7">
+<input class="ios-toggle-input sr-only" type="checkbox"/>
+<div class="ios-toggle-bg block w-12 h-7 bg-surface-variant rounded-full transition-colors duration-200">
+<div class="ios-toggle-handle absolute left-[2px] top-[2px] bg-white w-6 h-6 rounded-full transition-transform duration-200 shadow-sm border border-surface-variant"></div>
+</div>
+</div>
+</label>
+</div>
+</div>
+<!-- Alert Frequency -->
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface mb-stack-md">Alert Frequency</h3>
+<div class="bg-surface-container rounded-lg p-1 flex">
+<button class="flex-1 py-2 text-center rounded-md bg-surface shadow-sm font-label-md text-label-md text-on-surface">
+                        Once
+                    </button>
+<button class="flex-1 py-2 text-center rounded-md bg-transparent font-label-md text-label-md text-tertiary hover:bg-surface-variant/50 transition-colors">
+                        Every time
+                    </button>
+</div>
+<p class="font-label-sm text-label-sm text-tertiary mt-stack-sm px-1">
+                    The alert will be deleted after it triggers the first time.
+                </p>
+</div>
+</section>
+</main>
+<!-- Fixed Bottom Action Area -->
+<div class="fixed bottom-0 w-full px-edge-margin pb-6 pt-4 bg-surface/90 backdrop-blur-md border-t border-surface-variant z-50 shadow-[0_-4px_12px_rgba(0,0,0,0.02)]">
+<button class="w-full h-[52px] bg-primary text-on-primary font-title-lg text-title-lg rounded-xl flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition-all">
+            Create Alert
+        </button>
+</div>
+</body></html>

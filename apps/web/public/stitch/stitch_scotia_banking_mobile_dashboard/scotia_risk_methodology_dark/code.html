@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Risk Assessment Methodology - uTrade</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#c0000f",
+                        "surface": "#131313",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-fixed": "#dde1ff",
+                        "on-tertiary": "#003824",
+                        "on-primary-fixed": "#410001",
+                        "inverse-on-surface": "#313030",
+                        "primary": "#ffb4aa",
+                        "on-primary": "#690004",
+                        "surface-bright": "#393939",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "secondary-container": "#36427e",
+                        "on-tertiary-container": "#000703",
+                        "on-secondary-container": "#a5b1f5",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed": "#ffdad5",
+                        "surface-variant": "#353534",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-container": "#ffffff",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "secondary": "#b9c3ff",
+                        "tertiary-container": "#00885d",
+                        "background": "#131313",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed": "#041451",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353534",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#e9bcb6",
+                        "outline": "#af8782",
+                        "on-primary-fixed-variant": "#930008",
+                        "on-surface": "#e5e2e1",
+                        "outline-variant": "#5e3f3b",
+                        "on-secondary": "#1e2b66",
+                        "inverse-surface": "#e5e2e1",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-low": "#1c1b1b",
+                        "error-container": "#93000a",
+                        "primary-container": "#ec111a",
+                        "on-error": "#690005",
+                        "tertiary": "#4edea3",
+                        "surface-container": "#201f1f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "xl": "40px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "md": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["JetBrains Mono"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353534;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5e3f3b;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-hidden flex h-screen">
+<!-- Navigation Drawer (Desktop) -->
+<nav class="hidden md:flex flex-col h-full w-80 left-0 bg-surface-container border-r border-surface-container-high shadow-xl py-lg z-40 transition-all duration-200 ease-in-out shrink-0">
+<div class="px-lg pb-xl border-b border-outline-variant mb-lg">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest overflow-hidden flex-shrink-0 border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpIcqDNUH67LbwM6Bvh43fMgpJ_DHkVRbG9qq-sRIerG7MZKmUwpjCua9tW393NEClD4YK0XvFU5Wsw8wmyUz4iWA0Q2qhqzlX4UIC1SkOWpZi4J4jcUrybWXzwpSiSU7ZtNuOY-F6a6rfn0yEBZqoFq12pj5XDD6kcVQlXQuxfT6xEsv_oWpImBwDuEqr0EuEbHUSGRrT8-AFEeJAFIDsbXCO4MTe--g2EcugQg0L7rQsurHMqcWRcg-eqFnwkdZSMqAE9l5M-48"/>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary truncate">Investment Account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Scotia uTrade Platinum</p>
+<p class="font-label-sm text-label-sm text-outline mt-xs">Last login: 2 mins ago</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="flex flex-col gap-xs">
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface font-normal mx-2 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Portfolio Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface font-normal mx-2 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">pending_actions</span>
+<span class="font-body-md text-body-md">Order Status</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface font-normal mx-2 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">balance</span>
+<span class="font-body-md text-body-md">Portfolio Rebalancing</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface font-normal mx-2 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">newspaper</span>
+<span class="font-body-md text-body-md">Market News</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface font-normal mx-2 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">compare_arrows</span>
+<span class="font-body-md text-body-md">Comparison Tools</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md bg-secondary-container text-on-secondary-container font-bold rounded-lg mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined filled">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Layout Area -->
+<div class="flex-1 flex flex-col relative min-w-0 overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full md:w-[calc(100%-20rem)] z-50 flex justify-between items-center px-md h-16 bg-background border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-md">
+<button class="md:hidden p-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full active:scale-95 duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined">monitoring</span>
+                    uTrade
+                </div>
+</div>
+<div class="flex items-center">
+<button class="p-sm text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full active:scale-95 duration-100 flex items-center justify-center md:hidden">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7vR1qoAZAFN3Qj6HqdQe97umkwwlCQg7ZufaIGj0g_FxRor3ptQ4rxjnvcAPIJQPV29-Y6g7qDgEtVykbB23r3UYE13lSNjbBk6GntSUVTc-nFCWTBqh57fijVWReZrZtgx2NbkU1cdfaO854rx3A5E1i3DqoWNepo5l6dnF9ZRzITOprhc99zXhqdyqNqwSppB030TxFDUHlfQNFjKE58J6GBI_RtrzzbYyl1hyeRehXQcnxTGwmDACaK2RmnqarlFZLgw8tZJU"/>
+</div>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto pt-24 pb-xl px-md md:px-xl relative">
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-surface-container-high/30 via-background to-background pointer-events-none -z-10"></div>
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<p class="font-label-sm text-label-sm text-primary tracking-widest uppercase mb-sm">Settings &gt; Risk Profile</p>
+<h1 class="font-display-lg text-display-lg text-on-surface md:hidden">Methodology</h1>
+<h1 class="hidden md:block font-display-lg text-display-lg text-on-surface">Risk Assessment Methodology</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm max-w-2xl">
+                            Understanding how your risk profile is calculated. Our proprietary engine analyzes multiple dimensions to align your portfolio with institutional-grade risk parameters.
+                        </p>
+</div>
+<button class="bg-surface-container text-on-surface border border-outline-variant hover:border-primary hover:text-primary transition-colors rounded-lg px-lg py-sm font-label-sm text-label-sm flex items-center gap-sm w-fit self-start md:self-auto">
+<span class="material-symbols-outlined" style="font-size: 16px;">refresh</span>
+                        RETAKE ASSESSMENT
+                    </button>
+</div>
+<!-- Score Overview Glassmorphism Card -->
+<div class="relative bg-surface-container-low/80 backdrop-blur-md border border-outline-variant border-t-[#353534] rounded-xl p-lg md:p-xl mb-gutter shadow-[0_4px_24px_rgba(0,0,0,0.6)] overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 pointer-events-none group-hover:bg-primary/10 transition-colors duration-700"></div>
+<div class="flex flex-col md:flex-row gap-xl items-center relative z-10">
+<!-- Score Visualizer -->
+<div class="flex-shrink-0 relative flex items-center justify-center w-48 h-48">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<!-- Track -->
+<circle cx="50" cy="50" fill="none" r="45" stroke="#2a2a2a" stroke-dasharray="212 283" stroke-linecap="round" stroke-width="8"></circle>
+<!-- Indicator (Calculated) -->
+<circle class="drop-shadow-[0_0_8px_rgba(236,17,26,0.4)]" cx="50" cy="50" fill="none" r="45" stroke="#ec111a" stroke-dasharray="160 283" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-on-surface leading-none">74</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">/ 100</span>
+</div>
+</div>
+<!-- Methodology Intro -->
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">functions</span>
+                                The Composite Algorithm
+                            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md leading-relaxed">
+                                Your final Risk Score is a weighted composite derived from three primary quantitative vectors. We utilize a non-linear scoring model to heavily penalize mismatching constraints (e.g., low volatility tolerance paired with aggressive growth goals) to ensure portfolio integrity under stress conditions.
+                            </p>
+<div class="flex flex-wrap gap-sm">
+<div class="bg-surface-container-high px-md py-xs rounded text-on-surface font-label-sm text-label-sm flex items-center gap-xs border border-outline-variant">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+                                    Time Vector: 30%
+                                </div>
+<div class="bg-surface-container-high px-md py-xs rounded text-on-surface font-label-sm text-label-sm flex items-center gap-xs border border-outline-variant">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+                                    Goal Vector: 40%
+                                </div>
+<div class="bg-surface-container-high px-md py-xs rounded text-on-surface font-label-sm text-label-sm flex items-center gap-xs border border-outline-variant">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+                                    Volatility Vector: 30%
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid for Vectors -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Time Horizon (Col span 4) -->
+<div class="md:col-span-4 bg-surface-container-low border border-outline-variant border-t-[#353534] rounded-xl p-lg hover:border-outline transition-colors relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-surface-container-high/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-12 h-12 rounded bg-surface-container-high flex items-center justify-center mb-md border border-outline-variant group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary">hourglass_bottom</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Time Horizon</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md h-24">
+                            Quantifies the duration until principal withdrawal is required. Longer horizons allow for recovery from cyclical drawdowns, increasing risk capacity.
+                        </p>
+<div class="pt-md border-t border-surface-container-highest">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface">Scoring Impact</span>
+<span class="font-label-sm text-label-sm text-primary">High</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full w-3/4"></div>
+</div>
+</div>
+</div>
+<!-- Financial Goals (Col span 8) -->
+<div class="md:col-span-8 bg-surface-container-low border border-outline-variant border-t-[#353534] rounded-xl p-lg hover:border-outline transition-colors relative overflow-hidden group flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded bg-surface-container-high flex items-center justify-center mb-md border border-outline-variant group-hover:border-tertiary transition-colors">
+<span class="material-symbols-outlined text-tertiary">track_changes</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Financial Goals Objective Function</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md max-w-2xl">
+                                Determines the required rate of return. We classify goals into distinct tranches: Capital Preservation, Income Generation, Balanced Growth, and Aggressive Appreciation. The scoring algorithm matches the required yield curve against historical asset class performance to establish a baseline risk floor.
+                            </p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-sm mt-auto">
+<div class="bg-surface-container px-sm py-md rounded border border-surface-container-highest text-center">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Preservation</span>
+<span class="block font-headline-md text-headline-md text-on-surface">1.0x</span>
+</div>
+<div class="bg-surface-container px-sm py-md rounded border border-surface-container-highest text-center">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Income</span>
+<span class="block font-headline-md text-headline-md text-on-surface">1.4x</span>
+</div>
+<div class="bg-surface-container px-sm py-md rounded border border-surface-container-highest text-center border-l-2 border-l-tertiary">
+<span class="block font-label-sm text-label-sm text-tertiary mb-1">Growth</span>
+<span class="block font-headline-md text-headline-md text-on-surface">2.2x</span>
+</div>
+<div class="bg-surface-container px-sm py-md rounded border border-surface-container-highest text-center opacity-50">
+<span class="block font-label-sm text-label-sm text-on-surface-variant mb-1">Aggressive</span>
+<span class="block font-headline-md text-headline-md text-on-surface">3.5x</span>
+</div>
+</div>
+</div>
+<!-- Market Volatility Tolerance (Full width) -->
+<div class="md:col-span-12 bg-surface-container-low border border-outline-variant border-t-[#353534] rounded-xl p-lg hover:border-outline transition-colors">
+<div class="flex flex-col md:flex-row gap-xl">
+<div class="md:w-1/3">
+<div class="w-12 h-12 rounded bg-surface-container-high flex items-center justify-center mb-md border border-outline-variant">
+<span class="material-symbols-outlined text-secondary">show_chart</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Market Volatility Tolerance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">
+                                    A behavioral assessment of your capacity to endure short-term portfolio drawdowns. This acts as a dampener on the Growth objective; if psychological tolerance is lower than the mathematical requirement for growth, the composite score is skewed conservatively to prevent capitulation during stress events.
+                                </p>
+</div>
+<div class="md:w-2/3 flex flex-col justify-center">
+<!-- Technical looking chart representation -->
+<div class="bg-surface-container border border-surface-container-highest rounded-lg p-md relative h-40 overflow-hidden">
+<!-- Grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none p-md opacity-20">
+<div class="w-full border-t border-outline-variant"></div>
+<div class="w-full border-t border-outline-variant"></div>
+<div class="w-full border-t border-outline-variant"></div>
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<!-- Tolerance Band Visual -->
+<div class="absolute inset-y-0 left-0 right-0 flex items-center justify-center pointer-events-none px-md">
+<div class="w-full h-16 bg-secondary/10 border-y border-secondary/30 relative">
+<div class="absolute -left-2 top-1/2 -translate-y-1/2 bg-secondary text-background font-label-sm text-[10px] px-1 rounded">Zone</div>
+</div>
+</div>
+<!-- Mock Data Line (SVG) -->
+<svg class="absolute inset-0 w-full h-full p-md" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M 0,50 Q 10,40 20,60 T 40,30 T 60,70 T 80,45 T 100,55" fill="none" stroke="#b9c3ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+</svg>
+</div>
+<div class="flex justify-between mt-sm px-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Low Tolerance</span>
+<span class="font-label-sm text-label-sm text-secondary">Your Assessed Tolerance</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">High Tolerance</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

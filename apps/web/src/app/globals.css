@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f1f5f9;
+  --foreground: #0a0a0a;
+
+  --scotia-red: #ec111a;
+  --scotia-red-dark: #c40028;
+  --scotia-navy: #000f4d;
+  --scotia-grey: #6b7280;
+
+  --surface: #ffffff;
+  --surface-elevated: #f5f5f7;
+  --surface-muted: #f1f3f5;
+
+  --success: #10b981;
+  --loss: #e11d48;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-scotia-red: var(--scotia-red);
+  --color-scotia-red-dark: var(--scotia-red-dark);
+  --color-scotia-navy: var(--scotia-navy);
+  --color-scotia-grey: var(--scotia-grey);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-success: var(--success);
+  --color-loss: var(--loss);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f1f5f9;
+    --foreground: #0a0a0a;
+  }
+}
+
+/* hide scrollbars inside the phone frame for native feel */
+.phone-scroll::-webkit-scrollbar {
+  display: none;
+}
+.phone-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

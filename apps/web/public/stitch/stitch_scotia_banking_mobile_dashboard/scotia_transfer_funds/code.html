@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Transfer Funds</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fbf9fc",
+                        "on-background": "#1b1b1e",
+                        "surface-container-highest": "#e3e2e5",
+                        "surface-container": "#efedf0",
+                        "on-tertiary-container": "#040508",
+                        "surface-container-low": "#f5f3f6",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1b1b1e",
+                        "surface-bright": "#fbf9fc",
+                        "secondary-fixed": "#dde1ff",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "on-secondary-fixed": "#041451",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#45474b",
+                        "outline": "#936e69",
+                        "inverse-on-surface": "#f2f0f3",
+                        "surface-tint": "#c0000f",
+                        "secondary-container": "#aebaff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#ffdad5",
+                        "tertiary-fixed-dim": "#c6c6cb",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "surface-dim": "#dbd9dd",
+                        "on-primary-container": "#ffffff",
+                        "surface-variant": "#e3e2e5",
+                        "background": "#fbf9fc",
+                        "on-tertiary-fixed": "#1a1c1f",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e9e7eb",
+                        "on-surface-variant": "#5e3f3b",
+                        "secondary": "#4e5a98",
+                        "primary": "#bf000f",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#303033",
+                        "on-secondary-container": "#3c4985",
+                        "on-primary-fixed": "#410001",
+                        "primary-container": "#ec111a",
+                        "inverse-primary": "#ffb4aa",
+                        "tertiary": "#5d5e62",
+                        "outline-variant": "#e9bcb6",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#e2e2e7",
+                        "tertiary-container": "#75777b",
+                        "on-primary-fixed-variant": "#930008"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "32px",
+                        "gutter": "12px",
+                        "edge-margin": "16px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["11px", { "lineHeight": "13px", "fontWeight": "600" }],
+                        "title-lg": ["20px", { "lineHeight": "25px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .numpad-btn:active { background-color: #e3e2e5; transform: scale(0.95); }
+        .input-glow:focus-within { border-color: #041451; box-shadow: 0 0 0 1px #041451; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col pt-safe-area-inset-top pb-safe-area-inset-bottom md:hidden">
+<!-- Top Navigation (Contextual Task - Suppressing BottomNavBar and modifying TopAppBar for 'Back' flow) -->
+<header class="w-full sticky top-0 bg-surface z-50 flex items-center justify-between px-edge-margin h-14">
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center -ml-2 text-primary hover:opacity-80 transition-opacity duration-200">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'wght' 300;">chevron_left</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Transfer Funds</h1>
+<div class="w-10"></div> <!-- Spacer to center title -->
+</header>
+<main class="flex-1 flex flex-col px-edge-margin pt-stack-lg pb-stack-lg gap-stack-lg">
+<!-- Account Selectors Container -->
+<div class="flex flex-col gap-unit relative">
+<!-- Connection Line (Visual) -->
+<div class="absolute left-6 top-10 bottom-10 w-[2px] bg-surface-variant z-0"></div>
+<!-- From Account -->
+<button class="w-full bg-surface-container-lowest rounded-xl p-4 flex items-center gap-4 border border-surface-variant z-10 active:bg-surface-container-low transition-colors text-left shadow-sm">
+<div class="w-12 h-12 rounded-full bg-[#fbf9fc] flex items-center justify-center border border-surface-variant flex-shrink-0">
+<span class="material-symbols-outlined text-primary">savings</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-label-md text-label-md text-tertiary mb-1">From</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate">Momentum Plus Savings</div>
+<div class="font-label-md text-label-md text-tertiary mt-0.5">$5,400.00 available</div>
+</div>
+<span class="material-symbols-outlined text-tertiary">expand_more</span>
+</button>
+<!-- To Account -->
+<button class="w-full bg-surface-container-lowest rounded-xl p-4 flex items-center gap-4 border border-surface-variant z-10 active:bg-surface-container-low transition-colors text-left shadow-sm mt-stack-sm">
+<div class="w-12 h-12 rounded-full bg-[#fbf9fc] flex items-center justify-center border border-surface-variant flex-shrink-0">
+<span class="material-symbols-outlined text-secondary">trending_up</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-label-md text-label-md text-tertiary mb-1">To</div>
+<div class="font-body-md text-body-md text-on-surface font-medium truncate">uTrade Investment Account</div>
+<div class="font-label-md text-label-md text-tertiary mt-0.5">$0.00 available</div>
+</div>
+<span class="material-symbols-outlined text-tertiary">expand_more</span>
+</button>
+</div>
+<!-- Amount Input Area -->
+<div class="flex-1 flex flex-col items-center justify-center py-stack-lg mt-stack-md">
+<div class="text-tertiary font-body-md mb-2">Amount</div>
+<div class="flex items-baseline gap-1 text-on-surface">
+<span class="font-display-lg-mobile text-display-lg-mobile opacity-50">$</span>
+<span class="font-display-lg text-display-lg tracking-tight" id="amount-display">1,000</span>
+<span class="font-display-lg-mobile text-display-lg-mobile opacity-50">.00</span>
+</div>
+<!-- Frequency Selector (Optional contextual enhancement) -->
+<button class="mt-stack-md px-4 py-2 rounded-full bg-surface-container-low flex items-center gap-2 border border-surface-variant active:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-md text-label-md">One time, today</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<!-- Custom Numpad (Modern iOS style) -->
+<div class="grid grid-cols-3 gap-y-4 gap-x-2 w-full max-w-[320px] mx-auto mt-auto mb-stack-lg">
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">1</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">2</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">3</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">4</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">5</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">6</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">7</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">8</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">9</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">.</button>
+<button class="numpad-btn font-title-lg text-title-lg text-on-surface h-14 rounded-xl transition-all">0</button>
+<button class="numpad-btn flex items-center justify-center h-14 rounded-xl transition-all text-on-surface">
+<span class="material-symbols-outlined">backspace</span>
+</button>
+</div>
+<!-- Action Button -->
+<button class="w-full h-[52px] bg-primary text-on-primary rounded-xl font-body-lg text-body-lg font-semibold active:opacity-80 transition-opacity flex items-center justify-center shadow-md">
+            Transfer Now
+        </button>
+</main>
+<!-- BottomNavBar Suppressed: Task-Focused Linear Screen ('Transfer Funds' requires explicit back action, not global navigation) -->
+</body></html>

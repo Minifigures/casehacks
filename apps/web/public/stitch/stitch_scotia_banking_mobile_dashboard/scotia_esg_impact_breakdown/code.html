@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>ESG Impact</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c6c6cb",
+                        "inverse-surface": "#303033",
+                        "outline": "#936e69",
+                        "on-surface": "#1b1b1e",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-highest": "#e3e2e5",
+                        "on-secondary-fixed": "#041451",
+                        "on-background": "#1b1b1e",
+                        "surface-container-high": "#e9e7eb",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#3c4985",
+                        "inverse-on-surface": "#f2f0f3",
+                        "secondary-container": "#aebaff",
+                        "on-primary-fixed-variant": "#930008",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#4e5a98",
+                        "surface": "#fbf9fc",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#040508",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "surface-container-low": "#f5f3f6",
+                        "error": "#ba1a1a",
+                        "background": "#fbf9fc",
+                        "on-primary-fixed": "#410001",
+                        "surface-container": "#efedf0",
+                        "inverse-primary": "#ffb4aa",
+                        "tertiary": "#5d5e62",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e3e2e5",
+                        "primary-container": "#ec111a",
+                        "tertiary-container": "#75777b",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "surface-dim": "#dbd9dd",
+                        "primary": "#bf000f",
+                        "tertiary-fixed": "#e2e2e7",
+                        "on-surface-variant": "#5e3f3b",
+                        "secondary-fixed": "#dde1ff",
+                        "surface-bright": "#fbf9fc",
+                        "surface-tint": "#c0000f",
+                        "primary-fixed": "#ffdad5",
+                        "on-tertiary-fixed": "#1a1c1f",
+                        "on-tertiary-fixed-variant": "#45474b",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "outline-variant": "#e9bcb6",
+                        // Custom green colors requested by prompt, mapped into theme
+                        "esg-green-light": "#e6f4ea",
+                        "esg-green": "#34a853",
+                        "esg-green-dark": "#1e8e3e",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "gutter": "12px",
+                        "section-gap": "32px",
+                        "edge-margin": "16px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", { "lineHeight": "25px", "fontWeight": "600" }],
+                        "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }],
+                        "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["11px", { "lineHeight": "13px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom gauge styles */
+        .gauge-container {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .gauge-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 20px solid #e6f4ea; /* esg-green-light */
+            box-sizing: border-box;
+        }
+        .gauge-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 20px solid #34a853; /* esg-green */
+            box-sizing: border-box;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+            transform: rotate(-45deg); /* Base rotation */
+            transition: transform 1s ease-out;
+        }
+        /* 78/100 -> 78% of 180 degrees = 140.4 degrees. 
+           Start is -45deg. 
+           Math: -45 + 140.4 = 95.4deg */
+        .gauge-fill.active {
+            transform: rotate(95.4deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-50 bg-surface dark:bg-background flat no shadows flex items-center justify-between px-edge-margin h-14 transition-opacity duration-200">
+<button aria-label="Go back" class="text-primary hover:opacity-80 active:scale-95 transition-transform duration-150 p-2 -ml-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back_ios</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">ESG Impact</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-edge-margin pb-stack-lg space-y-section-gap overflow-y-auto">
+<!-- Score Section -->
+<section class="mt-stack-lg text-center flex flex-col items-center">
+<h2 class="font-title-lg text-title-lg text-on-surface mb-stack-sm">Overall ESG Score</h2>
+<p class="font-body-md text-body-md text-tertiary mb-stack-lg">Your portfolio's sustainability rating</p>
+<div class="gauge-container mb-stack-sm relative">
+<div class="gauge-background"></div>
+<div class="gauge-fill" id="esgGauge"></div>
+<div class="absolute bottom-0 left-0 right-0 text-center translate-y-2">
+<span class="font-display-lg-mobile text-display-lg-mobile text-esg-green-dark">78</span>
+<span class="font-body-md text-body-md text-tertiary">/100</span>
+</div>
+</div>
+<div class="inline-flex items-center bg-esg-green-light px-3 py-1 rounded-full mt-stack-md">
+<span class="material-symbols-outlined text-esg-green mr-1 text-sm" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<span class="font-label-md text-label-md text-esg-green-dark">Top 15% of investors</span>
+</div>
+</section>
+<!-- Category Cards (Bento-ish) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-stack-sm md:gap-gutter">
+<!-- Environmental -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-[0_4px_12px_rgba(0,15,77,0.08)] border border-surface-variant flex items-center justify-between">
+<div class="flex items-center gap-stack-md">
+<div class="w-10 h-10 rounded-full bg-[#e6f4ea] flex items-center justify-center text-[#34a853]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Environmental</h3>
+<p class="font-label-sm text-label-sm text-tertiary">Carbon &amp; Climate</p>
+</div>
+</div>
+<div class="font-title-lg text-title-lg text-on-surface">82</div>
+</div>
+<!-- Social -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-[0_4px_12px_rgba(0,15,77,0.08)] border border-surface-variant flex items-center justify-between">
+<div class="flex items-center gap-stack-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Social</h3>
+<p class="font-label-sm text-label-sm text-tertiary">Labor &amp; Diversity</p>
+</div>
+</div>
+<div class="font-title-lg text-title-lg text-on-surface">74</div>
+</div>
+<!-- Governance -->
+<div class="bg-surface-container-lowest p-stack-md rounded-xl shadow-[0_4px_12px_rgba(0,15,77,0.08)] border border-surface-variant flex items-center justify-between">
+<div class="flex items-center gap-stack-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Governance</h3>
+<p class="font-label-sm text-label-sm text-tertiary">Ethics &amp; Board</p>
+</div>
+</div>
+<div class="font-title-lg text-title-lg text-on-surface">79</div>
+</div>
+</section>
+<!-- Top Holdings List -->
+<section>
+<h2 class="font-title-lg text-title-lg text-on-surface mb-stack-md">Top ESG Holdings</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,15,77,0.08)] border border-surface-variant overflow-hidden">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-stack-md border-b border-surface-variant hover:bg-surface-container-low transition-colors duration-150 cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Company Logo" class="w-full h-full object-cover" data-alt="A minimalist, stylized corporate logo featuring abstract green leaves forming a modern geometric sphere. The image is set against a pure white background in a corporate modern fintech style. The lighting is bright and even, creating a clean, professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlJJ6_VGFMv39q92BxI7Mc2bKKmlii5RB-had0rd2foV3j3pkC3niF5fTELdRB2tTr2tpdNIYRIkCicMyxIy8JTNPbIDf00qguVi9tG3uKdeAe_2OcJArc_uR0sHuDiFkEUe3v9cvmLK1NphJm3kddt35UGCp2OAco2yRdG4pDVAvaBNrmJ6SrAsnw2LiuG-752btQjr01Y2idaPlpJflO9zzGLXKeRxq378YD7hLHoeFx2Z2VvMD7s483_S5ytB8rfdPJpHN4EL8"/>
+</div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-medium">EcoPower Renewables</h4>
+<p class="font-label-md text-label-md text-tertiary">Utilities</p>
+</div>
+</div>
+<div class="text-right">
+<div class="font-title-lg text-title-lg text-esg-green-dark">92</div>
+<p class="font-label-sm text-label-sm text-tertiary">Score</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-stack-md border-b border-surface-variant hover:bg-surface-container-low transition-colors duration-150 cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Company Logo" class="w-full h-full object-cover" data-alt="A modern, abstract technology logo depicting a blue and white data wave motif. The logo is clean and minimalist, presented on a stark white background. The overall style is premium, institutional, and fits a high-performance modern banking application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1LZ4yaOGArXJe112Z42P610f2gzV2i1KebzH9BmIEccsZ2wBzX-17n12Mtr6XpP26GrZKqew5_fWgoLA1RV1Y9sPCFVR3xTOzYq1gk6ufpMxkM4zCiF24IVwX856b68hTn0X3x63RC7GH2Hrh9kg_L7metTmxFq-BjPB7ZEWe-OU1z6brbqkLrKh_c_q5zwlwHETDhrcF-HdRSC6fihlq_5Szt4MZu_0XDxP3w4lgYYMATMpzWGw7XR86pugn6BQIr1C0Ep5aogU"/>
+</div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-medium">NextGen Tech</h4>
+<p class="font-label-md text-label-md text-tertiary">Technology</p>
+</div>
+</div>
+<div class="text-right">
+<div class="font-title-lg text-title-lg text-[#34a853]">85</div>
+<p class="font-label-sm text-label-sm text-tertiary">Score</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-stack-md hover:bg-surface-container-low transition-colors duration-150 cursor-pointer">
+<div class="flex items-center gap-stack-md">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Company Logo" class="w-full h-full object-cover" data-alt="A sleek, minimalist corporate icon showing a silver and dark navy abstract architectural structure. The icon is rendered with precise, clean lines against a pure white background. The visual tone is professional, secure, and aligned with modern corporate design standards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChR9U4vigUHG5l-e68VHtvKwr0OhxSFuPqkW25kOkMzI6ruThtcqaO1ZVhueWRnccc4J1Y99BYYWb7-TTU0qHTKg6GyeZANTxrl7NlVc0Lp9Dmvg0n-J7-wETn3FD6rFRf2iGGLIQewTCAsXBEsFIrkdXMdQ62dlyjMru6bTFRJloqvDweDqd5SyHOstYZCHtfGxBnN4TWxHQj6Be04JZAdSD2DBwcW4yctOoQwb9iz5Q9G-Ma_PdPhuYEtGS8JGigsTLfMPr2bzo"/>
+</div>
+<div>
+<h4 class="font-body-lg text-body-lg text-on-surface font-medium">Global Water Solutions</h4>
+<p class="font-label-md text-label-md text-tertiary">Industrials</p>
+</div>
+</div>
+<div class="text-right">
+<div class="font-title-lg text-title-lg text-[#34a853]">81</div>
+<p class="font-label-sm text-label-sm text-tertiary">Score</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-stack-md py-3 rounded-lg border border-outline-variant font-label-md text-label-md text-secondary hover:bg-surface-container-low transition-colors">
+                View All Holdings
+            </button>
+</section>
+</main>
+<script>
+        // Animate gauge on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('esgGauge').classList.add('active');
+            }, 100);
+        });
+    </script>
+</body></html>

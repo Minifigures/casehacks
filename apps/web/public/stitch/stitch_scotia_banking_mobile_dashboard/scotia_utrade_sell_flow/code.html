@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>uTrade - Sell AAPL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#041451",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#c0000f",
+                        "on-secondary-container": "#3c4985",
+                        "surface-bright": "#fbf9fc",
+                        "on-tertiary-fixed-variant": "#45474b",
+                        "surface-dim": "#dbd9dd",
+                        "surface-container": "#efedf0",
+                        "outline-variant": "#e9bcb6",
+                        "surface": "#fbf9fc",
+                        "surface-variant": "#e3e2e5",
+                        "tertiary-fixed-dim": "#c6c6cb",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#303033",
+                        "on-primary-fixed": "#410001",
+                        "primary-container": "#ec111a",
+                        "primary": "#bf000f",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#75777b",
+                        "inverse-primary": "#ffb4aa",
+                        "outline": "#936e69",
+                        "tertiary-fixed": "#e2e2e7",
+                        "tertiary": "#5d5e62",
+                        "secondary": "#4e5a98",
+                        "primary-fixed": "#ffdad5",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#5e3f3b",
+                        "secondary-fixed": "#dde1ff",
+                        "background": "#fbf9fc",
+                        "on-surface": "#1b1b1e",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#aebaff",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "surface-container-high": "#e9e7eb",
+                        "inverse-on-surface": "#f2f0f3",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "on-tertiary-fixed": "#1a1c1f",
+                        "on-primary-fixed-variant": "#930008",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "on-primary-container": "#ffffff",
+                        "on-background": "#1b1b1e",
+                        "surface-container-highest": "#e3e2e5",
+                        "surface-container-low": "#f5f3f6",
+                        "on-tertiary-container": "#040508",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "edge-margin": "16px",
+                        "stack-md": "16px",
+                        "gutter": "12px",
+                        "section-gap": "32px",
+                        "safe-bottom": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "display-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "display-lg-mobile": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", {"lineHeight": "25px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["34px", {"lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["15px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["17px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "label-sm": ["11px", {"lineHeight": "13px", "fontWeight": "600"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-sans antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation (Transactional flow - suppressing main nav elements per shell mandate) -->
+<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md px-edge-margin h-14 flex items-center justify-between">
+<button aria-label="Go back" class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'wght' 300;">chevron_left</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface">Sell AAPL</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow px-edge-margin pt-stack-lg pb-[120px] max-w-md mx-auto w-full">
+<!-- Stock Context Header -->
+<section class="flex flex-col items-center mb-section-gap">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-stack-sm shadow-sm overflow-hidden border border-outline-variant/30">
+<!-- Apple Logo Placeholder using text since real logo isn't available, keeping it clean and corporate -->
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-surface tracking-tighter"></span>
+</div>
+<h2 class="font-title-lg text-title-lg text-on-surface">Apple Inc.</h2>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">$175.20</span>
+<span class="font-body-md text-body-md text-tertiary">Current Price</span>
+</div>
+<div class="mt-2 bg-surface-container-low px-3 py-1 rounded-full border border-surface-variant">
+<span class="font-label-md text-label-md text-on-surface-variant">Available to Sell: 2 Shares</span>
+</div>
+</section>
+<!-- Order Type Toggle -->
+<section class="mb-stack-lg bg-surface-container-low p-1 rounded-xl flex shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+<button aria-selected="true" class="flex-1 py-2 px-4 rounded-lg bg-surface shadow-sm font-label-md text-label-md text-on-surface border border-surface-variant transition-all">
+                Market Price
+            </button>
+<button aria-selected="false" class="flex-1 py-2 px-4 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all">
+                Limit Order
+            </button>
+</section>
+<!-- Input Area -->
+<section class="mb-section-gap">
+<div class="bg-surface-container-lowest rounded-2xl p-stack-lg shadow-[0_4px_12px_rgba(0,15,77,0.04)] border border-surface-variant/50 relative overflow-hidden group focus-within:border-secondary transition-colors duration-300">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-stack-sm" for="shares-input">Shares to Sell</label>
+<div class="flex items-center justify-between">
+<input class="bg-transparent border-none p-0 font-display-lg text-display-lg text-on-surface focus:ring-0 w-full outline-none" id="shares-input" max="2" min="1" placeholder="0" type="number" value="1"/>
+<span class="font-title-lg text-title-lg text-on-surface-variant pl-4">Shares</span>
+</div>
+<!-- Interactive subtle background effect on focus -->
+<div class="absolute inset-0 bg-secondary/5 opacity-0 group-focus-within:opacity-100 pointer-events-none transition-opacity duration-300"></div>
+</div>
+</section>
+<!-- Summary Section -->
+<section class="bg-surface-container-low rounded-2xl p-stack-md border border-surface-variant/30">
+<div class="flex justify-between items-center mb-stack-sm">
+<span class="font-body-md text-body-md text-on-surface-variant">Estimated Credit</span>
+<span class="font-title-lg text-title-lg text-on-surface" id="estimated-credit">$175.20</span>
+</div>
+<div class="flex justify-between items-center mb-stack-sm">
+<span class="font-body-md text-body-md text-on-surface-variant">Commission</span>
+<span class="font-body-md text-body-md text-on-surface">$0.00</span>
+</div>
+<hr class="border-surface-variant my-stack-sm"/>
+<p class="font-label-sm text-label-sm text-tertiary">
+                Actual execution price may vary slightly due to market fluctuations. Funds will be available in your settlement account typically within 2 business days.
+            </p>
+</section>
+</main>
+<!-- Bottom Action Area (Sticky) -->
+<div class="fixed bottom-0 left-0 right-0 p-edge-margin pb-[calc(16px+env(safe-area-inset-bottom))] bg-surface/90 backdrop-blur-lg border-t border-surface-variant/50 z-50">
+<div class="max-w-md mx-auto">
+<button class="w-full bg-primary-container text-on-primary-container h-[52px] rounded-xl font-headline-md text-headline-md shadow-[0_4px_12px_rgba(236,17,26,0.2)] hover:bg-primary transition-colors duration-200 active:scale-[0.98] flex items-center justify-center gap-2">
+                Sell AAPL
+            </button>
+</div>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sharesInput = document.getElementById('shares-input');
+            const estimatedCreditDisplay = document.getElementById('estimated-credit');
+            const currentPrice = 175.20;
+            const maxShares = 2;
+
+            // Simple calculation logic
+            sharesInput.addEventListener('input', (e) => {
+                let val = parseInt(e.target.value);
+                
+                // Prevent negative or exceeding max
+                if (val < 0) {
+                    val = 0;
+                    e.target.value = 0;
+                } else if (val > maxShares) {
+                    val = maxShares;
+                    e.target.value = maxShares;
+                    // Optional: Provide visual feedback that max is reached
+                    e.target.parentElement.classList.add('text-error');
+                    setTimeout(() => e.target.parentElement.classList.remove('text-error'), 300);
+                }
+
+                if (isNaN(val)) val = 0;
+
+                const credit = (val * currentPrice).toFixed(2);
+                
+                // Animate value change
+                estimatedCreditDisplay.style.opacity = '0.5';
+                setTimeout(() => {
+                    estimatedCreditDisplay.textContent = `$${credit}`;
+                    estimatedCreditDisplay.style.opacity = '1';
+                }, 150);
+            });
+            
+            // Format input nicely on blur
+            sharesInput.addEventListener('blur', (e) => {
+                if(e.target.value === '' || e.target.value === '0') {
+                    e.target.value = '1';
+                    estimatedCreditDisplay.textContent = `$${currentPrice.toFixed(2)}`;
+                }
+            });
+        });
+    </script>
+</body></html>

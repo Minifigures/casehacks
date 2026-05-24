@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Link Your Accounts - Scotia × Tangerine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e2e2e5",
+                    "on-secondary-container": "#5d2c00",
+                    "on-primary-fixed": "#410001",
+                    "tertiary": "#5f5e5d",
+                    "on-tertiary-fixed": "#1c1b1b",
+                    "on-primary": "#ffffff",
+                    "on-background": "#1a1c1e",
+                    "surface-bright": "#f9f9fc",
+                    "secondary-fixed": "#ffdcc6",
+                    "outline-variant": "#e9bcb6",
+                    "inverse-primary": "#ffb4aa",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e2e2e5",
+                    "on-primary-fixed-variant": "#930008",
+                    "primary-fixed-dim": "#ffb4aa",
+                    "outline": "#936e69",
+                    "tertiary-container": "#777676",
+                    "on-primary-container": "#ffffff",
+                    "tertiary-fixed": "#e5e2e1",
+                    "background": "#f9f9fc",
+                    "inverse-on-surface": "#f0f0f3",
+                    "surface-dim": "#d9dadd",
+                    "inverse-surface": "#2f3133",
+                    "primary-container": "#ec111a",
+                    "on-surface-variant": "#5e3f3b",
+                    "surface-tint": "#c0000f",
+                    "primary-fixed": "#ffdad5",
+                    "on-error": "#ffffff",
+                    "primary": "#bf000f",
+                    "surface-container-low": "#f3f3f6",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#ffb785",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#474746",
+                    "error": "#ba1a1a",
+                    "surface": "#f9f9fc",
+                    "on-secondary-fixed": "#301400",
+                    "surface-container": "#edeef1",
+                    "secondary-container": "#fd8100",
+                    "secondary": "#954a00",
+                    "on-tertiary-container": "#ffffff",
+                    "on-surface": "#1a1c1e",
+                    "tertiary-fixed-dim": "#c8c6c5",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e8e8eb",
+                    "on-secondary-fixed-variant": "#723700"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "lg": "48px",
+                    "md": "24px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "sm": "12px",
+                    "xl": "80px",
+                    "margin-desktop": "64px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                    "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                    "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #bf000f 0%, #fd8100 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite alternate;
+        }
+        .kinetic-gradient:hover {
+            background: linear-gradient(150deg, #bf000f 0%, #fd8100 100%);
+            background-size: 200% 200%;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .pulse-line {
+            position: relative;
+            overflow: hidden;
+        }
+        .pulse-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(236, 17, 26, 0.4), transparent);
+            animation: pulseSlide 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        @keyframes pulseSlide {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col pt-16">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface-container-lowest border-b border-outline-variant shadow-sm transition-transform active:scale-95 duration-150 ease-in-out">
+<button class="text-on-surface-variant hover:bg-surface-variant/50 p-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-black bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">Scotia × Tangerine</h1>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant hover:bg-surface-variant/50 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="person">person</span>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col items-center px-margin-mobile md:px-margin-desktop py-lg pb-32">
+<div class="w-full max-w-2xl flex flex-col items-center">
+<!-- Hero Header -->
+<div class="text-center mb-md w-full">
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-surface mb-sm">Link Your Accounts</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-lg mx-auto">
+                    Found your Scotiabank profile! We'll import your details to set up your new hub in seconds. No manual paperwork required.
+                </p>
+</div>
+<!-- Visual Connection Area -->
+<div class="relative w-full py-xl flex items-center justify-center mb-lg">
+<!-- Scotia Circle -->
+<div class="z-10 w-24 h-24 rounded-full bg-surface-container-lowest border border-outline-variant shadow-lg flex items-center justify-center flex-shrink-0 relative overflow-hidden transition-transform duration-300 hover:-translate-y-1">
+<img alt="Scotiabank red geometric logo representation" class="w-12 h-12 object-contain" data-alt="A clean, modern geometric logo design representing a traditional banking institution, featuring striking red and crisp white colors. The setting is a sterile, well-lit studio environment that emphasizes corporate professionalism and trust. The overall aesthetic is minimalist, sharp, and highly polished, aligning with a premium financial brand identity. Lighting is even and bright, casting soft, ambient shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_wuVc8OPVTWTOUd00dtuzCE9T6mIcx9ZWo4l6Xqx7K6tOcU_1Iu9_ZRmls0RXRa3jWsFy1ceFt-HR7eIFQYqH0RlHzOrESlMYalG7kS2qfh1MXM4sZ8eFS9KAIw5G2Ys0OhQVjDElnoQRYscygXcHELDuW5QdCnw__psCFBHHpPuaa5x-vJcROjIpdjl83xibl0Va5B4xFQoJ_BdBy0l0bS41u-0_4rwRiIt28_l4l0q6uQ5NBAlwz1zXb_z_A9lDtDEffr09ZJo"/>
+</div>
+<!-- Connecting Line -->
+<div class="w-32 md:w-48 h-[2px] bg-outline-variant mx-sm relative pulse-line"></div>
+<!-- Fusion Hub Circle -->
+<div class="z-10 w-24 h-24 rounded-full bg-surface-container-lowest border-2 border-primary shadow-lg flex items-center justify-center flex-shrink-0 relative overflow-hidden transition-transform duration-300 hover:-translate-y-1" style="box-shadow: 0 12px 32px rgba(236, 17, 26, 0.08);">
+<div class="w-full h-full kinetic-gradient flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-on-primary text-4xl" data-icon="hub">hub</span>
+</div>
+</div>
+</div>
+<!-- Permissions Card -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-md border border-outline-variant mb-lg relative overflow-hidden group hover:shadow-md transition-shadow duration-300" style="box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+<!-- Active Left Bar -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<h3 class="text-label-md font-label-md text-on-surface mb-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="verified_user">verified_user</span>
+                    Data Shared with Hub
+                </h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-sm">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface">Profile information</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Name, contact details, and secure ID</p>
+</div>
+</li>
+<li class="flex items-start gap-sm">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface">Account balances <span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded text-[10px] ml-1">Read-only</span></p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Current funds across linked accounts</p>
+</div>
+</li>
+<li class="flex items-start gap-sm">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="receipt_long">receipt_long</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface">Transaction history</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Recent activity for unified insights</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Actions -->
+<div class="w-full flex flex-col gap-sm">
+<button class="w-full kinetic-gradient text-on-primary text-label-md font-label-md py-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2 group">
+                    Confirm &amp; Link
+                    <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-full bg-transparent border-2 border-outline-variant text-on-surface-variant text-label-md font-label-md py-4 rounded-lg hover:bg-surface-variant/30 transition-colors duration-300 transform active:scale-95">
+                    Cancel
+                </button>
+</div>
+</div>
+</main>
+<!-- Navigation Suppressed: Transactional Screen (Account Linking) -->
+</body></html>

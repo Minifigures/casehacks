@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Scotia uTrade - Dividends</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed": "#410001",
+                      "primary-fixed-dim": "#ffb4aa",
+                      "on-secondary-fixed": "#041451",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#ec111a",
+                      "on-tertiary": "#ffffff",
+                      "background": "#fbf9fc",
+                      "surface-container-high": "#e9e7eb",
+                      "primary": "#bf000f",
+                      "surface": "#fbf9fc",
+                      "on-tertiary-fixed": "#1a1c1f",
+                      "error": "#ba1a1a",
+                      "on-background": "#1b1b1e",
+                      "surface-variant": "#e3e2e5",
+                      "outline": "#936e69",
+                      "tertiary-fixed": "#e2e2e7",
+                      "on-secondary-container": "#3c4985",
+                      "tertiary": "#5d5e62",
+                      "on-primary-container": "#ffffff",
+                      "surface-tint": "#c0000f",
+                      "surface-container-highest": "#e3e2e5",
+                      "secondary-container": "#aebaff",
+                      "on-surface-variant": "#5e3f3b",
+                      "inverse-primary": "#ffb4aa",
+                      "on-primary-fixed-variant": "#930008",
+                      "outline-variant": "#e9bcb6",
+                      "surface-dim": "#dbd9dd",
+                      "on-tertiary-container": "#040508",
+                      "on-secondary": "#ffffff",
+                      "inverse-surface": "#303033",
+                      "secondary-fixed-dim": "#b9c3ff",
+                      "on-surface": "#1b1b1e",
+                      "surface-container-low": "#f5f3f6",
+                      "secondary": "#4e5a98",
+                      "inverse-on-surface": "#f2f0f3",
+                      "on-tertiary-fixed-variant": "#45474b",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#fbf9fc",
+                      "primary-fixed": "#ffdad5",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#efedf0",
+                      "tertiary-fixed-dim": "#c6c6cb",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#dde1ff",
+                      "tertiary-container": "#75777b",
+                      "on-secondary-fixed-variant": "#36427e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "2xl": "1rem"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "stack-lg": "24px",
+                      "unit": "4px",
+                      "edge-margin": "16px",
+                      "section-gap": "32px",
+                      "gutter": "12px",
+                      "nav": "56px",
+                      "bottom-nav": "80px"
+              },
+              "fontFamily": {
+                      "title-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "title-lg": ["20px", {"lineHeight": "25px", "fontWeight": "600"}],
+                      "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "700"}],
+                      "body-lg": ["17px", {"lineHeight": "22px", "fontWeight": "400"}],
+                      "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-sm": ["11px", {"lineHeight": "13px", "fontWeight": "600"}],
+                      "display-lg": ["34px", {"lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "display-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                      "body-md": ["15px", {"lineHeight": "20px", "fontWeight": "400"}]
+              },
+              "boxShadow": {
+                  "ambient": "0px 4px 12px rgba(0, 15, 77, 0.08)",
+                  "overlay": "0px 8px 24px rgba(0, 15, 77, 0.12)"
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen pb-bottom-nav pt-nav">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-edge-margin h-14 bg-surface/80 backdrop-blur-md">
+<button class="w-10 h-10 flex items-center justify-start text-on-surface hover:opacity-80 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[24px]">arrow_back_ios</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-on-surface">Dividends</h1>
+<button class="w-10 h-10 flex items-center justify-end text-primary hover:opacity-80 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+</button>
+</header>
+<main class="px-edge-margin py-stack-lg flex flex-col gap-section-gap">
+<!-- Hero: Total Annual Dividends -->
+<section class="flex flex-col gap-stack-md">
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-ambient flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Total Annual Dividends</span>
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-background mb-4">
+                    $420.50
+                </div>
+<!-- Mini Chart Placeholder -->
+<div class="w-full h-24 flex items-end justify-between gap-1 px-4 mt-2">
+<!-- Bars -->
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[30%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$15.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[45%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$22.50</div>
+</div>
+<div class="w-full bg-[#E50024] rounded-t-sm h-[80%] shadow-sm relative group cursor-pointer">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#E50024] rounded-full"></div>
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$40.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[20%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$10.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[60%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$30.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[35%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$17.50</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[50%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$25.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[90%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$45.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[40%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$20.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[25%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$12.50</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[70%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$35.00</div>
+</div>
+<div class="w-full bg-tertiary-fixed-dim hover:bg-tertiary-fixed transition-colors cursor-pointer rounded-t-sm h-[55%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] whitespace-nowrap px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">$27.50</div>
+</div>
+</div>
+<div class="w-full flex justify-between px-4 mt-2 font-label-sm text-label-sm text-on-surface-variant">
+<span>Jan</span>
+<span>Dec</span>
+</div>
+</div>
+<!-- Analysis Card -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-ambient border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Average Yield</span>
+<span class="font-headline-md text-headline-md text-on-surface">3.2%</span>
+</div>
+</div>
+<button class="text-primary font-label-md text-label-md hover:opacity-80">Details</button>
+</div>
+</section>
+<!-- Upcoming Payouts -->
+<section class="flex flex-col gap-stack-md">
+<h2 class="font-title-lg text-title-lg text-on-background px-1">Upcoming Payouts</h2>
+<div class="bg-surface-container-lowest rounded-2xl shadow-ambient overflow-hidden">
+<!-- List Item 1 -->
+<div class="py-5 px-4 flex items-center justify-between border-b border-surface-variant last:border-0 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-[#E50024]/10 flex items-center justify-center text-[#E50024] font-bold text-lg">
+                            B
+                        </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">BNS</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-[13px]">Oct 27 • $1.06/sh</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-on-surface text-[18px]">$53.00</span>
+<span class="font-label-sm text-label-sm text-primary bg-primary-container/10 px-2 py-0.5 rounded-full mt-1">Confirmed</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="py-5 px-4 flex items-center justify-between border-b border-surface-variant last:border-0 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-container/20 flex items-center justify-center text-on-surface font-bold text-lg">
+                            A
+                        </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">AAPL</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-[13px]">Nov 16 • $0.24/sh</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-on-surface text-[18px]">$12.00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full mt-1">Estimated</span>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="py-5 px-4 flex items-center justify-between border-b border-surface-variant last:border-0 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-bold text-lg">
+                            M
+                        </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">MSFT</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-[13px]">Dec 14 • $0.75/sh</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-md text-headline-md text-on-surface text-[18px]">$22.50</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded-full mt-1">Estimated</span>
+</div>
+</div>
+</div>
+<button class="w-full py-4 mt-2 text-primary font-label-md text-label-md text-center hover:opacity-80 transition-opacity">
+                View Full History
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-2 bg-surface/90 backdrop-blur-xl border-t border-outline-variant rounded-t-xl shadow-lg md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined mb-1">pie_chart</span>
+<span class="font-label-sm text-label-sm">Portfolio</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-sm text-label-sm">Dividends</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined mb-1">monitoring</span>
+<span class="font-label-sm text-label-sm">Analysis</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-90 duration-150 p-2 rounded-lg w-16">
+<span class="material-symbols-outlined mb-1">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</button>
+</nav>
+<!-- Desktop Sidebar Placeholder (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col fixed top-14 left-0 w-64 h-[calc(100vh-56px)] bg-surface border-r border-outline-variant p-4 z-40">
+<div class="flex flex-col gap-2 mt-8">
+<button class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors text-left w-full">
+<span class="material-symbols-outlined">pie_chart</span>
+<span class="font-label-md text-label-md">Portfolio</span>
+</button>
+<button class="flex items-center gap-3 p-3 rounded-lg bg-primary-container/10 text-primary transition-colors text-left w-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-md text-label-md">Dividends</span>
+</button>
+<button class="flex items-center gap-3 p-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors text-left w-full">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analysis</span>
+</button>
+</div>
+</aside>
+</body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>uTrade - Discover Stocks</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#c0000f",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#5e3f3b",
+                        "tertiary-fixed-dim": "#c6c6cb",
+                        "on-surface": "#1b1b1e",
+                        "on-tertiary-fixed": "#1a1c1f",
+                        "tertiary-fixed": "#e2e2e7",
+                        "inverse-surface": "#303033",
+                        "surface-bright": "#fbf9fc",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "outline": "#936e69",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#45474b",
+                        "on-secondary": "#ffffff",
+                        "background": "#fbf9fc",
+                        "tertiary-container": "#75777b",
+                        "on-secondary-fixed": "#041451",
+                        "on-background": "#1b1b1e",
+                        "error-container": "#ffdad6",
+                        "primary": "#bf000f",
+                        "on-primary-fixed": "#410001",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "surface-container": "#efedf0",
+                        "primary-container": "#ec111a",
+                        "primary-fixed": "#ffdad5",
+                        "outline-variant": "#e9bcb6",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e9e7eb",
+                        "tertiary": "#5d5e62",
+                        "secondary-fixed": "#dde1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#040508",
+                        "on-primary-fixed-variant": "#930008",
+                        "surface-container-low": "#f5f3f6",
+                        "secondary": "#4e5a98",
+                        "on-secondary-container": "#3c4985",
+                        "inverse-on-surface": "#f2f0f3",
+                        "surface-dim": "#dbd9dd",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "on-primary-container": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e2e5",
+                        "surface": "#fbf9fc",
+                        "inverse-primary": "#ffb4aa",
+                        "surface-container-highest": "#e3e2e5",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#aebaff",
+                        "success": "#16a34a",
+                        "success-container": "#dcfce7",
+                        "on-success-container": "#14532d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "24px",
+                        "gutter": "12px",
+                        "edge-margin": "16px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "unit": "4px",
+                        "section-gap": "32px",
+                        "safe-bottom": "env(safe-area-inset-bottom, 20px)"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["17px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "700"}],
+                        "title-lg": ["20px", {"lineHeight": "25px", "fontWeight": "600"}],
+                        "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-md": ["15px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "display-lg": ["34px", {"lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                        "label-sm": ["11px", {"lineHeight": "13px", "fontWeight": "600"}]
+                    },
+                    "boxShadow": {
+                        "z-1": "none",
+                        "z-2": "0px 4px 12px rgba(0, 15, 77, 0.08)",
+                        "z-3": "0px 8px 24px rgba(0, 15, 77, 0.12)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #fbf9fc; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        
+        /* Swipe card animations */
+        @keyframes subtle-float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+            100% { transform: translateY(0px); }
+        }
+        .card-front { animation: subtle-float 6s ease-in-out infinite; }
+        
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen flex flex-col items-center justify-center overflow-hidden antialiased">
+<!-- Phone Frame Mockup Container -->
+<div class="relative w-full max-w-[400px] h-[800px] max-h-[100dvh] bg-surface-container-lowest rounded-[40px] shadow-z-3 border-[8px] border-surface-container-high overflow-hidden flex flex-col">
+<!-- TopAppBar (Customized for Swipe View) -->
+<header class="flex justify-between items-center w-full px-edge-margin h-16 pt-4 bg-surface dark:bg-background z-20">
+<div class="w-10">
+<!-- Empty space for balance -->
+</div>
+<div class="flex items-center gap-1">
+<span class="text-xl">🔥</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">uTrade</h1>
+<span class="font-body-md text-body-md text-on-surface-variant ml-1">— discover stocks</span>
+</div>
+<div class="w-10 flex justify-end">
+<div class="bg-surface-container px-2 py-1 rounded-full flex items-center justify-center">
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">5</span>
+</div>
+</div>
+</header>
+<!-- Main Swipe Canvas -->
+<main class="flex-1 relative w-full flex items-center justify-center px-4 overflow-hidden pt-4 pb-12">
+<!-- Background Card 2 (Bottom) -->
+<div class="absolute w-[85%] aspect-[3/4] max-h-[500px] bg-surface-container rounded-3xl shadow-z-1 transform translate-y-8 scale-90 opacity-40 z-0"></div>
+<!-- Background Card 1 (Middle) -->
+<div class="absolute w-[90%] aspect-[3/4] max-h-[520px] bg-surface-container-low rounded-3xl shadow-z-2 transform translate-y-4 scale-95 opacity-70 z-10 border border-surface-variant"></div>
+<!-- Front Active Card -->
+<div class="relative w-full max-w-[340px] aspect-[3/4] max-h-[560px] bg-surface-container-lowest rounded-3xl shadow-z-3 border border-surface-variant z-20 flex flex-col overflow-hidden card-front cursor-grab active:cursor-grabbing transition-transform duration-200">
+<!-- Card Header: Ticker & Logo -->
+<div class="p-6 flex justify-between items-start">
+<h2 class="font-display-lg text-display-lg text-on-surface">AMZN</h2>
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center p-2 border border-surface-variant shadow-sm">
+<img alt="Amazon Logo" class="w-full h-full object-contain mix-blend-multiply" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2Yr7kGAkvXbf0UfCO2uOjMXo9SCtzQ0nR_ofzAF_UaiILbvMk-DPs9SfuIMTdyujrvC29xFZlyT3IufjaplHLpz0OPXAsfzuLmlSCF98dvMxPK2hkGab22gwVhantFvQlJjdj29PbBE-wKnPg8gf_4F2BIyUXnpWKJ2jQiEcUJDRwoT_87K-d79CfvCt9zPjmn44R9CvbIWzEvdLT_WmJdlYHx5xjH-xzCXzAvy6nAkMFmkkPHe3o2IMH1bmJgermRxQ7qIZP2HY"/>
+</div>
+</div>
+<!-- Chart & Performance -->
+<div class="px-6 flex-1 flex flex-col justify-center relative">
+<div class="absolute inset-0 flex items-center justify-center px-4 opacity-80 mix-blend-multiply pointer-events-none">
+<img alt="Green uptrending stock chart line" class="w-full h-auto object-cover" src="data:image/png;base64,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"/>
+</div>
+<div class="relative z-10 self-start mb-12">
+<span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-success-container text-on-success-container font-label-md text-label-md font-bold shadow-sm">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            +10% Y
+                        </span>
+</div>
+</div>
+<!-- News & Insights Footer -->
+<div class="p-6 bg-gradient-to-t from-surface-container-low to-transparent mt-auto space-y-4">
+<!-- News Snippet -->
+<div class="space-y-1">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">newspaper</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Latest News</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface font-medium italic leading-snug">"Amazon bought a new warehouse"</p>
+</div>
+<hr class="border-surface-variant"/>
+<!-- Analyst Note -->
+<div class="flex gap-3 items-start">
+<span class="text-lg">📊</span>
+<p class="font-body-md text-body-md text-on-surface-variant italic flex-1">
+                            Scotia analyst: warehouse expansion signals 2027 Prime margin recovery
+                        </p>
+</div>
+<!-- Social Proof Chip -->
+<div class="mt-4 inline-flex items-center gap-3 px-4 py-2 bg-secondary-container/30 rounded-full border border-secondary-container/50">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-dim border-2 border-surface-container-lowest flex items-center justify-center overflow-hidden">
+<img alt="" class="w-full h-full object-cover" data-alt="A small circular avatar placeholder showing a professional user profile photo in a modern UI context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8cdu8srXJZXioHCBphLzvS00k7URG9ZY-Sfi4n47h7nM8xd-4VhlWvOFJlIbdmWGhp_OSoT0aahDB7Lr88gryXJQog-ncVZN5Ni2Xt_l0f8nIn1CV_l1Dx5AKZC8NUfcumpSH98c6FvS0n0ThClGTPKXJWpbSssJybF5he9swWdB5z_lqKfo_qfak_-XrJlhNKr0DxRSV27Z9Xb9Y3lpSTkvue_iW5dN1p9c5d0RVj-v6yB-EvvqziaB29EZkdqfpd1OTlcNszAM"/>
+</div>
+<div class="w-6 h-6 rounded-full bg-surface-dim border-2 border-surface-container-lowest flex items-center justify-center overflow-hidden">
+<img alt="" class="w-full h-full object-cover" data-alt="A small circular avatar placeholder showing a smiling user profile photo in a modern fintech UI context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA01QWpiWn-oHUJAryjzWlEdbAovpKP5pZtPXo1nStQTJsamReBkmzBhv-7xNGhTJHjoRSiVYEG2yVa7ft1iQQ070MbUwOobQqnEJbvnvmSdPGKZANxwT6BgHB50LNR3AXuo1t-0gysZjtK5vin2fUOtx6IzJ8p3LTfxDFugT1EWPbqTqj_Z9mcvJgR4yVx8OvX86wsK-4PLMUk29llKJD0kzabGMhr6W4w_GuguCqN8NQYkNGSb777OCmZZFVN-zuyhyQhasCqtXk"/>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-secondary-container font-medium">Your friends own this</span>
+</div>
+</div>
+<!-- Swipe Affordances (Visual Cues) -->
+<div class="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-error/10 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-center justify-start pl-2 pointer-events-none">
+<span class="material-symbols-outlined text-error text-3xl">close</span>
+</div>
+<div class="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-success/10 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-center justify-end pr-2 pointer-events-none">
+<span class="material-symbols-outlined text-success text-3xl">favorite</span>
+</div>
+</div>
+</main>
+<!-- Pagination Indicator -->
+<div class="flex justify-center items-center gap-2 pb-8 pt-4">
+<div class="w-2.5 h-2.5 rounded-full bg-primary transition-all duration-300 transform scale-110"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant transition-all duration-300"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant transition-all duration-300"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant transition-all duration-300"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant transition-all duration-300"></div>
+</div>
+<!-- BottomNavBar (Semantic Shell - Discover is Active) -->
+<nav class="border-t border-outline-variant dark:border-surface-variant h-20 bg-surface dark:bg-surface-container-lowest flex justify-around items-center px-2 pb-safe z-50">
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-semibold scale-95 transition-transform duration-150 w-16 gap-1">
+<span class="material-symbols-outlined fill">explore</span>
+<span class="font-label-sm text-label-sm">Discover</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 w-16 gap-1">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm">Portfolio</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 w-16 gap-1">
+<span class="material-symbols-outlined">swap_horiz</span>
+<span class="font-label-sm text-label-sm">Trade</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 w-16 gap-1">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-sm text-label-sm">History</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors rounded-xl p-2 w-16 gap-1">
+<span class="material-symbols-outlined">menu</span>
+<span class="font-label-sm text-label-sm">More</span>
+</button>
+</nav>
+</div>
+<script>
+        // Lightweight interaction script for swipe visual feedback
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('.card-front');
+            let isDragging = false;
+            let startX = 0;
+            
+            // Mouse events for previewing
+            card.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                card.style.transition = 'none';
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - startX;
+                // Limit the drag visually for the mockup
+                if (deltaX > -150 && deltaX < 150) {
+                     const rotate = deltaX * 0.05;
+                     card.style.transform = `translateX(${deltaX}px) rotate(${rotate}deg)`;
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                card.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                card.style.transform = 'translateX(0) rotate(0)';
+            });
+            
+            // Touch events
+            card.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                card.style.transition = 'none';
+            });
+            
+            window.addEventListener('touchmove', (e) => {
+                 if (!isDragging) return;
+                 const deltaX = e.touches[0].clientX - startX;
+                 if (deltaX > -150 && deltaX < 150) {
+                     const rotate = deltaX * 0.05;
+                     card.style.transform = `translateX(${deltaX}px) rotate(${rotate}deg)`;
+                 }
+            });
+            
+            window.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                card.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                card.style.transform = 'translateX(0) rotate(0)';
+            });
+        });
+    </script>
+</body></html>

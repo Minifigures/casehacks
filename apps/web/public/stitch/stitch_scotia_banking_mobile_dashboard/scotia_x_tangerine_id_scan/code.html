@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Verify Identity</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-gradient-kinetic {
+            background-image: linear-gradient(135deg, #bf000f 0%, #fd8100 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#5e3f3b",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c8c6c5",
+                      "secondary-fixed-dim": "#ffb785",
+                      "on-background": "#1a1c1e",
+                      "on-surface": "#1a1c1e",
+                      "primary-container": "#ec111a",
+                      "secondary-fixed": "#ffdcc6",
+                      "inverse-primary": "#ffb4aa",
+                      "surface-container-low": "#f3f3f6",
+                      "on-tertiary-container": "#ffffff",
+                      "primary": "#bf000f",
+                      "outline-variant": "#e9bcb6",
+                      "secondary-container": "#fd8100",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#c0000f",
+                      "surface-container-high": "#e8e8eb",
+                      "surface-bright": "#f9f9fc",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#e2e2e5",
+                      "surface": "#f9f9fc",
+                      "outline": "#936e69",
+                      "on-secondary-fixed-variant": "#723700",
+                      "surface-container-highest": "#e2e2e5",
+                      "on-secondary-container": "#5d2c00",
+                      "tertiary-container": "#777676",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d9dadd",
+                      "primary-fixed-dim": "#ffb4aa",
+                      "surface-container": "#edeef1",
+                      "primary-fixed": "#ffdad5",
+                      "secondary": "#954a00",
+                      "on-tertiary-fixed-variant": "#474746",
+                      "tertiary": "#5f5e5d",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed": "#301400",
+                      "tertiary-fixed": "#e5e2e1",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2f3133",
+                      "on-primary-fixed-variant": "#930008",
+                      "on-primary-fixed": "#410001",
+                      "on-tertiary-fixed": "#1c1b1b",
+                      "on-primary-container": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "inverse-on-surface": "#f0f0f3",
+                      "background": "#f9f9fc",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "xs": "4px",
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "md": "24px",
+                      "lg": "48px",
+                      "sm": "12px",
+                      "xl": "80px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased md:max-w-md md:mx-auto md:shadow-2xl md:my-8 md:rounded-3xl overflow-hidden relative">
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-variant absolute top-0 left-0 z-50">
+<div class="h-full bg-gradient-kinetic transition-all duration-500 ease-out" style="width: 50%;"></div>
+</div>
+<!-- Top Navigation (Transactional, no shell) -->
+<header class="flex items-center justify-between px-margin-mobile h-14 w-full mt-2">
+<button aria-label="Back" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-primary text-2xl">arrow_back_ios_new</span>
+</button>
+<div class="font-label-md text-label-md text-on-surface-variant">Step 2 of 4</div>
+<div class="w-10 h-10 flex items-center justify-center">
+<!-- Empty space to balance flex -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-margin-mobile pt-sm pb-xl">
+<!-- Header Section -->
+<div class="mb-md text-center">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Verify Identity</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Scan your government-issued ID to continue.</p>
+</div>
+<!-- Camera Viewfinder Frame -->
+<div class="relative w-full aspect-[1.58/1] rounded-xl overflow-hidden shadow-[0_12px_32px_rgba(236,17,26,0.08)] bg-black flex-shrink-0 mt-base mb-md">
+<!-- Simulated ID Scan View -->
+<img alt="Canadian Driver's License in camera view" class="w-full h-full object-cover opacity-80" data-alt="A close up view of a realistic prop driver's license sitting on a dark grey surface, viewed through a digital camera interface. The ID has a clean, professional layout with subtle security patterns. The lighting is bright and even, casting minimal shadows to ensure all text and facial features on the ID are legible. The aesthetic is modern and functional, fitting a secure banking application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5BPLUuBoFF8wt0fb77NW5Sy2n-PX0QZZLrtAst0WcXvg-sj-G4zYEDUfgijXaQxYPXd96gQ1nDf2ZuJIH_Ko_EWM7wbQbYuTvHsn2lIPqvNdAjo4eKX6aRyk83pSRwXmQ7cHd2-ssRoghHSu_2FocloDsGfHhysVeAQdsmjszu_9J3SXdqlQAtcKPwTpC6sS3Y8hBUFDQ7tk606U3w8xgo9QN-Kz_4-x6Wg5zh1KiwVVegxJ2GALKFtT82_N8C4iWm7xFqahuywA"/>
+<!-- Viewfinder Overlay Elements -->
+<div class="absolute inset-0 border-[3px] border-white/30 rounded-xl m-4 pointer-events-none">
+<!-- Corner Guides -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-[4px] border-l-[4px] border-primary rounded-tl-lg"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-[4px] border-r-[4px] border-primary rounded-tr-lg"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-[4px] border-l-[4px] border-primary rounded-bl-lg"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-[4px] border-r-[4px] border-primary rounded-br-lg"></div>
+</div>
+<!-- Scanning Line Animation -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-secondary-container shadow-[0_0_8px_rgba(253,129,0,0.8)] animate-[scan_2s_ease-in-out_infinite]"></div>
+</div>
+<!-- Instructions -->
+<div class="flex items-center justify-center gap-2 mb-auto">
+<span class="material-symbols-outlined text-primary text-xl">info</span>
+<p class="font-label-md text-label-md text-on-surface-variant text-center">Ensure all details are clear and readable.</p>
+</div>
+</main>
+<!-- Bottom Action Area -->
+<div class="p-margin-mobile bg-surface w-full mt-auto pb-safe-area-inset-bottom">
+<button class="w-full h-14 rounded-lg flex items-center justify-center font-label-md text-label-md bg-surface-variant text-tertiary-fixed-dim cursor-not-allowed transition-all" disabled="">
+            Capture
+        </button>
+</div>
+<style>
+        @keyframes scan {
+            0% { top: 10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 90%; opacity: 0; }
+        }
+        
+        /* Safe Area Padding for iOS */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .pb-safe-area-inset-bottom {
+                padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+            }
+        }
+    </style>
+</body></html>

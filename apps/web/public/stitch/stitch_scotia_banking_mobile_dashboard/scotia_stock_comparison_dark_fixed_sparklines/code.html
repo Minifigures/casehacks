@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stock Comparison</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e5e2e1",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-tertiary-container": "#000703",
+                        "on-tertiary": "#003824",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#1e2b66",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#a5b1f5",
+                        "primary": "#ffb4aa",
+                        "on-primary-fixed": "#410001",
+                        "error-container": "#93000a",
+                        "secondary": "#b9c3ff",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "outline": "#af8782",
+                        "on-primary-fixed-variant": "#930008",
+                        "surface-container-low": "#1c1b1b",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary-fixed": "#dde1ff",
+                        "secondary-container": "#36427e",
+                        "tertiary-container": "#00885d",
+                        "outline-variant": "#5e3f3b",
+                        "on-secondary-fixed-variant": "#36427e",
+                        "on-primary-container": "#ffffff",
+                        "on-primary": "#690004",
+                        "background": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed-dim": "#b9c3ff",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed": "#041451",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-high": "#2a2a2a",
+                        "inverse-primary": "#c0000f",
+                        "tertiary": "#4edea3",
+                        "surface-container-highest": "#353534",
+                        "surface-bright": "#393939",
+                        "surface-variant": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-on-surface": "#313030",
+                        "surface-tint": "#ffb4aa",
+                        "primary-fixed": "#ffdad5",
+                        "on-surface-variant": "#e9bcb6",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#002113",
+                        "primary-container": "#ec111a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .beveled-edge {
+            border-top: 1px solid #393939;
+        }
+        .zebra-row:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim fixed top-0 w-full bg-surface/80 backdrop-blur-md flex items-center justify-between px-gutter h-14 z-50">
+<button class="text-on-surface-variant hover:opacity-80 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back_ios">arrow_back_ios</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim font-bold tracking-tight">Compare Stocks</h1>
+<button class="text-on-surface-variant hover:opacity-80 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-32 px-gutter max-w-container-max mx-auto w-full flex flex-col gap-lg">
+<!-- Header Section -->
+<div class="flex justify-between items-end border-b border-surface-container pb-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg hidden md:block text-on-background">Tech Giants</h2>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:hidden text-on-background">Tech Giants</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Side-by-side performance analysis</p>
+</div>
+<div class="flex gap-sm">
+<button class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm py-xs px-sm rounded-DEFAULT border border-surface-container-high hover:bg-surface-container-high transition-colors">1D</button>
+<button class="bg-surface-container-high text-on-background font-label-sm text-label-sm py-xs px-sm rounded-DEFAULT border border-outline-variant transition-colors">1M</button>
+<button class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm py-xs px-sm rounded-DEFAULT border border-surface-container-high hover:bg-surface-container-high transition-colors">1Y</button>
+</div>
+</div>
+<!-- Comparison Table Card -->
+<div class="bg-[#1E1E1E] border border-[#2D2D2D] rounded-xl overflow-hidden beveled-edge shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+<!-- Table Header -->
+<div class="grid grid-cols-3 border-b border-[#2D2D2D] bg-[#1A2235]">
+<div class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase flex items-center">Metric</div>
+<!-- AAPL Column Header -->
+<div class="p-md flex flex-col items-center justify-center border-l border-[#2D2D2D] relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-12 h-12 rounded-full bg-surface flex items-center justify-center mb-sm border border-[#2D2D2D] z-10">
+<span class="font-headline-md text-headline-md font-bold text-on-background">A</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-on-background z-10">AAPL</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant z-10">Apple Inc.</span>
+</div>
+<!-- TSLA Column Header -->
+<div class="p-md flex flex-col items-center justify-center border-l border-[#2D2D2D] relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-12 h-12 rounded-full bg-surface flex items-center justify-center mb-sm border border-[#2D2D2D] z-10">
+<span class="font-headline-md text-headline-md font-bold text-on-background">T</span>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-on-background z-10">TSLA</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant z-10">Tesla, Inc.</span>
+</div>
+</div>
+<!-- Table Body -->
+<div class="flex flex-col">
+<!-- Row: Current Price -->
+<div class="grid grid-cols-3 border-b border-[#2D2D2D] zebra-row hover:bg-surface-container/30 transition-colors">
+<div class="p-md font-body-md text-body-md text-on-surface-variant flex items-center">Current Price</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-lg text-body-lg text-on-background font-medium">$173.50</span>
+</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-lg text-body-lg text-on-background font-medium">$175.22</span>
+</div>
+</div>
+<!-- Row: Day Change -->
+<div class="grid grid-cols-3 border-b border-[#2D2D2D] zebra-row hover:bg-surface-container/30 transition-colors">
+<div class="p-md font-body-md text-body-md text-on-surface-variant flex items-center">Day Change</div>
+<div class="p-md border-l border-[#2D2D2D] flex flex-col items-center justify-center gap-xs">
+<span class="font-body-md text-body-md text-tertiary flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>+1.24%</span>
+<!-- Sparkline placeholder -->
+<div class="w-24 h-6 opacity-80 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-tertiary/20"></div>
+<svg class="w-full h-full relative z-10" preserveaspectratio="none" viewbox="0 0 100 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M0,15 Q10,12 20,14 T40,10 T60,12 T80,6 T100,2" fill="none" stroke="#4edea3" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="p-md border-l border-[#2D2D2D] flex flex-col items-center justify-center gap-xs">
+<span class="font-body-md text-body-md text-[#ec111a] flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="trending_down">trending_down</span>-2.15%</span>
+<!-- Sparkline placeholder -->
+<div class="w-24 h-6 opacity-80 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-[#ec111a]/20"></div>
+<svg class="w-full h-full relative z-10" preserveaspectratio="none" viewbox="0 0 100 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M0,5 Q10,8 20,6 T40,10 T60,8 T80,14 T100,18" fill="none" stroke="#ec111a" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Row: Market Cap -->
+<div class="grid grid-cols-3 border-b border-[#2D2D2D] zebra-row hover:bg-surface-container/30 transition-colors">
+<div class="p-md font-body-md text-body-md text-on-surface-variant flex items-center">Market Cap</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-md text-body-md text-on-background">2.68T</span>
+</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-md text-body-md text-on-background">556.8B</span>
+</div>
+</div>
+<!-- Row: P/E Ratio -->
+<div class="grid grid-cols-3 border-b border-[#2D2D2D] zebra-row hover:bg-surface-container/30 transition-colors">
+<div class="p-md font-body-md text-body-md text-on-surface-variant flex items-center">P/E Ratio</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-md text-body-md text-on-background">27.42</span>
+</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-md text-body-md text-on-background">41.20</span>
+</div>
+</div>
+<!-- Row: Div Yield -->
+<div class="grid grid-cols-3 border-b border-[#2D2D2D] zebra-row hover:bg-surface-container/30 transition-colors">
+<div class="p-md font-body-md text-body-md text-on-surface-variant flex items-center">Div Yield</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-md text-body-md text-on-background">0.55%</span>
+</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="font-body-md text-body-md text-on-surface-variant italic">N/A</span>
+</div>
+</div>
+<!-- Row: Analyst Rating -->
+<div class="grid grid-cols-3 zebra-row hover:bg-surface-container/30 transition-colors">
+<div class="p-md font-body-md text-body-md text-on-surface-variant flex items-center">Analyst Rating</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="bg-tertiary-container/20 text-tertiary px-sm py-xs rounded-DEFAULT font-label-sm text-label-sm border border-tertiary/30">Strong Buy</span>
+</div>
+<div class="p-md border-l border-[#2D2D2D] flex items-center justify-center">
+<span class="bg-[#121212] text-[#A0AEC0] px-sm py-xs rounded-DEFAULT font-label-sm text-label-sm border border-[#2D2D2D]">Hold</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-lg flex justify-center gap-md">
+<button class="bg-transparent border border-[#A0AEC0] text-on-background font-headline-md text-[16px] font-bold py-md px-xl rounded-lg hover:bg-surface-container transition-colors w-full md:w-auto text-center">
+                Cancel
+            </button>
+<button class="bg-[#EC111A] text-on-primary-container font-headline-md text-[16px] font-bold py-md px-xl rounded-lg hover:opacity-90 active:scale-95 transition-all w-full md:w-auto text-center shadow-[0_4px_12px_rgba(236,17,26,0.3)]">
+                Trade Selected Asset
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed based on Semantic Shell Mandate: Task-Focused Page with Back Action) -->
+</body></html>
