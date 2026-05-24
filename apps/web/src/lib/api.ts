@@ -20,11 +20,14 @@ export interface TradeOrder {
   };
 }
 
-export async function placeTrade(ticker: string): Promise<TradeOrder> {
+export async function placeTrade(
+  ticker: string,
+  fractionalShares: number,
+): Promise<TradeOrder> {
   const res = await fetch("/api/trade", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ticker, fractionalShares: 0.5 }),
+    body: JSON.stringify({ ticker, fractionalShares }),
   });
   if (!res.ok) {
     throw new Error(`trade failed: ${res.status}`);

@@ -26,10 +26,13 @@ import { cards } from "@/lib/cards";
 import type { CardData } from "@/lib/types";
 import { MiniChart } from "@/components/mini-chart";
 import { TradeConfirmation } from "@/components/trade-confirmation";
+import { TradeAmountSheet } from "@/components/trade-amount-sheet";
 import { TabBar } from "@/components/tab-bar";
 import { placeTrade, type TradeOrder } from "@/lib/api";
 
 interface UTradeCardsProps {
+  balance: number;
+  onDebit: (amount: number) => void;
   onRestart: () => void;
 }
 
@@ -166,8 +169,13 @@ function SwipeCard({ card, onSwipe, isTop, depth }: SwipeCardProps) {
   );
 }
 
-export function UTradeCards({ onRestart }: UTradeCardsProps) {
+export function UTradeCards({
+  balance,
+  onDebit,
+  onRestart,
+}: UTradeCardsProps) {
   const [index, setIndex] = useState(0);
+  const [intentCard, setIntentCard] = useState<CardData | null>(null);
   const [pendingTicker, setPendingTicker] = useState<string | null>(null);
   const [order, setOrder] = useState<TradeOrder | null>(null);
   const [purchased, setPurchased] = useState<ReadonlyArray<string>>([]);
@@ -175,45 +183,56 @@ export function UTradeCards({ onRestart }: UTradeCardsProps) {
   const visible = useMemo(() => cards.slice(index, index + 3), [index]);
   const done = index >= cards.length;
 
-  const handleSwipe = async (card: CardData, direction: "left" | "right") => {
+  const handleSwipe = (card: CardData, direction: "left" | "right") => {
+    setIndex((i) => i + 1);
     if (direction === "right") {
-      setPendingTicker(card.ticker);
-      setPurchased((prev) => [...prev, card.ticker]);
-      setIndex((i) => i + 1);
-      try {
-        const result = await placeTrade(card.ticker);
-        setOrder(result);
-      } catch {
-        setOrder({
-          status: "filled",
-          orderId: `UTR-OFFLINE-${Date.now().toString(36).toUpperCase()}`,
-          ticker: card.ticker,
-          name: card.name,
-          shares: 0.5,
-          executionPrice: card.price,
-          notional: card.price * 0.5,
-          currency: "USD",
-          placedAt: new Date().toISOString(),
-          settleDate: new Date(Date.now() + 86_400_000).toISOString(),
-          commission: 0,
-          route: "Scotia iTRADE, best execution",
-          funding: "Smart Sweep, Scotia HISA",
-          accountType: "TFSA",
-          compliance: {
-            ciroRules: ["3252", "3400"],
-            ofsiE23Tier: 1,
-            recordRetentionYears: 7,
-          },
-        });
-      }
-    } else {
-      setIndex((i) => i + 1);
+      setIntentCard(card);
     }
   };
 
   const handleAction = (direction: "left" | "right") => {
     if (done) return;
-    void handleSwipe(cards[index], direction);
+    handleSwipe(cards[index], direction);
+  };
+
+  const handleConfirmAmount = async (amount: number) => {
+    const card = intentCard;
+    if (card === null) return;
+    setIntentCard(null);
+    onDebit(amount);
+    setPurchased((prev) => [...prev, card.ticker]);
+    setPendingTicker(card.ticker);
+    const shares = amount / card.price;
+    try {
+      const result = await placeTrade(card.ticker, shares);
+      setOrder(result);
+    } catch {
+      setOrder({
+        status: "filled",
+        orderId: `UTR-OFFLINE-${Date.now().toString(36).toUpperCase()}`,
+        ticker: card.ticker,
+        name: card.name,
+        shares: Number(shares.toFixed(4)),
+        executionPrice: card.price,
+        notional: Number(amount.toFixed(2)),
+        currency: "USD",
+        placedAt: new Date().toISOString(),
+        settleDate: new Date(Date.now() + 86_400_000).toISOString(),
+        commission: 0,
+        route: "Scotia iTRADE, best execution",
+        funding: "Smart Sweep, Scotia HISA",
+        accountType: "TFSA",
+        compliance: {
+          ciroRules: ["3252", "3400"],
+          ofsiE23Tier: 1,
+          recordRetentionYears: 7,
+        },
+      });
+    }
+  };
+
+  const handleCancelIntent = () => {
+    setIntentCard(null);
   };
 
   const handleClose = () => {
@@ -237,9 +256,18 @@ export function UTradeCards({ onRestart }: UTradeCardsProps) {
           </span>
         </header>
 
-        <p className="mt-1 text-[11px] text-scotia-grey">
-          Swipe right to buy a fractional share. Funded from Smart Sweep.
-        </p>
+        <div className="mt-1 flex items-center justify-between gap-2">
+          <p className="text-[11px] text-scotia-grey">
+            Swipe right to buy. Funded from Smart Sweep.
+          </p>
+          <span className="rounded-full bg-surface-elevated px-2.5 py-1 text-[11px] font-bold tabular-nums text-scotia-navy ring-1 ring-black/5">
+            $
+            {balance.toLocaleString("en-CA", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </span>
+        </div>
 
         <div className="relative mt-4 w-full" style={{ height: "min(520px, 60vh)" }}>
           <AnimatePresence>
@@ -332,6 +360,13 @@ export function UTradeCards({ onRestart }: UTradeCardsProps) {
       </div>
 
       <TabBar items={utradeTabs} activeId="discover" />
+
+      <TradeAmountSheet
+        card={intentCard}
+        balance={balance}
+        onConfirm={(amount) => void handleConfirmAmount(amount)}
+        onClose={handleCancelIntent}
+      />
 
       <TradeConfirmation
         order={order}

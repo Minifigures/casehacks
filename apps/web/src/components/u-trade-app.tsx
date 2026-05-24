@@ -18,13 +18,20 @@ const screenOrder: ReadonlyArray<ScreenId> = [
   "utrade",
 ];
 
+const STARTING_BALANCE = 1847.32;
+
 export function UTradeApp() {
   const [screen, setScreen] = useState<ScreenId>("chequing");
   const [, setQuiz] = useState<QuizState>({ horizon: null, risk: null });
+  const [balance, setBalance] = useState<number>(STARTING_BALANCE);
 
   const goto = useCallback((next: ScreenId) => setScreen(next), []);
+  const debit = useCallback((amount: number) => {
+    setBalance((b) => Math.max(0, b - amount));
+  }, []);
   const restart = useCallback(() => {
     setQuiz({ horizon: null, risk: null });
+    setBalance(STARTING_BALANCE);
     setScreen("chequing");
   }, []);
 
@@ -57,7 +64,10 @@ export function UTradeApp() {
               className="flex min-h-0 flex-1 flex-col"
             >
               {screen === "chequing" ? (
-                <ChequingDashboard onAdvance={() => goto("quiz")} />
+                <ChequingDashboard
+                  balance={balance}
+                  onAdvance={() => goto("quiz")}
+                />
               ) : null}
               {screen === "quiz" ? (
                 <OnboardingQuiz
@@ -75,7 +85,11 @@ export function UTradeApp() {
                 <MoneyCoach onAdvance={() => goto("utrade")} />
               ) : null}
               {screen === "utrade" ? (
-                <UTradeCards onRestart={restart} />
+                <UTradeCards
+                  balance={balance}
+                  onDebit={debit}
+                  onRestart={restart}
+                />
               ) : null}
             </motion.div>
           </AnimatePresence>
