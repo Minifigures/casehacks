@@ -8,7 +8,10 @@ const inter = Inter({
   display: "swap",
 });
 
+const siteUrl = "https://utrade-scotia.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "uTrade, by Scotia",
   description:
     "Swipe to discover stocks, funded by your Scotia chequing. Built for caseHACKS 2026.",
@@ -19,6 +22,21 @@ export const metadata: Metadata = {
     title: "uTrade",
   },
   formatDetection: { telephone: false },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "uTrade",
+    title: "uTrade, swipe to discover stocks inside Scotia",
+    description:
+      "Wealthsimple can give you returns. Only Scotia can make you an owner. caseHACKS 2026 MVP.",
+    locale: "en_CA",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "uTrade, swipe to discover stocks inside Scotia",
+    description:
+      "Wealthsimple can give you returns. Only Scotia can make you an owner.",
+  },
 };
 
 export const viewport: Viewport = {
