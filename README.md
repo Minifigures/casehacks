@@ -4,13 +4,12 @@ Swipe-native stock discovery inside Scotia mobile banking, funded by the chequin
 
 > Wealthsimple can give you returns. Only Scotia can make you an owner.
 
-**Live demo (primary):** https://utrade-scotia.vercel.app
-**Live demo (mirror):** https://utrade-scotia-app.vercel.app
+**Live demo:** https://utrade-ten.vercel.app
 **Repo:** https://github.com/Minifigures/casehacks
 
-Both URLs serve the same fullstack Next.js build from independent Vercel projects, so the demo stays up if one project hits a quota or rolls back.
+One fullstack Next.js build on Vercel, single production deployment promoted from `main`.
 
-[![Deployed on Vercel](https://img.shields.io/badge/deployed-Vercel-000?logo=vercel)](https://utrade-scotia.vercel.app)
+[![Deployed on Vercel](https://img.shields.io/badge/deployed-Vercel-000?logo=vercel)](https://utrade-ten.vercel.app)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=next.js)](https://nextjs.org)
 [![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript)](https://www.typescriptlang.org)
 [![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-06b6d4?logo=tailwindcss)](https://tailwindcss.com)
@@ -20,13 +19,13 @@ Both URLs serve the same fullstack Next.js build from independent Vercel project
 
 ## Quick links
 
-| What | Primary | Mirror |
-|---|---|---|
-| Live mobile demo | https://utrade-scotia.vercel.app | https://utrade-scotia-app.vercel.app |
-| API health check | [/api/health](https://utrade-scotia.vercel.app/api/health) | [/api/health](https://utrade-scotia-app.vercel.app/api/health) |
-| Card stack feed | [/api/cards](https://utrade-scotia.vercel.app/api/cards) | [/api/cards](https://utrade-scotia-app.vercel.app/api/cards) |
-| Money Coach nudge | [/api/coach](https://utrade-scotia.vercel.app/api/coach) | [/api/coach](https://utrade-scotia-app.vercel.app/api/coach) |
-| Source code | `apps/web/` | same |
+| What | URL |
+|---|---|
+| Live mobile demo | https://utrade-ten.vercel.app |
+| API health check | https://utrade-ten.vercel.app/api/health |
+| Card stack feed | https://utrade-ten.vercel.app/api/cards |
+| Money Coach nudge | https://utrade-ten.vercel.app/api/coach |
+| Source code | `apps/web/` |
 
 ## Repo layout
 
@@ -64,22 +63,61 @@ Open http://localhost:3000 in any mobile browser, or full-screen in desktop Chro
 ## Architecture
 
 ```
-Browser (mobile or desktop phone-frame)
-    |
-    |  fetch /api/trade  (POST { ticker, fractionalShares })
-    v
-Next.js 16 App Router on Vercel Edge (apps/web)
-    |
-    |-- /api/cards   GET    card stack feed, freezes 5 tickers for the demo
-    |-- /api/coach   GET    Money Coach nudge with model + source provenance
-    |-- /api/trade   POST   simulated order, server-generates orderId / settleDate
-    `-- /api/health  GET    route inventory + version, for judges and uptime probes
-    |
-    v
-(in production) Scotia iTRADE order rails, CIRO 3252 + 3400 compliant
+                       +---------------------------------------------+
+                       |  Browser (mobile native, or phone-frame on  |
+                       |  desktop / tablet). One responsive build.   |
+                       +----------------------+----------------------+
+                                              |
+                                              | HTTPS, JSON
+                                              v
+                       +---------------------------------------------+
+                       |  Vercel Edge Network                        |
+                       |  - utrade-ten.vercel.app  (production)      |
+                       |  - single deployment, promoted from main    |
+                       +----------------------+----------------------+
+                                              |
+                                              v
++--------------------------------------------------------------------------------+
+|  apps/web  - Next.js 16 App Router, React 19, TypeScript strict, Tailwind v4   |
+|                                                                                |
+|  src/app/                              src/components/         src/lib/        |
+|  +- page.tsx        landing            +- u-trade-app          +- types.ts     |
+|  +- app/page.tsx    full demo shell    +- phone-frame          +- api.ts       |
+|  +- opengraph-image OG card            +- screens/             +- referral.ts  |
+|  +- api/                                  +- chequing-dashboard +- market-trend|
+|     +- health     GET  route map + ver    +- u-trade-cards     +- frozen feed  |
+|     +- cards      GET  swipe feed         +- portfolio-stock-detail            |
+|     +- coach      GET  Money Coach nudge  +- referral-screen                   |
+|     +- trade      POST simulated order    +- success-state                     |
+|                                        +- trade-amount-sheet                   |
+|                                        +- adjust-holding-sheet                 |
+|                                        +- stock-detail-chart                   |
+|                                        +- mini-chart                           |
++----------------------+---------------------------------------------------------+
+                       |
+                       | (production swap, no frontend change)
+                       v
+       +-------------------------------------------------------+
+       |  Scotia iTRADE order rails    CIRO 3252 + 3400        |
+       |  Smart Sweep funding source   PIPEDA / Quebec Law 25  |
+       |  Scene+ redemption ledger     OSFI E-23 Tier 1 model  |
+       +-------------------------------------------------------+
 ```
 
-No real money moves in this prototype. The in-flight `/api/trade` route is wired so the mock can be swapped for the iTRADE order API without touching the frontend.
+**Request flow for the hero swipe-to-buy:**
+
+1. User swipes right on a card in `u-trade-cards.tsx`
+2. Client calls `POST /api/trade` with `{ ticker, fractionalShares }` via `src/lib/api.ts`
+3. Route handler (Edge runtime) validates input, generates an order ID + settle date, returns a filled-order payload
+4. `trade-confirmation.tsx` renders the receipt with provenance (funding source, route, compliance rule cites)
+
+No real money moves in this prototype. The `/api/trade` contract is shaped so the mock can be swapped for the iTRADE order API without touching the frontend.
+
+**Where the data lives:**
+
+- Card feed (`/api/cards`) is frozen in `src/lib/` so the demo is deterministic for judges
+- Money Coach nudge (`/api/coach`) returns a static response with model + source provenance fields, ready to be backed by a real LLM call
+- Trade simulator (`/api/trade`) is pure compute, no DB, server-generates IDs and timestamps
 
 ## API contract
 
@@ -129,12 +167,12 @@ One web build covers every device. No iOS or Android native code, no App Store, 
 - Tailwind CSS v4
 - framer-motion (swipe physics, screen transitions)
 - lucide-react (icons)
-- Deployed on Vercel, two independent projects: `utrade-scotia.vercel.app` (primary) and `utrade-scotia-app.vercel.app` (mirror)
+- Deployed on Vercel, single production project at `utrade-ten.vercel.app`
 - Designs from Google Stitch, hand-translated to React
 
 ## Demo flow for Sahil
 
-1. Hand the judge a phone, open https://utrade-scotia.vercel.app
+1. Hand the judge a phone, open https://utrade-ten.vercel.app
 2. Tap the red TFSA banner on the chequing dashboard
 3. Two taps through the quiz, watch the TFSA open in 23 seconds
 4. Confirm the Money Coach nudge
